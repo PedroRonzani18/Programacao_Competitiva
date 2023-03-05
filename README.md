@@ -1,1 +1,1 @@
-Arquivos utilizados para treinos de maratona de Programação
+Arquivos utilizados para treinos de maratona de Programação.
