@@ -24,7 +24,24 @@ template <typename Arg1, typename... Args> void __f (const char* names, Arg1&& a
 }
 
 void solve() {
+	double a, b, c;
+	cin >> a >> b >> c;
+
+	double delta = (b*b) - (4*a*c);
+
+	if(delta < 0)
+	{
+		cout << "Nulo" << endl;
+		return;
+	}
 	
+	double x1 = (-b + sqrt(delta))/(2*a);
+
+	double x2 = (-b - sqrt(delta))/(2*a);
+
+	cout.precision(2);
+
+	cout << fixed << x1 <<  " " << x2 << endl;
 }
 
 int32_t main() { _
