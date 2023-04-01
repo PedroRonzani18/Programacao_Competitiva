@@ -27,13 +27,17 @@ void solve() {
 	
 }
 
+int a, b;
+
 int32_t main() { _
 	
 	clock_t z = clock();
 
 
 	int t = 1; // cin >> t;
-	while (t--) solve();
+	while (t--) 
+	while(cin >> a >> b)
+		solve();
 
 
 	cerr << fixed << "Run Time : " << ((double)(clock() - z) / CLOCKS_PER_SEC) << endl;
