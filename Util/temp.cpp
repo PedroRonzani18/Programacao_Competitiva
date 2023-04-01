@@ -36,7 +36,7 @@ int32_t main() { _
 
 	int t = 1; // cin >> t;
 	while (t--) 
-	while(cin >> a >> b)
+	//while(cin >> a >> b)
 		solve();
 
 
