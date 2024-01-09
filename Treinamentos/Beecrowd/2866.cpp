@@ -21,10 +21,6 @@ using namespace std;
 const int INF = 0x7f3f3f3f;
 const int MAX = 1e8+10; // 10^6 + 10
 
-string to_upper(string a) { for (int i=0;i<(int)a.size();++i) if (a[i]>='a' && a[i]<='z') a[i]-='a'-'A'; return a; }
-string to_lower(string a) { for (int i=0;i<(int)a.size();++i) if (a[i]>='A' && a[i]<='Z') a[i]+='a'-'A'; return a; }
-bool prime(int a) { if (a==1) return 0; for (int i=2;i<=round(sqrt(a));++i) if (a%i==0) return 0; return 1; }
-
 template <typename Arg1> void __f (const char* name, Arg1&& arg1) { cout << name << " : " << arg1 << endl; }
 template <typename Arg1, typename... Args> void __f (const char* names, Arg1&& arg1, Args&&... args) {
 	const char* comma = strchr (names + 1, ',');
@@ -32,60 +28,20 @@ template <typename Arg1, typename... Args> void __f (const char* names, Arg1&& a
 }
 
 void solve() {
-	int a, b;
-	cin >> a >> b;
-	unordered_set<int> as;
-	unordered_set<int> currentBS;
-	unordered_set<int> currentBV;
 
-	for (int i = 0; i < a; i++) {
-		int aux;
-		cin >> aux;
-		as.insert(aux);
-	}
+	string str; cin >> str;
+	
+	rf(i,str.size(),0) 
+		if(islower(str[i])) cout << str[i];
+	cout <<  endl;
 
-	for (int i = 0; i < b; i++) {
-		int num;
-		cin >> num;
-
-		if (as.count(num) != 0) { 
-			currentBS.insert(num);
-			currentBV.insert(num);
-			continue;
-		}
-
-		int halfNum = num / 2;
-		if (num % 2 == 0 && as.count(halfNum) != 0) { 
-			currentBS.insert(num);
-			currentBV.insert(num);
-			continue;
-		}
-
-		bool foundSum = false;
-		for (int x : currentBV) {
-			if (currentBS.count(num - x) != 0) {
-				foundSum = true;
-				break;
-			}
-		}
-		if (foundSum) {
-			currentBS.insert(num);
-			currentBV.insert(num);
-			continue;
-		}
-
-		cout << num << endl;
-		return;
-	}
-
-	cout << "sim" << endl;
 }
 
 int32_t main() { _
 	
 	clock_t z = clock();
 
-	int t = 1; // cin >> t;
+	int t = 1; cin >> t;
 	while (t--) 
 	//while(cin >> a >> b)
 		solve();
