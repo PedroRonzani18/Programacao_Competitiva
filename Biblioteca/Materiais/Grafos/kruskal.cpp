@@ -19,13 +19,15 @@ void uni(int p, int q) { // O(a(N)) amortizado
     id[p] = q, sz[q] += sz[p];
 }
 
-pair<int, vector<tuple<int, int, int>>> kruskal(int n) {
+pair<int, vector<tuple<int, int, int>>> kruskal() {
+
 	sort(edg.begin(), edg.end());
+	
 	int cost = 0;
-	vector<tuple<int, int, int>> mst;
+	vector<tuple<int, int, int>> mst; // opcional
 	for (auto [w,x,y] : edg) if (find(x) != find(y)) {
-		mst.emplace_back(w, x, y);
-		cost += w;
+		mst.emplace_back(w, x, y); // opcional
+		cost += w; 
 		uni(x,y);
 	}
 	return {cost, mst};
