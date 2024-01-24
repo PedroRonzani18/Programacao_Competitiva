@@ -35,8 +35,16 @@ def remove_aux():
 def get_dir():
     path = '../Materiais'
     section_list = os.listdir(path)
+    section_list.sort()
+    pre_list = ['Utils', 'Informações']
+    complete_list = pre_list
+    for sel in section_list:
+        if sel not in pre_list:
+            complete_list.append(sel)
+    complete_list.remove('Outros')
+    complete_list.append('Outros')
     section = []
-    for section_name in section_list:
+    for section_name in complete_list:
         subsection = []
         section_path = os.path.join(path, section_name)
         items = os.listdir(section_path)
