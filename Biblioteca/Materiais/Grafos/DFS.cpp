@@ -17,6 +17,5 @@ void dfs(int p) {
         for (auto i : adj[curr]) {
             st.push(i);
         }
-
     }
 }

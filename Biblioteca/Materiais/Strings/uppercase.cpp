@@ -4,3 +4,5 @@ string to_upper(string a) {
          a[i]-='a'-'A'; 
    return a; 
 }
+
+// para checar se e uppercase: isupper(c);

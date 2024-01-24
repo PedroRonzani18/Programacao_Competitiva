@@ -4,3 +4,5 @@ string to_lower(string a) {
          a[i]+='a'-'A'; 
    return a; 
 }
+
+// para checar se é lowercase: islower(c);

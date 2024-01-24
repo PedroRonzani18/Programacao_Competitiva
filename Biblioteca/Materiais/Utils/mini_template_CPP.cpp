@@ -1,11 +1,12 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
 #define _ ios_base::sync_with_stdio(0); cin.tie(0);
 
+#define all(a)         a.begin(), a.end()
 #define int            long long int
 #define double         long double
+#define vi 			   vector<int>
 #define endl           "\n"
 #define print_v(a)     for(auto x : a) cout << x << " "; cout << endl
 #define f(i,s,e) 	   for(int i=s;i<e;i++)
@@ -13,7 +14,9 @@ using namespace std;
 
 #define dbg(x) cout << #x << " = " << x << endl;
 
-void solve() {}
+void solve() {
+
+}
 
 int32_t main() { _
 	
@@ -21,7 +24,6 @@ int32_t main() { _
 	while (t--) 
 	//while(cin >> a >> b)
 		solve();
-
 
 	return 0;
 }
