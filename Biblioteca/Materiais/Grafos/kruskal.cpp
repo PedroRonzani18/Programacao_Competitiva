@@ -1,32 +1,32 @@
-//vector<pair<int,int>> arestas[MAXN] em que cada aresta[i] contem o peso e o vertice adjacente
-//vector<peso,conexao>
-vector<pair<int,int>> adj[MAXN];
-vector<pair<int,int>> adjtree[MAXN];
-vector<pair<int, pair<int, int>>> kruskadj;
-int cost;
-void kruskal(){
-    for(int i = 1;i<MAXN;i++){
-        for(auto j:adj[i]){
-            kruskadj.push_back({j.first,{i,j.second}});
-        }
-    }
-    sort(kruskadj.begin(),kruskadj.end());
-    cost=0;
-    int r = kruskadj.size();
-    vector<int> id(r);
-    for (int i = 0; i < r; i++) id[i] = i;
-    for (auto p : kruskadj){
-        int x = p.second.first;
-        int y = p.second.second;
-        int w = p.first;
-        if (id[x] != id[y]){
-            cost += w;
-            adjtree[x].push_back({w,y});
-            int old_id = id[x], new_id = id[y];
-            for (int i = 0; i < r; i++)
-                if (id[i] == old_id) id[i] = new_id;
-        }
-    }
+// Kruskal
+//
+// Gera e retorna uma AGM e seu custo total a partir do vetor de arestas (edg)
+// do grafo
+//
+// O(m log(m) + m a(m))
 
+vector<tuple<int, int, int>> edg; // {peso,x,y}
+vector<int> id, sz;
+
+int find(int p){ // O(a(N)) amortizado
+    return id[p] = (id[p] == p ? p : find(id[p]));
 }
 
+void uni(int p, int q) { // O(a(N)) amortizado
+    p = find(p), q = find(q);
+    if(p == q) return;
+    if(sz[p] > sz[q]) swap(p,q);
+    id[p] = q, sz[q] += sz[p];
+}
+
+pair<int, vector<tuple<int, int, int>>> kruskal(int n) {
+	sort(edg.begin(), edg.end());
+	int cost = 0;
+	vector<tuple<int, int, int>> mst;
+	for (auto [w,x,y] : edg) if (find(x) != find(y)) {
+		mst.emplace_back(w, x, y);
+		cost += w;
+		uni(x,y);
+	}
+	return {cost, mst};
+}
