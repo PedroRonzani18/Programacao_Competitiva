@@ -41,14 +41,14 @@ def get_dir():
         section_path = os.path.join(path, section_name)
         items = os.listdir(section_path)
         for file_name in items:
-            if (file_name.endswith('.cpp') or file_name.endswith('.py')):
+            if (file_name.endswith('.cpp') or file_name.endswith('.py') or file_name.endswith('.sh')):
                 subsection.append(file_name)
             elif(os.path.isdir(os.path.join(section_path, file_name))):
                 # Sub Directory
                 sub_files = os.listdir(os.path.join(section_path, file_name))
                 subsection.extend([
                     os.path.join(file_name, name) \
-                    for name in sub_files if (name.endswith('.cpp') or name.endswith('.py'))
+                    for name in sub_files if (name.endswith('.cpp') or name.endswith('.py') or name.endswith('.sh'))
                 ])
 
         section.append((section_name, subsection))

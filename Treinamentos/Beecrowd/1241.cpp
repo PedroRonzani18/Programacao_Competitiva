@@ -21,10 +21,6 @@ using namespace std;
 const int INF = 0x7f3f3f3f;
 const int MAX = 1e8+10; // 10^6 + 10
 
-string to_upper(string a) { for (int i=0;i<(int)a.size();++i) if (a[i]>='a' && a[i]<='z') a[i]-='a'-'A'; return a; }
-string to_lower(string a) { for (int i=0;i<(int)a.size();++i) if (a[i]>='A' && a[i]<='Z') a[i]+='a'-'A'; return a; }
-bool prime(int a) { if (a==1) return 0; for (int i=2;i<=round(sqrt(a));++i) if (a%i==0) return 0; return 1; }
-
 template <typename Arg1> void __f (const char* name, Arg1&& arg1) { cout << name << " : " << arg1 << endl; }
 template <typename Arg1, typename... Args> void __f (const char* names, Arg1&& arg1, Args&&... args) {
 	const char* comma = strchr (names + 1, ',');
@@ -33,13 +29,29 @@ template <typename Arg1, typename... Args> void __f (const char* names, Arg1&& a
 
 void solve() {
 
+	string s1, s2; cin >> s1 >> s2;
+
+	if(s2.size() > s1.size()) {
+		cout << "nao encaixa" << endl;
+		return;
+	}
+
+	bool nice = true;
+	f(i,0, s2.size()) {
+		if(s2[s2.size() - i - 1] != s1[s1.size() - i - 1]) {
+			nice = false;
+			break;
+		}
+	}
+
+	nice ? cout << "encaixa" << endl : cout << "nao encaixa" << endl;
 }
 
 int32_t main() { _
 	
 	clock_t z = clock();
 
-	int t = 1; // cin >> t;
+	int t = 1; cin >> t;
 	while (t--) 
 	//while(cin >> a >> b)
 		solve();
