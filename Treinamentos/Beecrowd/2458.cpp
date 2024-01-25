@@ -13,17 +13,17 @@ using namespace std;
 #define print2(a,x,y)  for(int i = x; i < y; i++) cout<< a[i]<< " "; cout << endl
 #define f(i,s,e) 	   for(int i=s;i<e;i++)
 #define rf(i,e,s) 	   for(int i=e-1;i>=s;i--)
+#define CEIL(a, b)     ((a) + (b - 1))/b
+#define TRUNC(x) 	   floor(x * 100) / 100
 
 #define dbg(x) cout << #x << " = " << x << " ";
 #define dbgl(x) cout << #x << " = " << x << endl;
 #define bug(...)       __f (#__VA_ARGS__, __VA_ARGS__)
 
-const int INF = 0x7f3f3f3f;
-const int MAX = 1e8+10; // 10^6 + 10
-
-string to_upper(string a) { for (int i=0;i<(int)a.size();++i) if (a[i]>='a' && a[i]<='z') a[i]-='a'-'A'; return a; }
-string to_lower(string a) { for (int i=0;i<(int)a.size();++i) if (a[i]>='A' && a[i]<='Z') a[i]+='a'-'A'; return a; }
-bool prime(int a) { if (a==1) return 0; for (int i=2;i<=round(sqrt(a));++i) if (a%i==0) return 0; return 1; }
+const int INF =  0x7f3f3f3f;
+const int LINF = 0x3f3f3f3f3f3f3f3f;
+const double PI = acos(-1);
+const int MAX = 1e6+10; // 10^6 + 10
 
 template <typename Arg1> void __f (const char* name, Arg1&& arg1) { cout << name << " : " << arg1 << endl; }
 template <typename Arg1, typename... Args> void __f (const char* names, Arg1&& arg1, Args&&... args) {
@@ -31,75 +31,89 @@ template <typename Arg1, typename... Args> void __f (const char* names, Arg1&& a
 	cout.write (names, comma - names) << " : " << arg1 << " | "; __f (comma + 1, args...);
 }
 
-void solve() {
+int n;
 
-	int n; cin >> n;
+pair<int,int> realNewPos(pair<int,int> pos, char c) {
 
-	char mat[n+1][n+1];
-	f(i,0,n) 
-		f(j,0,n) 
-			cin >> mat[i][j];
+	switch (c)
+	{
+		case 'V': return { pos.first + 1, pos.second };
+		case 'A': return { pos.first - 1, pos.second };
+		case '<': return { pos.first, pos.second - 1 };
+		default : return { pos.first, pos.second + 1 };
+	}
+}
 
-	int situation [n+1][n+1];
-	f(i,0,n) 
-		f(j,0,n) 
-			situation [i][j] = 0;
+bool valid(pair<int,int> pos) {
+	auto [x,y] = pos;
 
-	int safe = 0;
+	return (0 <= x and x < n and 0 <= y and y < n); 
+}
 
-	f(i,0,n) {
-		f(j,0,n) {
+void travel(vector<vector<bool>>& visited, vector<vector<char>>& tab, int& ans, pair<int,int> current) {
 
-			bool valid = true;
+	vector<pair<int,int>> move = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+	int size = 1;
 
-			vector<pair<int,int>> track;
-			track.push_back({i,j});
+	queue<pair<int,int>> q; q.push(current); visited[current.first][current.second] = true; 
 
-			while(valid) {
+	while(!q.empty()) {
 
-				pair<int,int> lastpos = track.back();
+		pair<int,int> top = q.front(); q.pop();
 
-				if(lastpos.first < 0 || lastpos.second < 0 || n <= lastpos.first || n <= lastpos.second) {
+		for(auto [x,y] : move) {
 
-					track.pop_back();
-					for(auto x : track)
-						situation[x.first][x.second] = -1;
-					valid = false;	
-					break;
-				}
+			auto [t1, t2] = top;
 
-				switch (situation[lastpos.first][lastpos.second])
-				{
-					case 0: // nao passei por aq ainda
-
-						situation[lastpos.first][lastpos.second] = 1;
-
-						switch (mat[lastpos.first][lastpos.second])
-						{
-							case '>': track.push_back({ lastpos.first, lastpos.second+1 }); break;
-							case '<': track.push_back({ lastpos.first, lastpos.second-1 }); break;
-							case 'A': track.push_back({ lastpos.first-1, lastpos.second }); break;
-							case 'V': track.push_back({ lastpos.first+1, lastpos.second }); break;
-						}						
-
-						break;
-
-					case -1:
-						for(auto x : track)
-							situation[x.first][x.second] = -1;
-						valid = false;	
-						break;
-
-					case 1:
-						safe += track.size()-1;
-						valid = false;	
-						break;
+			if(valid({t1 + x, t2 + y})) {
+				if(realNewPos({t1 + x, t2 + y}, tab[t1 + x][t2 + y]) == top && !visited[t1 + x][t2 + y]){
+					q.push({t1 + x, t2 + y});
+					size++;
 				}
 			}
+
 		}
 	}
 
-	cout << safe << endl;
+	ans -= size;
+}
+
+void solve() {
+	
+	cin >> n;
+
+	int ans = n * n;
+	vector<vector<char>> tab(n, vector<char>(n));
+	f(i,0,n) f(j,0,n) cin >> tab[i][j];
+
+	vector<vector<bool>> visited(n+1, vector<bool>(n+1));
+
+	f(i,0,n) {
+		if(tab[0][i] == 'A' && !visited[0][i]) {
+			travel(visited, tab, ans, {0,i});
+		}
+	}
+
+	f(i,0,n) {
+		if(tab[n-1][i] == 'V' && !visited[n-1][i]) {
+			travel(visited, tab, ans, {n-1,i});
+		}
+	}
+
+	f(i,0,n) {
+		if(tab[i][0] == '<' && !visited[i][0]) {
+			travel(visited, tab, ans, {i,0});
+		}
+	}
+
+	f(i,0,n) {
+		if(tab[i][n-1] == '>' && !visited[i][n-1]) {
+			travel(visited, tab, ans, {i,n-1});
+		}
+	}
+
+	cout << ans << endl;
+
 }
 
 int32_t main() { _
@@ -110,7 +124,6 @@ int32_t main() { _
 	while (t--) 
 	//while(cin >> a >> b)
 		solve();
-
 
 	cerr << fixed << "Run Time : " << ((double)(clock() - z) / CLOCKS_PER_SEC) << endl;
 	return 0;
