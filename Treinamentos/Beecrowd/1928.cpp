@@ -20,68 +20,74 @@ using namespace std;
 const int INF = 0x7f3f3f3f;
 const int MAX = 60010;
 
+vector<int> adj[20 * MAX];
+int vis[20 * MAX], profundidade[20 * MAX], cartasIndex[20 * MAX];
+vector<int> euTree(20 * MAX);
+
 namespace seg {
-    int seg[4*MAX];
-	int n;
-    vector<int> v;
+	int seg[20 * MAX];
+	int nSeg;
+	vector<int> vec;
 
-	int op(int a, int b) { return min(a, b); }
+	int op (int a, int b) {
+		
+		if(a == INT_MAX) return b;
+		if(b == INT_MAX) return a;
+		
+		return profundidade[a] < profundidade[b] ? a : b;}		
 
-	int build(int p=1, int l=0, int r=n-1) {
-		if (l == r) return seg[p] = v[l];
+	int build(int p=1, int l=0, int r=nSeg-1) {
+		if (l == r) return seg[p] = vec[l];
 		int m = (l+r)/2;
+
 		return seg[p] = op(build(2*p, l, m), build(2*p+1, m+1, r));
+
 	}
 
 	void build(int n2, vector<int> v2) {
-		n = n2, v = v2;
+		nSeg = n2, vec = v2;
 		build();
 	}
 
-    int query(int a, int b, int p=1, int l=0, int r=n-1) {
-        if (a <= l and r <= b) return seg[p];
-        if (b < l or r < a) return INT_MAX;  // Return the neutral element for min operation
-        int m = (l+r)/2;
-        return op(query(a, b, 2*p, l, m), query(a, b, 2*p+1, m+1, r));
-    }
-
-
-	int update(int a, int b, int x, int p=1, int l=0, int r=n-1) {
+	int query(int a, int b, int p=1, int l=0, int r=nSeg-1) {
 		if (a <= l and r <= b) return seg[p];
-		if (b < l or r < a) return seg[p];
+		if (b < l or r < a) return INT_MAX; 
 		int m = (l+r)/2;
-		return seg[p] = op(update(a, b, x, 2*p, l, m), update(a, b, x, 2*p+1, m+1, r));
+
+
+		return op(query(a, b, 2*p, l, m), query(a, b, 2*p+1, m+1, r));
 	}
-};
+}
 
-unordered_map<int,int> firstOccurency; 
-
-vector<vector<int>> adj(MAX);
-int vis[MAX], profundidade[MAX], cartasRev[3 * MAX];
-vector<int> euTree(MAX);
+int firstOccurency[20 * MAX]; 
 
 void eulerTree(int u, int &index) { 
 
-	if(firstOccurency.count(cartasRev[u]) == 0)
-		firstOccurency[cartasRev[u]] = index+1;
+	if(firstOccurency[cartasIndex[u]] == 0)
+		firstOccurency[cartasIndex[u]] = index;
 
-    vis[u] = 1;
-    euTree[index++] = profundidade[cartasRev[u]];
-    for (auto it : adj[u]) {
-        if (!vis[it]) {
-            eulerTree(it, index);
-            euTree[index++] = profundidade[cartasRev[u]];
-        }
-    }
+	vis[u] = 1;
+	euTree[index++] = cartasIndex[u];
+	for (auto it : adj[u]) {
+		if (!vis[it]) {
+			eulerTree(it, index);
+			euTree[index++] = cartasIndex[u];
+		}
+	}
 }
 
-vector<int> pai(MAX, -1);
+void mountEulerTree(int n) {
+
+	memset(vis, 0, sizeof(vis));
+	int index = 0; eulerTree(1, index);
+
+}
+
+int pai[20 * MAX];
 
 void dfs(int v, int prof=0) { 
 
-	int cv = cartasRev[v];
-	if(profundidade[cv] == 0)
-		profundidade[cv] = prof;
+	if(profundidade[cartasIndex[v]] == 0) profundidade[cartasIndex[v]] = prof;
 		
 	for(auto x: adj[v]){
 		if(pai[x] != -1) continue;
@@ -90,45 +96,52 @@ void dfs(int v, int prof=0) {
 	}
 }
 
+void preenchecartasIndex(int n) {
+
+	bool adicionados[20 * MAX]; 
+	memset(adicionados, false, sizeof(adicionados));
+
+	for(int i=1; i<=n; i++) {
+		
+		int num; cin >> num;
+		if(adicionados[num])  num += 60000;
+		else adicionados[num] = true;	
+		cartasIndex[i] = num;
+	}
+}
+
+void findAns(int n) {
+    int ans = 0;
+    for(int i=1; i<=n/2; i++) {
+        int f1 = firstOccurency[i], f2 = firstOccurency[i + 60000];
+        if(f1 > f2) swap(f1, f2);
+        
+        ans += (profundidade[i] + profundidade[i+60000] - 2 * profundidade[seg::query(f1, f2)]);
+    }
+    cout << ans << endl;
+}
+
+
 void solve() {
 
 	int n; cin >> n;
-	vector<bool> adicionados(n+1, false);
 
-	f(i,1,n+1) {
-		
-		int carta; cin >> carta;
-		if(adicionados[carta]) 
-			carta += 60000;
-		else adicionados[carta] = true;
-	
-		cartasRev[i] = carta;
-	}
+	preenchecartasIndex(n);
 
-
-	f(i,0,n-1) {
-		
+	for(int i=0; i<n-1; i++) {
 		int a, b; cin >> a >> b;
 		adj[a].push_back(b);
 		adj[b].push_back(a);
 	}
 
+	memset(pai, -1, sizeof(pai));
 	dfs(1);
 
-	int index = 0; eulerTree(1, index);
+	mountEulerTree(n);
 
-	seg::build(2 * n - 1, euTree);
+	seg::build(2 * n -1, euTree);
 
-	int ans = 0;
-	for(int i=1; i<=n/2; i++) {
-
-		int f1 = firstOccurency[i]-1, f2 = firstOccurency[i + 60000]-1;
-		if(f1 > f2) swap(f1, f2);
-
-		ans += (profundidade[i] + profundidade[i+60000] - 2 * seg::query(f1, f2));
-	}
-	cout << ans << endl;
-
+	findAns(n);
 }
 
 int32_t main() { _

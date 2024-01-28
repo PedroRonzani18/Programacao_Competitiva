@@ -27,39 +27,57 @@ template <typename Arg1, typename... Args> void __f (const char* names, Arg1&& a
 	cout.write (names, comma - names) << " : " << arg1 << " | "; __f (comma + 1, args...);
 }
 
-vector<int> pai(MAXN), peso(MAXN), filhos(MAXN, 1);
+vector<int> id(MAXN), sz(MAXN);
+vector<tuple<int, int, int>> ruas; // {sz,x,y}
 
 int find(int p){
-    return pai[p] = (pai[p] == p ? p : find(pai[p]));
+    return id[p] = (id[p] == p ? p : find(id[p]));
 }
 
-void uni(int p, int q) { 
-    p = find(p), q = find(q);
-    if(p == q) return;
-    if(peso[p] > peso[q]) swap(p,q);
-    pai[p] = q, peso[q] += peso[p], filhos[q] += filhos[p];
+int uni(int p, int q, int bonita) { 
+
+    p = find(p);
+	q = find(q);
+    
+	int aux = 0;
+
+	if(sz[p] > sz[q]) swap(p,q);
+
+	if(bonita) {
+		aux = sz[q] * sz[p];
+	}
+
+    id[p] = q, sz[q] += sz[p];
+
+	return aux;
+}
+
+int kruskal(vector<tuple<int, int, int>> edg) {
+
+	int cost = 0;
+	for (auto [w,x,y] : edg) if (find(x) != find(y)) {
+		cost += uni(x,y,w); 
+	}
+	return cost;
 }
 
 void solve() {
 
 	int n; cin >> n;
 
-	iota(all(pai), 0);
+	iota(all(id), 0);
+	for(int i=0; i<=n; i++) {
+		sz[i] = 1;
+	}
 
-	f(i,0,n) {
+	f(i,0,n-1) {
 		int a, b, cor; cin >> a >> b >> cor;
-		if(!cor) uni(a,b);
+		ruas.push_back({cor,a,b});
 	}
 
-	int resposta = 0;
+	sort(all(ruas));
 
-	f(i,1,n+1) {
-		if (pai[i] != i) continue;
-        resposta += ((n - filhos[i]) * filhos[i]);
-	}
-
-	cout << resposta / 2 << endl;
-
+	cout << kruskal(ruas) << endl;
 }
 
 int32_t main() { _
