@@ -1,6 +1,9 @@
-int mmc(vector<int> arr) {
+// calcula mmc de varios numeros passados em um array, recomendado para n > 2
+
+int mmc_many(vector<int> arr) {
    int result = arr[0];
-   for(size_t i = 1; i < arr.size(); i++)
-       result = (arr[i] * result / mmc_util(arr[i], result ));
+   
+   for(int& num : arr)
+       result = (num * result / mmc(num, result ));
    return ans;
 }

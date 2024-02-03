@@ -6,12 +6,10 @@ using namespace std;
 #define all(a)         a.begin(), a.end()
 #define int            long long int
 #define double         long double
-#define vi 			   vector<int>
 #define endl           "\n"
 #define print_v(a)     for(auto x : a) cout << x << " "; cout << endl
 #define f(i,s,e) 	   for(int i=s;i<e;i++)
 #define rf(i,e,s) 	   for(int i=e-1;i>=s;i--)
-
 #define dbg(x) cout << #x << " = " << x << endl;
 
 void solve() {
@@ -21,9 +19,9 @@ void solve() {
 int32_t main() { _
 	
 	int t = 1; // cin >> t;
-	while (t--) 
-	//while(cin >> a >> b)
+	while (t--) { 
 		solve();
+	}
 
 	return 0;
 }
