@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#include <unordered_map> // Add this line to include the unordered_map library
-
 #define _                         \
     ios_base::sync_with_stdio(0); \
     cin.tie(0);
@@ -36,48 +34,22 @@ const int LINF = 0x3f3f3f3f3f3f3f3f;
 const double PI = acos(-1);
 const int MAX = 1e6 + 10; // 10^6 + 10
 
-unordered_map<string, int> posicao;
-
-unordered_set<string> split(string s, string del = " ") {
-   vector<string> retorno;
-   unordered_multiset<string> ret;
-   int start, end = -1*del.size();
-   int ind = 0;
-   do {
-       start = end + del.size();
-       end = s.find(del, start);
-       string push = s.substr(start, end - start);
-       // retorno.push_back(push);
-       ret.insert(push); 
-       posicao[push] = ind;
-       ind++;
-       print_v(ret);
-   } while (end != -1);
-   return ret;
-}
-
-
 void solve() {
-    
-    string l; getline(cin, l); unordered_set<string> vl = split(l);
-    string n; getline(cin, n); unordered_set<string> vn = split(n);
 
+    string l; getline(cin, l);
+    string n; getline(cin, n);
     string nome; getline(cin, nome);
 
-    vector<string> ans;
-
     if(nome == "nao") {
-        
-        for(string s : vl) {
-            cout << s << " ";
-        }
+        cout << l << " " << n << endl;
+    } else {
 
-        string st = *vn.begin(); cout << st;
-        for(auto it = ++vn.begin(); it != vn.end(); it++) {
-            cout << " " << *it;
-        }
-        cout << endl;
+        int index = l.find(nome);
+
+        cout << l.substr(0,index) << n << " " << l.substr(index,l.size()-index+1) << endl;;
+
     }
+
 }
 
 int32_t main() {
