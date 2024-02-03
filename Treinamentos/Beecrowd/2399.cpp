@@ -24,9 +24,33 @@ const int LINF = 0x3f3f3f3f3f3f3f3f;
 const double PI = acos(-1);
 const int MAX = 1e6+10; // 10^6 + 10
 
+bool valid(int i, int n) {
+    return i >= 0 and i < n;
+}
 
 void solve() {
 	
+    int n; cin >> n; vi minas(n);
+
+    f(i,0,n) {
+        cin >> minas[i];
+    }
+
+    vi mov = {-1,0,1};
+
+    f(i,0,n) {
+
+        int num=0;
+
+        for(int u : mov) {
+            if(valid(i+u, n)) {
+                num += minas[i+u];
+            }
+        }
+        cout << num << endl;
+
+    }
+
 }
 
 int32_t main() { _

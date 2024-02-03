@@ -13,31 +13,44 @@ using namespace std;
 #define print2(a,x,y)  for(int i = x; i < y; i++) cout<< a[i]<< " "; cout << endl
 #define f(i,s,e) 	   for(int i=s;i<e;i++)
 #define rf(i,e,s) 	   for(int i=e-1;i>=s;i--)
-#define CEIL(a, b)     ((a) + (b - 1))/b
-#define TRUNC(x) 	   floor(x * 100) / 100
 
 #define dbg(x) cout << #x << " = " << x << " ";
 #define dbgl(x) cout << #x << " = " << x << endl;
+#define bug(...)       __f (#__VA_ARGS__, __VA_ARGS__)
 
-const int INF =  0x7f3f3f3f;
-const int LINF = 0x3f3f3f3f3f3f3f3f;
-const double PI = acos(-1);
-const int MAX = 1e6+10; // 10^6 + 10
-
+const int INF = 0x7f3f3f3f;
+const int MAX = 1e8+10; // 10^6 + 10
 
 void solve() {
-	
+
+    int n; cin >> n; cin.ignore();
+    string current; getline(cin, current);
+    bool printed = false;
+
+    f(i,1,n) {
+
+        string aux; getline(cin, aux);
+
+        if(aux != current && !printed) {
+            cout << "ingles" << endl;
+            printed = true;
+        }
+
+        current = aux;
+
+    }
+
+    if(!printed) cout << current << endl;
+
 }
 
 int32_t main() { _
 	
-	clock_t z = clock();
-
-	int t = 1; // cin >> t;
-	while (t--) 
+	int t; cin >> t; cin.ignore();
+	while (t--) {
 	//while(cin >> a >> b)
-		solve();
+    	solve();
+    }
 
-	cerr << fixed << "Run Time : " << ((double)(clock() - z) / CLOCKS_PER_SEC) << endl;
 	return 0;
 }

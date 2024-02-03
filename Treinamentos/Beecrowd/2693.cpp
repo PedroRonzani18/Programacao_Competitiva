@@ -24,9 +24,23 @@ const int LINF = 0x3f3f3f3f3f3f3f3f;
 const double PI = acos(-1);
 const int MAX = 1e6+10; // 10^6 + 10
 
-
-void solve() {
+void solve(int n) {
 	
+    vector<tuple<int, char, string>> v(n);
+
+    f(i,0,n) {
+
+        string a; char b; int c; cin >> a >> b >> c; 
+
+        v[i] = {c, b, a};
+    }
+
+    sort(all(v));
+
+    for(auto [a,b,c] : v) {
+        cout << c << endl;
+    }
+
 }
 
 int32_t main() { _
@@ -34,9 +48,9 @@ int32_t main() { _
 	clock_t z = clock();
 
 	int t = 1; // cin >> t;
-	while (t--) 
+	while (cin >> t) 
 	//while(cin >> a >> b)
-		solve();
+		solve(t);
 
 	cerr << fixed << "Run Time : " << ((double)(clock() - z) / CLOCKS_PER_SEC) << endl;
 	return 0;

@@ -24,9 +24,20 @@ const int LINF = 0x3f3f3f3f3f3f3f3f;
 const double PI = acos(-1);
 const int MAX = 1e6+10; // 10^6 + 10
 
+void solve(int& n) {
 
-void solve() {
-	
+    unordered_set<int> values;
+
+    f(i,0,n) {
+
+        int num; cin >> num; 
+        if(values.count(num)) 
+            values.erase(num);
+        else 
+            values.insert(num);
+    }
+
+    cout << *values.begin() << endl;
 }
 
 int32_t main() { _
@@ -34,9 +45,10 @@ int32_t main() { _
 	clock_t z = clock();
 
 	int t = 1; // cin >> t;
-	while (t--) 
-	//while(cin >> a >> b)
-		solve();
+	while (cin >> t) {
+        if(t == 0) break;
+		solve(t);
+    }
 
 	cerr << fixed << "Run Time : " << ((double)(clock() - z) / CLOCKS_PER_SEC) << endl;
 	return 0;
