@@ -1,0 +1,33 @@
+# Compiled Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+
+# C++ specific files
+*.cpp
+*.hpp
+*.cc
+*.h
+*.cxx
+*.hxx
+
+# Build directories
+build/
+bin/
+
+.vscode
+*.txt
