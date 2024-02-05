@@ -1,5 +1,6 @@
 // BFS com informacoes adicionais sobre a distancia e o pai de cada vertice
 // Complexidade: O(V + E), onde V eh o numero de vertices e E o numero de areqas
+
 vector<vector<int>> adj; // liqa de adjacencia
 int n, s; // n = numero de vertices, s = vertice inicial
 

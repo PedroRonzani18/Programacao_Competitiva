@@ -1,11 +1,12 @@
 // Kruskal
 //
-// Gera e retorna uma AGM e seu custo total a partir do vetor de arestas (edg)
-// do grafo
+// Gera e retorna uma AGM e seu custo total a partir do vetor de arestas (edg) do grafo
 //
-// O(m log(m) + m a(m))
+// Complexidade: O(ElogE) onde E eh o numero de arestas
+// 
+// O(m log(m) + m a(m)) = O(m log(m))
 
-vector<tuple<int, int, int>> edg; // {peso,x,y}
+vector<tuple<int, int, int>> edg; 
 vector<int> id, sz;
 
 int find(int p){ // O(a(N)) amortizado
@@ -19,7 +20,7 @@ void uni(int p, int q) { // O(a(N)) amortizado
     id[p] = q, sz[q] += sz[p];
 }
 
-pair<int, vector<tuple<int, int, int>>> kruskal() {
+pair<int, vector<tuple<int, int, int>>> kruskal(vector<tuple<int, int, int>>& edg) {
 
 	sort(edg.begin(), edg.end());
 	
@@ -31,4 +32,18 @@ pair<int, vector<tuple<int, int, int>>> kruskal() {
 		uni(x,y);
 	}
 	return {cost, mst};
+}
+
+int main() {
+
+	vector<tuple<int, int, int>> edg; // {peso,x,y}
+
+	f(i,0,n) {
+		int a, b, w; cin >> a >> b >> w;
+		edg.push_back({w, a, b});
+	}
+
+	auto [cost, mst] = kruskal(edg);
+	
+	return 0;
 }

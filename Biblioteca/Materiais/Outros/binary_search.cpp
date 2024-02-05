@@ -1,3 +1,5 @@
+// Description: Implementação do algoritmo de busca binária.
+// Complexidade: O(logn) onde n eh o tamanho do vetor
 int BinarySearch(<vector>int arr, int x){
     int k = 0;
     int n = arr.size();

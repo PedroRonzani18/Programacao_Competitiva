@@ -1,8 +1,11 @@
+// Descricao: Funcao que verifica se um numero n eh primo.
+// Complexidade: O(sqrt(n))
 bool prime(int a) {
     if (a == 1)
-        return 0;
-    for (int i = 2; i <= round(sqrt(a)); ++i)
+        return false;
+    int lim = round(sqrt(a));
+    for (int i = 2; i <= lim; ++i)
         if (a % i == 0)
-            return 0;
-    return 1;
+            return false;
+    return true;
 }

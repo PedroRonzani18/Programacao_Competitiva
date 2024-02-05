@@ -1,5 +1,5 @@
-// Calcula o mdc de varios numeros, ideal ser utilizado para n > 2
-
+// Description: Calcula o MDC de um vetor de inteiros.
+// Complexidade: O(nlogn) onde n eh o tamanho do vetor
 int mdc_many(vector<int> arr) {
    int result = arr[0];
 

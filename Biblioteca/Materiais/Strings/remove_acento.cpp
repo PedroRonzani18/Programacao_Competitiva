@@ -1,3 +1,5 @@
+// Descricao: Funcao que remove acentos de uma string.
+// Complexidade: O(n * m) onde n eh o tamanho da string e m eh o tamanho do alfabeto com acento.
 string removeAcentro(string str) {
 
     string comAcento = "áéíóúâêôãõà";

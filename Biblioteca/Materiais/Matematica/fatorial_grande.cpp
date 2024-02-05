@@ -11,6 +11,8 @@ void multiply(vector<int>& num, int x) {
    }
 }
 
+// Calcula n!
+// Complexidade: O(n) onde n eh o numero a ser fatorado
 vector<int> factorial(int n) {
    vector<int> result;
    result.push_back(1);

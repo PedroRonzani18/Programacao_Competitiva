@@ -1,6 +1,6 @@
 // LIMITES DE REPRESENTAÇÃO DE DADOS    
 
-       tipo     | bits |      mínimo .. máximo      | precisão decimal
+       tipo     | bits |      minimo .. maximo      | precisao decimal
 ----------------+------+----------------------------+------------------
 char            |   8  |           0 .. 127         |         2
 signed char     |   8  |        -128 .. 127         |         2 
@@ -25,7 +25,7 @@ uint64_t        |  64  |           0 .. 18 x 10**18 |        19
 
 // ESTOURAR TEMPO
 
-1s = 10^8 operações
+1s = 10^8 operacoes
 
 // FATORIAL
 

@@ -1,8 +1,5 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
-using namespace std;
+// Descricao: Implementacao de operacoes com numeros grandes
+// Complexidade: O(n * m), n = tamanho do primeiro numero, m = tamanho do segundo numero
 
 void normalize(vector<int>& num) {
     int carry = 0;
@@ -18,27 +15,23 @@ void normalize(vector<int>& num) {
     }
 }
 
-pair<int, vector<int>> makePair(int sign, const vector<int>& magnitude) {
-    return {sign, magnitude};
-}
 
 pair<int, vector<int>> bigSum(const pair<int, vector<int>>& a, const pair<int, vector<int>>& b) {
     if (a.first == b.first) {
         vector<int> result(max(a.second.size(), b.second.size()), 0);
         transform(a.second.begin(), a.second.end(), b.second.begin(), result.begin(), plus<int>());
         normalize(result);
-        return makePair(a.first, result);
+        return {a.first, result};
     } else {
-        // If signs are different, perform subtraction
         vector<int> result(max(a.second.size(), b.second.size()), 0);
         transform(a.second.begin(), a.second.end(), b.second.begin(), result.begin(), minus<int>());
         normalize(result);
-        return makePair(a.first, result);
+        return {a.first, result};
     }
 }
 
 pair<int, vector<int>> bigSub(const pair<int, vector<int>>& a, const pair<int, vector<int>>& b) {
-    return bigSum(a, makePair(-b.first, b.second));
+    return bigSum(a, {-b.first, b.second});
 }
 
 pair<int, vector<int>> bigMult(const pair<int, vector<int>>& a, const pair<int, vector<int>>& b) {
@@ -51,9 +44,8 @@ pair<int, vector<int>> bigMult(const pair<int, vector<int>>& a, const pair<int, 
     }
 
     normalize(result);
-    return makePair(a.first * b.first, result);
+    return {a.first * b.first, result};
 }
-
 
 
 void printNumber(const pair<int, vector<int>>& num) {
@@ -68,22 +60,12 @@ void printNumber(const pair<int, vector<int>>& num) {
 }
 
 int main() {
-    // Example usage
-    pair<int, vector<int>> num1 = makePair(1, {1, 2, 3});  // Representing +321
-    pair<int, vector<int>> num2 = makePair(-1, {4, 5, 6});  // Representing -654
 
-    pair<int, vector<int>> sum = bigSum(num1, num2);
-    pair<int, vector<int>> difference = bigSub(num1, num2);
-    pair<int, vector<int>> product = bigMult(num1, num2);
+    pair<int, vector<int>> num1 = {1, {1, 2, 3}};  // Representing +321
+    pair<int, vector<int>> num2 = {-1, {4, 5, 6}};  // Representing -654
 
-    cout << "Sum: ";
-    printNumber(sum);
+    cout << "Sum: "; printNumber(bigSum(num1, num2););
+    cout << "Difference: "; printNumber(bigSub(num1, num2););
+    cout << "Product: "; printNumber(bigMult(num1, num2););
 
-    cout << "Difference: ";
-    printNumber(difference);
-
-    cout << "Product: ";
-    printNumber(product);
-
-    return 0;
 }

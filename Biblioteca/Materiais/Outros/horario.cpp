@@ -1,3 +1,5 @@
+// Descricao: Funcoes para converter entre horas e segundos.
+// Complexidade: O(1)
 int cts(int h, int m, int s) {
     int total = (h * 3600) + (m * 60) + s;
     return total;

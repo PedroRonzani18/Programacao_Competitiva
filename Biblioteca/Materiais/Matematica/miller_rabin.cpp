@@ -1,9 +1,6 @@
-// Miinter-Rabin
-//
-// Testa se n eh primo, n <= 3 * 10^18
-//
-// O(log(n)), considerando multiplicacao
-// e exponenciacao constantes
+// Teste de primalidade de Miller-Rabin
+// Complexidade: O(k*log^3(n)), onde k eh o numero de testes e n eh o numero a ser testado
+// Descicao: Testa se um numero eh primo com uma probabilidade de erro de 1/4^k
 
 int mul(int a, int b, int m) {
 	int ret = a*b - int((long double)1/m*a*b+0.5)*m;

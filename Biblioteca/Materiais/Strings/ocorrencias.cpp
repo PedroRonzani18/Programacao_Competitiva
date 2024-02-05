@@ -1,11 +1,6 @@
-/**
- *  @brief  str.find() aprimorado
- *  @param str  string to be analised
- *  @param sub  substring to be searched
- *  @return  vector<int> com indices de todas as ocorrências de uma substring em uma string
- */
+// Description: Função que retorna um vetor com as posições de todas as ocorrências de uma substring em uma string.
+// Complexidade: O(n * m) onde n é o tamanho da string e m é o tamanho da substring.
 vector<int> ocorrencias(string str,string sub){
-    
     vector<int> ret;
     int index = str.find(sub);
     while(index!=-1){

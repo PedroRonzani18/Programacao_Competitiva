@@ -2,8 +2,9 @@ vector<vector<int>> adj(MAX);
 vector<int> vis(MAX, 0);
 vector<int> euTree(MAX);
 
-void eulerTree(int u, int &index)
-{
+// Eulerian path in tree
+// Complexity: O(V)
+void eulerTree(int u, int &index) {
     vis[u] = 1;
     euTree[index++] = u;
     for (auto it : adj[u]) {

@@ -1,3 +1,5 @@
+// Descicao: conversao de decimal para binario
+// Complexidade: O(logn) onde n eh o numero decimal
 string decimal_to_binary(int dec) {
     string binary = "";
     while (dec > 0) {
@@ -8,6 +10,8 @@ string decimal_to_binary(int dec) {
     return binary;
 }
 
+// Descicao: conversao de binario para decimal
+// Complexidade: O(logn) onde n eh o numero binario
 int binary_to_decimal(string binary) {
     int dec = 0;
     int power = 0;

@@ -1,5 +1,5 @@
-// calcula mmc de varios numeros passados em um array, recomendado para n > 2
-
+// Description: Calcula o mmc de um vetor de inteiros.
+// Complexidade: O(nlogn) onde n eh o tamanho do vetor
 int mmc_many(vector<int> arr) {
    int result = arr[0];
    

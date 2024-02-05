@@ -2,6 +2,9 @@
 vector<int> adj[MAXN];
 int visited[MAXN];
 
+
+// DFS com informacoes adicionais sobre o pai de cada vertice
+// Complexidade: O(V + E), onde V eh o numero de vertices e E o numero de areqas
 void dfs(int p) {
     memset(visited, 0, sizeof visited);
     stack<int> st;
@@ -17,5 +20,15 @@ void dfs(int p) {
         for (auto i : adj[curr]) {
             st.push(i);
         }
+    }
+}
+
+// DFS com informacoes adicionais sobre o pai de cada vertice
+// Complexidade: O(V + E), onde V eh o numero de vertices e E o numero de areqas
+void dfs(int v) {
+    visited[v] = true;
+    for (int u : adj[v]) {
+        if (!visited[u])
+            dfs(u);
     }
 }

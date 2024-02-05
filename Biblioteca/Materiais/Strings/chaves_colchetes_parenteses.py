@@ -1,3 +1,4 @@
+# Descricao: Funcao que verifica se uma string contendo chaves, colchetes e parenteses esta balanceada.
 def balanced(string) -> bool:
    stack = []
   
