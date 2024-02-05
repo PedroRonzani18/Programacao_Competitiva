@@ -18,7 +18,6 @@
 *.out
 
 # C++ specific files
-*.cpp
 *.hpp
 *.cc
 *.h
