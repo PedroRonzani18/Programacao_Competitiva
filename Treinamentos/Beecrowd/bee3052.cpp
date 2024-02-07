@@ -23,9 +23,61 @@ const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
 const int MAX = 1e6+10; // 10^6 + 10
 
+bool valid(pair<int,int> p, int l, int c) {
+	auto[x,y] = p;
+	return (0 <= x and x < l and 0 <= y and y < c);
+}
+
 void solve() {
 
-	
+	int l, c; cin >> l >> c; cin.ignore();
+	vector<string> tab(l);
+	f(i,0,l) {
+		getline(cin, tab[i]);
+	}	
+
+	int firstO = tab[0].find('o');
+
+	queue<pair<int,int>> chuvas; chuvas.push({0,firstO});
+	vi move = {-1, 1};
+
+	while(!chuvas.empty()) {
+
+		auto [x, y] = chuvas.front(); 
+		chuvas.pop();
+
+		if(x == l-1) continue;
+
+		if(tab[x+1][y] == '.') {
+			tab[x+1][y] = 'o';
+			chuvas.push({x+1, y});
+			continue;
+		} 
+
+		for(auto& u : move) {
+			bool pushed = false;
+			if(valid({x, y+u}, l, c)) {
+				if(valid({x-1, y}, l, c)) {
+					if(tab[x][y+u] == '.' and tab[x-1][y] == '#') {
+						pushed = true;
+						tab[x][y+u] = 'o';
+						chuvas.push({x, y+u});
+					}
+				} 
+				if(valid({x+1, y}, l, c) and !pushed) {
+					if(tab[x][y+u] == '.' and tab[x+1][y] == '#') {
+						tab[x][y+u] = 'o';
+						chuvas.push({x, y+u});
+					}
+				}
+			}
+		}
+
+	}
+
+	for(string s : tab) {
+		cout << s << endl;
+	}
 
 }
 

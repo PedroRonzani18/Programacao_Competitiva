@@ -25,7 +25,22 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	int n; cin >> n;
+
+	int current, ans = 1;
+	int num; cin >> num; current = num;
+
+	f(i,1,n) {
+
+		cin >> num;
+		if(num != current) {
+			current = num;
+			ans++;
+		}	
+
+	}
+
+	cout << ans << endl;
 
 }
 

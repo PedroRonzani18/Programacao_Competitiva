@@ -25,8 +25,13 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	double b, t; cin >> b >> t;
 
+	double a1 = (b + t) / 2.;
+
+	if(a1 < 80) cout << 2 << endl;
+	else if (a1 > 80) cout << 1 << endl;
+	else cout << 0 << endl;
 }
 
 int32_t main() { _

@@ -25,8 +25,26 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	int n, mini, maxi; cin >> n >> mini >> maxi;
 
+	vi v(n);
+
+	f(i,0,n) {
+		cin >> v[i];
+	}
+
+	int ans = 0;
+
+	f(i,0,n) {
+		f(j,i+1,n) {
+			int sum = v[i] + v[j];
+			if(mini <= sum and sum <= maxi)
+				ans++;
+
+		}
+	}
+
+	cout << ans << endl;
 }
 
 int32_t main() { _

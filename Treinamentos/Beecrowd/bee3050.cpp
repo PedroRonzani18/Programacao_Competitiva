@@ -25,7 +25,31 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	int n; cin >> n;
+
+	if(n == 1) {
+		int num; cin >> num;
+		cout << num << endl;
+		return;
+	}
+
+	int ans = -1, maiorTorreDist; cin >> maiorTorreDist;
+
+	f(i,1,n) {
+
+		int num; cin >> num;
+		if(maiorTorreDist + num + 1 > ans) {
+			ans = maiorTorreDist + num + 1;
+		}
+		if(num > maiorTorreDist + 1) { // se o predio e maior que o maior com dist, muda
+			maiorTorreDist = num;
+		} else {
+			maiorTorreDist++; // incrementa o maior
+		}
+
+	}
+
+	cout << ans << endl;
 
 }
 

@@ -25,7 +25,14 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	float a, b; cin >> a >> b;
+
+	while(a > 0) {
+		int ans = ceil(a/b);
+		cout << ans << endl;
+		a -= ans;
+		b--;
+	}		
 
 }
 

@@ -23,9 +23,34 @@ const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
 const int MAX = 1e6+10; // 10^6 + 10
 
+int contarSomaSubarray(vector<int>& v, int k) {
+    unordered_map<int, int> prevSum; // map to store the previous sum
+ 
+    int ret = 0, currentSum = 0;
+ 
+	for(int& num : v) {
+        currentSum += num;
+ 
+        if (currentSum == k) ret++; /// Se a soma atual for igual a k, encontramos um subarray
+ 
+        if (prevSum.find(currentSum - k) != prevSum.end()) // se subarray com soma (currentSum - k) existir, sabe que [0:n] eh um subarray com soma k
+            ret += (prevSum[currentSum - k]);
+ 
+        prevSum[currentSum]++;
+    }
+ 
+    return ret;
+}
+
 void solve() {
 
-	
+	int n, k; cin >> n >> k; vi nums(n);
+
+	f(i,0,n) {
+		cin >> nums[i];
+	}
+
+	cout << contarSomaSubarray(nums, k) << endl;
 
 }
 

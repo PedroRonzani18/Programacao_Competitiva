@@ -25,7 +25,21 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	int n; cin >> n;
+
+	float ans = LINF;
+
+	f(i,0,n) {
+
+		float p, g; cin >> p >> g;
+
+		float possible = 1000 * p / g;
+
+		ans = min(possible, ans);
+	}
+
+	cout << fixed << setprecision(2);
+	cout << ans << endl;
 
 }
 
