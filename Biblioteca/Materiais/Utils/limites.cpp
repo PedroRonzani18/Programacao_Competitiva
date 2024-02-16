@@ -1,16 +1,19 @@
 // LIMITES DE REPRESENTAÇÃO DE DADOS    
 
-       tipo     | bits |      minimo .. maximo      | precisao decimal
-----------------+------+----------------------------+------------------
-char            |   8  |           0 .. 127         |         2
-signed char     |   8  |        -128 .. 127         |         2 
-unsigned char   |   8  |           0 .. 255         |         2 
-short           |  16  |     -32.768 .. 32.767      |         4
-unsigned short  |  16  |           0 .. 65.535      |         4 
-int             |  32  |  -2 x 10**9 .. 2 x 10**9   |         9
-unsigned int    |  32  |           0 .. 4 x 10**9   |         9 
-int64_t         |  64  | -9 x 10**18 .. 9 x 10**18  |        18
-uint64_t        |  64  |           0 .. 18 x 10**18 |        19
+       tipo     | bits |           minimo .. maximo          | precisao decimal
+----------------+------+-------------------------------------+------------------
+char            |   8  |                0 .. 127             |         2
+signed char     |   8  |             -128 .. 127             |         2 
+unsigned char   |   8  |                0 .. 255             |         2 
+short           |  16  |          -32.768 .. 32.767          |         4
+unsigned short  |  16  |                0 .. 65.535          |         4 
+int             |  32  |       -2 x 10**9 .. 2 x 10**9       |         9
+unsigned int    |  32  |                0 .. 4 x 10**9       |         9 
+int64_t         |  64  |      -9 x 10**18 .. 9 x 10**18      |        18
+uint64_t        |  64  |                0 .. 18 x 10**18     |        19
+float           |  32  |    1.2 x 10**-38 .. 3.4 x 10**38    |        6-9
+double          |  64  |   2.2 x 10**-308 .. 1.8 x 10**308   |       15-17
+long double     |  80  |  3.4 x 10**-4932 .. 1.1 x 10**4932  |       18-19
 
 // LIMITES DE MEMORIA
 
@@ -21,7 +24,6 @@ uint64_t        |  64  |           0 .. 18 x 10**18 |        19
 1MB =    65,536 float
 1MB =    32,768 double
 1MB =    16,384 long double
-
 
 // ESTOURAR TEMPO
 

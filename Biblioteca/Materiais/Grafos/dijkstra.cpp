@@ -1,13 +1,16 @@
-int n; 
-vector<vector<pair<int, int>>> adj(n); // adj[a] = [{b, w}]
-vector<int> dist(n, INF);
-vector<int> parent(n, -1);
-vector<bool> used(n); 
-
 // Encontra o menor caminho de um vértice s para todos os outros vértices do grafo.
 //Complexidade: O((V + E)logV)
+
+int n; 
+vector<vector<pair<int, int>>> adj; // adj[a] = [{b, w}]
+vector<int> dist, parent; /*dist[a] = dist(source -> a)*/
+vector<bool> vis; 
+
 void dijkstra(int s) {
 
+	dist.resize(n+1, LINF-10);
+	vis.resize(n+1, false);
+    parent.resize(n+1, -1);
     dist[s] = 0;
     
     priority_queue<pair<int, int>> q;
@@ -16,8 +19,8 @@ void dijkstra(int s) {
     while (!q.empty()) {
         int a = q.top().second; q.pop();
 
-        if (used[a]) continue;
-        used[a] = true;
+        if (vis[a]) continue;
+        vis[a] = true;
 
         for (auto [b, w] : adj[a]) {
             if (dist[a] + w < dist[b]) {
@@ -39,7 +42,9 @@ vector<int> restorePath(int v) {
 }
 
 void call() {
-    // ... read the graph ...
+
+    adj.resize(n); /*n = nodes*/
+
     f(i,0,n) {
         int a, b, w; cin >> a >> b >> w;
         adj[a].push_back({b, w});
@@ -47,5 +52,4 @@ void call() {
     }
 
     dijkstra(0);
-    // ... use dist[] and parent[] ...
 }

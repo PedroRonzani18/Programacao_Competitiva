@@ -6,18 +6,18 @@
 // 
 // O(m log(m) + m a(m)) = O(m log(m))
 
-vector<tuple<int, int, int>> edg; 
 vector<int> id, sz;
 
-int find(int p){ // O(a(N)) amortizado
-    return id[p] = (id[p] == p ? p : find(id[p]));
+int find(int a){ // O(a(N)) amortizado
+    return id[a] = (id[a] == a ? a : find(id[a]));
 }
 
-void uni(int p, int q) { // O(a(N)) amortizado
-    p = find(p), q = find(q);
-    if(p == q) return;
-    if(sz[p] > sz[q]) swap(p,q);
-    id[p] = q, sz[q] += sz[p];
+void uni(int a, int b) { // O(a(N)) amortizado
+    a = find(a), b = find(b);
+    if(a == b) return;
+
+    if(sz[a] > sz[b]) swap(a,b);
+    id[a] = b, sz[b] += sz[a];
 }
 
 pair<int, vector<tuple<int, int, int>>> kruskal(vector<tuple<int, int, int>>& edg) {
@@ -36,14 +36,16 @@ pair<int, vector<tuple<int, int, int>>> kruskal(vector<tuple<int, int, int>>& ed
 
 int main() {
 
-	vector<tuple<int, int, int>> edg; // {peso,x,y}
+	int n/*nodes*/, ed/*edges*/;
 
-	f(i,0,n) {
+	id.resize(n); iota(all(id), 0);
+	sz.resize(n, -1);
+	vector<tuple<int, int, int>> edg;
+
+	f(i,0,ed) {
 		int a, b, w; cin >> a >> b >> w;
 		edg.push_back({w, a, b});
 	}
 
 	auto [cost, mst] = kruskal(edg);
-	
-	return 0;
 }
