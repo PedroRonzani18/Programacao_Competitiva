@@ -1,5 +1,6 @@
 // Description: Calcula o mdc de dois numeros inteiros.
 // Complexidade: O(logn) onde n eh o maior numero
-int mdc(int x, int y) {
-    return y ? mdc(y, x % y) : abs(x);
+unsigned mdc(unsigned a, unsigned b) {
+    for (unsigned r = a % b; r; a = b, b = r, r = a % b);
+    return b;
 }

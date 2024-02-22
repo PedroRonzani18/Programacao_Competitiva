@@ -1,5 +1,4 @@
 // Trocar elementos de lugar quando ha termos repetidos (ANAGRAMA)
-
 int permutacaoComRepeticao(string s) {
     int n = s.size();
     int ans = fact(n);
