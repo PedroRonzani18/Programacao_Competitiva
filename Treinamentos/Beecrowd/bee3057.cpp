@@ -21,97 +21,120 @@ using namespace std;
 
 const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
-const int MAX = 1e6+10; // 10^6 + 10
+const int MAXN = 1e5+10; // 10^6 + 10
 
-void printFila(queue<int> q) {
-	while(!q.empty()) {
-		cout << q.front() << " ";
-		q.pop();
+vector<vector<int>> adj;
+set<int> verdades;
+unordered_set<int> possivelmenteVerdades;
+vector<unordered_set<int>> asLigadosAoB;
+
+int dfs(int v, int verdadePai) {
+
+
+	cout << "\nVerdades: "; print_v(verdades);
+	cout << "Current: " << v << " | Pai: " << verdadePai << endl;
+
+	// se ele ja for verdade, ou for uma folha
+	if(!asLigadosAoB[v].empty() and adj[v].empty()) {
+		if(verdadePai == 1) verdades.insert(v); // se seu pai for completamente verdadeiro, eu sou verdadeiro 
+		cout << "Folha: " << v << " -> " << verdades.count(v) << endl;
+		return verdades.count(v);
 	}
-	cout << endl;
+		
+	// se todos os pais forem verdadeiros, eu sou verdadeiro
+	if(!asLigadosAoB[v].empty()) {
+		bool paisVerdadeiros = true;
+		for(auto a : asLigadosAoB[v]) {
+			if (!verdades.count(a)) {
+				paisVerdadeiros = false;
+				break;
+			}
+		}
+		if (paisVerdadeiros) {
+			verdades.insert(v);
+			cout << "todos meus "<<asLigadosAoB[v].size()<<" pais sao verdadeiros" << endl;
+		}
+	}
+
+	if(verdades.count(v) and adj[v].empty()) {
+		int quantidadeDePais = asLigadosAoB[v].size();
+		dbgl(quantidadeDePais);
+		if(quantidadeDePais > 1) return 0; // sou marromeno verdadeiro
+		return 1; // sou verdadeiro ou sou um axioma
+	}
+
+	int unclearCount = 0, falseCount = 0, trueCount = 0;
+
+    for (int u : adj[v]) {
+		int ret = dfs(u, (verdades.count(v) || verdadePai == 1) ? 1 : -1);
+		if(ret == -1) falseCount++;
+		else if(ret == 1) trueCount++;
+		else unclearCount++;
+    }
+
+	cout << "\nVerdades: "; print_v(verdades);
+	cout << "Current: " << v << endl;
+	cout << "Unclear: " << unclearCount << " False: " << falseCount << " True: " << trueCount << endl;
+
+	int filhos = adj[v].size();
+
+	// se sou um intermadiario
+	if(asLigadosAoB[v].size()) {
+		if(trueCount + unclearCount == filhos) {
+			possivelmenteVerdades.insert(v);
+			return 1;
+		}
+	} else { // se sou um axioma	
+		if(unclearCount + trueCount == filhos) {
+			verdades.insert(v);
+			possivelmenteVerdades.erase(v);
+			return 0;
+		}
+
+		possivelmenteVerdades.erase(v);
+		return -1;
+	}
+
+	return 0;
 }
 
 void solve() {
 
 	int e, imp, v; cin >> e >> imp >> v;
-
-	// vector<pair<int, int>> implicacoes(imp);
-
-	vector<unordered_set<int>> consequenciasDeA(e+1); // passado um A, retorna os B's
-	vector<unordered_set<int>> causadoresDeB(e+1);  // passado um B, retorna os A's
+	
+	adj.resize(e+1);
+	asLigadosAoB.resize(e+1);
 
 	f(i,0,imp) {
 		int a, b; cin >> a >> b;
-		// implicacoes[i] = {a, b};
-		consequenciasDeA[a].insert(b);
-		causadoresDeB[b].insert(a);
+		adj[a].push_back(b);
+		asLigadosAoB[b].insert(a);
 	}
-
-	cout << "Consequencias de A" << endl;
-	f(i,1,e+1) {
-		if(consequenciasDeA[i].empty()) continue;
-		cout << i << " -> ";
-		for(auto x : consequenciasDeA[i]) {
-			cout << x << " ";
-		}
-		cout << endl;
-	}
-
-	cout << endl;
-
-	cout << "Causadores de B" << endl;
-	f(i,1,e+1) {
-		if(causadoresDeB[i].empty()) continue;
-		cout << i << " > ";
-		for(auto x : causadoresDeB[i]) {
-			cout << x << " ";
-		}
-		cout << endl;
-	}
-
-	cout << endl;
-
-	set<int> verdadeiros;
-	queue<int> q;
 
 	f(i,0,v) {
-		int a; cin >> a;
-		verdadeiros.insert(a);
-		q.push(a);
+		int verdade; cin >> verdade;
+		verdades.insert(verdade);
+	}
 
-		while(!q.empty()) {
-
-			int a = q.front(); q.pop();
-
-			int aux = a;
-
-			dbgl(aux);
-			while(!causadoresDeB[aux].size() and !verdadeiros.count(*causadoresDeB[aux].begin())) {
-				aux = *causadoresDeB[aux].begin();
-				verdadeiros.insert(aux);
-				q.push(aux);
-
-				cout << "Fila: ";
-				printFila(q);
-			}
-
-			
-
-			for(auto b : consequenciasDeA[a]) {
-				if(!verdadeiros.count(b)) {
-					verdadeiros.insert(b);
-					q.push(b);
-				}
-			}
+	unordered_set<int> axiomas;
+	f(i,1,e+1) {
+		if (asLigadosAoB[i].empty()) {
+			axiomas.insert(i);
 		}
+	}
+
+	for(auto x : axiomas) {
+		cout << "\n------------- Ponta: " << x << "---------------------------" << endl;
+		dfs(x, verdades.count(x) ? 1 : -1);
 
 	}
 
-	for(auto verdade : verdadeiros) {
-		cout << verdade << " ";
+	cout << *verdades.begin();
+
+	for(auto it = ++verdades.begin(); it != verdades.end(); it++) {
+		cout << " " << *it;
 	}
 	cout << endl;
-
 }
 
 int32_t main() { _

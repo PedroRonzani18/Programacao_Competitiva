@@ -27,19 +27,11 @@ void solve() {
 
 	cout << fixed;
 
-	float m, x, p, j; cin >> m >> p >> j >> x; 
-	int ans = 0;
-	j /= 100.;
-	p = (1 - p/100.);
+	double m, x, p, j; cin >> m >> p >> j >> x; 
+	double jurosAcumulados = m * j / 100.;
+	int ans = (int) floor(log(x/jurosAcumulados) / log(1-p/100.));
 
-
-	float possible = log(x / (m * j)) / log(p);
-
-	float cria = ceil(possible) - possible;
-
-	if(100000 * cria > 0) cout << (int)ceil(possible) -1 << endl;
-	else cout << (int)ceil(possible) << endl;
-
+	cout << (ans > 0 ? ans : 0) << endl;
 }
 
 int32_t main() { _
@@ -55,5 +47,6 @@ int32_t main() { _
 	return 0;
 }
 /*
-No segundo caso, Dilson começa com um montante de R$1000000.00. Ele termina o primeiro mês com R$900000.00, termina o segundo mês com R$810000.00 e o terceiro mês com R$729000.00. No quarto mês, Dilson atinge a quantia de R$656100.00 e rendimentos de R$32805.00, que pela primeira vez são insuficientes para pagar as contas.
-*/
+No primeiro caso, Dilson começa com um montante de R$1,000,000.00 recebendo um juros de 5% desse valor, no total de R$50,000.00. Em seguida, doa 10% desse valor, ficando com apenas R$900000.00. No mês seguinte, recebe do juros o valor de R$45000.00 que é o mínimo que ele precisa. Então Dilson pára de doar, pois se continuasse, no mês seguinte ele iria receber apenas R$40500.00 o que não é o suficiente para ele.
+
+No segundo caso, Dilson começa com um montante de R$1000000.00. Ele termina o primeiro mês com R$900000.00, termina o segundo mês com R$810000.00 e o terceiro mês com R$729000.00. No quarto mês, Dilson atinge a quantia de R$656100.00 e rendimentos de R$32805.00, que pela primeira vez são insuficientes para pagar as contas.*/

@@ -21,43 +21,52 @@ using namespace std;
 
 const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
-const int MAX = 1e6+10; // 10^6 + 10
+const int MAX = 1e5+10; // 10^6 + 10
 
-void printSet(set<int>& s) {
-    cout << *s.begin();
-    for(auto it = next(s.begin()); it != s.end(); it++) {
-        cout << " " << *it;
+vector<vector<int>> adj;
+vi somaLigadoAMim, caixas;
+vector<bool> calculated;
+int visited[MAX];
+
+void dfs(int v, int origem) {
+    visited[v] = true;
+    for (int u : adj[v]) {
+        if (!visited[u]) {
+			if(!calculated[u])
+            	dfs(u, origem);
+			somaLigadoAMim[origem] += caixas[u] + somaLigadoAMim[u];
+		}
     }
-    cout << endl;
 }
 
 void solve() {
 
-	int upas, n; cin >> upas >> n;
-	
-	vector<set<int>> adj(upas+1);
-	set<int> ans;
+	int n, m; cin >> n >> m;
+	somaLigadoAMim.resize(n+1);
+	calculated.resize(n+1, false);
 
-	f(i,0,upas) ans.insert(i+1);
+	caixas.resize(n+1);
+	f(i,1,n+1) {
+		cin >> caixas[i];
+	}
 
-	f(i,0,n) {
+	adj.resize(n+1);
+
+	f(i,0,m) {
 		int a, b; cin >> a >> b;
-		if(a > b) swap(a, b);
-		adj[a].insert(b); // adj[a] eh banido por {b1, b2, ...}
+		adj[a].push_back(b);
+		adj[b].push_back(a);
 	}
 
-	rf(i,upas,1) {
-		for(auto x : adj[i]) {
-			if(ans.count(i) and ans.count(x)) {
-				ans.erase(i);
-				break;
-			}
-		}
+	f(i,1,n+1) {
+		dfs(i, i);
+		memset(visited, 0, sizeof(visited));
 	}
 
-	cout << ans.size() << endl;
+	f(i,1,n+1) {
+		cout << somaLigadoAMim[i] + caixas[i] << " ";
+	}
 
-	printSet(ans);
 }
 
 int32_t main() { _

@@ -9,7 +9,7 @@ using namespace std;
 #define vi 			 vector<int>
 #define endl         "\n"
 #define print_v(a)   for(auto x : a) cout << x << " "; cout << endl
-#define print_vp(a)  for(auto x : a) cout << x.F << " " << x.S << endl
+#define print_vp(a)  for(auto x : a) cout << x.first << " " << x.second << endl
 #define f(i,s,e) 	 for(int i=s;i<e;i++)
 #define rf(i,e,s) 	 for(int i=e-1;i>=s;i--)
 #define CEIL(a, b)   ((a) + (b - 1))/b   // Arredonda para cima
@@ -23,41 +23,24 @@ const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
 const int MAX = 1e6+10; // 10^6 + 10
 
-void printSet(set<int>& s) {
-    cout << *s.begin();
-    for(auto it = next(s.begin()); it != s.end(); it++) {
-        cout << " " << *it;
-    }
-    cout << endl;
+float distancia(int x1, int y1, int x2, int y2) {
+	return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
 }
 
 void solve() {
 
-	int upas, n; cin >> upas >> n;
-	
-	vector<set<int>> adj(upas+1);
-	set<int> ans;
+	int l, c, xa, ya, xb, yb; cin >> l >> c >> xa >> ya >> xb >> yb; l++, c++;
+	int countA = 0, countB = 0;
 
-	f(i,0,upas) ans.insert(i+1);
-
-	f(i,0,n) {
-		int a, b; cin >> a >> b;
-		if(a > b) swap(a, b);
-		adj[a].insert(b); // adj[a] eh banido por {b1, b2, ...}
-	}
-
-	rf(i,upas,1) {
-		for(auto x : adj[i]) {
-			if(ans.count(i) and ans.count(x)) {
-				ans.erase(i);
-				break;
-			}
+	for(int i=0; i<l; i++) {
+		for(int j=0; j<c; j++) {
+			float da = distancia(xa, ya, i, j), db = distancia(xb, yb, i, j);
+			if(da < db) countA++;
+			else if(da > db) countB++;
 		}
 	}
 
-	cout << ans.size() << endl;
-
-	printSet(ans);
+	cout << fixed << setprecision(6) << (float) (countA) / (float) (countA + countB) << " " << (float) (countB) / (float) (countA + countB) << endl; 
 }
 
 int32_t main() { _
