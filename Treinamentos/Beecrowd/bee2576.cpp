@@ -23,12 +23,12 @@ const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
 const int MAX = 1e6+10; // 10^6 + 10
 
-vector<vector<pair<int, int>>> adj; // adj[a] = [{b, w}]
-vector<unordered_set<int>> adjs;
+vector<vector<pair<int, int>>> adj1, adj2; // adj[a] = [{b, w}]
+vector<unordered_set<int>> adjs1, adjs2;
 vector<int> dist, parent;
 vector<bool> vis; 
 
-void dijkstra(int s, int n) {
+void dijkstra(int s, int n, vector<vector<pair<int, int>>> &adj) {
 
 	dist.resize(n+1, LINF);
 	vis.resize(n+1, false);
@@ -68,25 +68,45 @@ void solve() {
 
 	int n, ed, a, b; cin >> n >> ed >> a >> b; a--, b--;
 
-	adj.resize(n);
-	adjs.resize(n);
+	adj1.resize(n);
+	adj2.resize(n);
+	adjs1.resize(n);
+	adjs2.resize(n);
+
 
 	f(i,0,ed) {
         int x, y; cin >> x >> y; x--,y--;
-		adj[x].push_back({y, 1});
-        adj[y].push_back({x, 1});
-		adjs[x].insert(y);
+		
+		adj1[x].push_back({y, 1});
+        adj1[y].push_back({x, 0});
+		
+		adj2[x].push_back({y, 0});
+        adj2[y].push_back({x, 1});
+		
+		adjs1[x].insert(y);
+		adjs2[y].insert(x);
     }
 
-	dijkstra(a, n);
+	dijkstra(a, n, adj1);
  	vi p1 = restorePath(b);
+
+	parent.clear();
+	dist.clear();
+	vis.clear();
+
+	dijkstra(a, n, adj2);
+ 	vi p2 = restorePath(b);
 
 	int bibi = 0,  bibica = 0;
 	
 	f(i,0,p1.size()-1) {
-		if(adjs[p1[i]].count(p1[i+1])) bibica++;
-		else bibi++; 
+		if(adjs1[p1[i]].count(p1[i+1])) bibica++;
 	}
+
+	f(i,0,p1.size()-1) {
+		if(adjs2[p2[i]].count(p2[i+1])) bibi++;
+	}
+
 
 	if(bibi > bibica) {
 		cout << "Bibika: " << bibica << endl;
