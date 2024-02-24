@@ -1,3 +1,10 @@
+/*--------------------------------------------------------
+Nomes (email):
+Pedro Augusto (pedroaugustogabironzani@gmail.com)
+Ulisses Andrade (carvalhoandradeulisses@gmail.com)
+Lucas Andrade (andradelucasbrandao@gmail.com)
+----------------------------------------------------------*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -23,37 +30,27 @@ const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
 const int MAX = 1e6+10; // 10^6 + 10
 
-unordered_set<int> primes;
-
-int lowestPrimeFactor(int n, int startPrime = 2) {
-    if (startPrime <= 3) {
-        if (not (n & 1))
-            return 2;
-        if (not (n % 3))
-            return 3;
-        startPrime = 5;
-    }
-
-    for (int i = startPrime; i * i <= n; i += (i + 1) % 6 ? 4 : 2)
-        if (not (n % i))
-            return i;
-    return n;
+int mdc(int a, int b) {
+    for (int r = a % b; r; a = b, b = r, r = a % b);
+    return b;
 }
 
-bool isPrime(int n) {
 
-	if(primes.count(n)) return true;
-    
-	bool ans = n > 1 and lowestPrimeFactor(n) == n;
-	if(ans) primes.insert(n);
-	return ans;
+int lcm_many(vector<int> arr) {
+   int result = arr[0];
+   for(int& num : arr)
+	   result = (num * result) / mdc(num, result);
+   return result;
 }
-
 
 void solve() {
 
-	int n; cin >> n;
-	cout << (isPrime(n) ? 1 : 0) << endl;
+	int n; cin >> n; 
+	vi nums(n);
+	f(i,0,n) {
+		cin >> nums[i];
+	}
+	cout << lcm_many(nums) << endl;
 
 }
 
@@ -61,7 +58,7 @@ int32_t main() { _
 	
 	clock_t z = clock();
 
-	int t = 1; cin >> t;
+	int t = 1; // cin >> t;
 	while (t--) {
 		solve();
 	}

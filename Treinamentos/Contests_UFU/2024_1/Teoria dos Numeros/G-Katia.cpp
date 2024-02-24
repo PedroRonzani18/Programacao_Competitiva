@@ -1,3 +1,10 @@
+/*--------------------------------------------------------
+Nomes (email):
+Pedro Augusto (pedroaugustogabironzani@gmail.com)
+Ulisses Andrade (carvalhoandradeulisses@gmail.com)
+Lucas Andrade (andradelucasbrandao@gmail.com)
+----------------------------------------------------------*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -23,7 +30,9 @@ const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
 const int MAX = 1e6+10; // 10^6 + 10
 
-int lowestPrimeFactor(int n, int startPrime = 2) {
+unordered_set<int> primesSetPar, primesSetImpar, notPrimeSet;
+
+unsigned lowestPrimeFactor(unsigned n, unsigned startPrime = 2) {
     if (startPrime <= 3) {
         if (not (n & 1))
             return 2;
@@ -32,68 +41,39 @@ int lowestPrimeFactor(int n, int startPrime = 2) {
         startPrime = 5;
     }
 
-    for (int i = startPrime; i * i <= n; i += (i + 1) % 6 ? 4 : 2)
+    for (unsigned i = startPrime; i * i <= n; i += (i + 1) % 6 ? 4 : 2)
         if (not (n % i))
             return i;
     return n;
 }
 
-map<int, int> factorize(int n) {
-    map<int, int> factorsOfN;
-    int lowestPrimeFactorOfN = 2;
-
-    while (n != 1) {
-        lowestPrimeFactorOfN = lowestPrimeFactor(n, lowestPrimeFactorOfN);
-        factorsOfN[lowestPrimeFactorOfN] = 1;
-        n /= lowestPrimeFactorOfN;
-        while (not (n % lowestPrimeFactorOfN)) {
-            factorsOfN[lowestPrimeFactorOfN]++;
-            n /= lowestPrimeFactorOfN;
-        }
-    }
-
-    return factorsOfN;
-}
-
-bool isPerfect(int n) {
-
-	int sum = 0;
-	f(i,1,n) {
-		if(n % i == 0) 
-			sum += i;
-	}
-	return sum == n;
-
+bool isPrime(unsigned n) {
+    return n > 1 and lowestPrimeFactor(n) == n;
 }
 
 void solve() {
 
 	int n; cin >> n;
-
-	set<int> nums;
-	int index = 0;
-
-	f(i,1,n+1) {
-
-		if(isPerfect(i)) nums.insert(i);
-
+	vi nums(n);
+	int lim = -1;
+	f(i,0,n) {
+		cin >> nums[i];
+		lim = max(lim, nums[i]);
 	}
 
-	nums.erase(1);
+	f(i,0,n) {
 
-	if(nums.count(n)) cout << "sim" << endl; 
-	else cout << "nao" << endl;
-
-	if(!nums.empty()) {
-		cout << *nums.begin();
-		if(nums.size() > 1) {
-			for(auto it = next(nums.begin()); it != nums.end(); it++) {
-				cout << " " << *it;
-			}
+		int num = nums[i];
+		if(num % 2 == 0) {
+			cout << 1 << endl;
+			continue;
 		}
-		cout << endl;
-	}
 
+		int aux = num-2;
+
+		if(isPrime(aux)) cout << 1 << endl;
+		else cout << 0 << endl;
+	}
 }
 
 int32_t main() { _

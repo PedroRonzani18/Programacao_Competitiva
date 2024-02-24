@@ -1,3 +1,10 @@
+/*--------------------------------------------------------
+Nomes (email):
+Pedro Augusto (pedroaugustogabironzani@gmail.com)
+Ulisses Andrade (carvalhoandradeulisses@gmail.com)
+Lucas Andrade (andradelucasbrandao@gmail.com)
+----------------------------------------------------------*/
+
 #include <bits/stdc++.h>
 using namespace std;
 

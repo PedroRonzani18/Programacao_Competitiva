@@ -1,3 +1,10 @@
+/*--------------------------------------------------------
+Nomes (email):
+Pedro Augusto (pedroaugustogabironzani@gmail.com)
+Ulisses Andrade (carvalhoandradeulisses@gmail.com)
+Lucas Andrade (andradelucasbrandao@gmail.com)
+----------------------------------------------------------*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -23,50 +30,29 @@ const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
 const int MAX = 1e6+10; // 10^6 + 10
 
-unordered_set<int> primesSetPar, primesSetImpar, notPrimeSet;
+const int ms = 1e6 + 5;
+bool notPrime[ms];   // notPrime[i] é verdadeiro se i não é um número primo
+int primes[ms], qnt; // primes[] armazena os números primos e qnt é a quantidade de primos encontrados
 
-unsigned lowestPrimeFactor(unsigned n, unsigned startPrime = 2) {
-    if (startPrime <= 3) {
-        if (not (n & 1))
-            return 2;
-        if (not (n % 3))
-            return 3;
-        startPrime = 5;
-    }
-
-    for (unsigned i = startPrime; i * i <= n; i += (i + 1) % 6 ? 4 : 2)
-        if (not (n % i))
-            return i;
-    return n;
-}
-
-bool isPrime(unsigned n) {
-    return n > 1 and lowestPrimeFactor(n) == n;
+void sieve(int lim)
+{
+  primes[qnt++] = 1; // adiciona 1 como um número primo se ele for válido no problema
+  for (int i = 2; i <= lim; i++)
+  {
+    if (notPrime[i])
+      continue;                           // se i não é primo, pula
+    primes[qnt++] = i;                    // i é primo, adiciona em primes[]
+    for (int j = i + i; j <= lim; j += i) // marca todos os múltiplos de i como não primos
+      notPrime[j] = true;
+  }
 }
 
 void solve() {
 
 	int n; cin >> n;
-	vi nums(n);
-	int lim = -1;
-	f(i,0,n) {
-		cin >> nums[i];
-		lim = max(lim, nums[i]);
-	}
+	sieve(n);
+	cout << qnt-1 << endl;
 
-	f(i,0,n) {
-
-		int num = nums[i];
-		if(num % 2 == 0) {
-			cout << 1 << endl;
-			continue;
-		}
-
-		int aux = num-2;
-
-		if(isPrime(aux)) cout << 1 << endl;
-		else cout << 0 << endl;
-	}
 }
 
 int32_t main() { _

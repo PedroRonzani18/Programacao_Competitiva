@@ -1,3 +1,10 @@
+/*--------------------------------------------------------
+Nomes (email):
+Pedro Augusto (pedroaugustogabironzani@gmail.com)
+Ulisses Andrade (carvalhoandradeulisses@gmail.com)
+Lucas Andrade (andradelucasbrandao@gmail.com)
+----------------------------------------------------------*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -45,11 +52,38 @@ void __f(const char *names, Arg1 &&arg1, Args &&...args)
     __f(comma + 1, args...);
 }
 
-void solve(int a, int b, int m)
+unsigned lowestPrimeFactor(unsigned n, unsigned startPrime = 2)
 {
-    cout << a << " + " << b << " mod " << m << " = " << (a + b) % m << endl;
-    cout << a << " - " << b << " mod " << m << " = " << (a - b) % m << endl;
-    cout << a << " * " << b << " mod " << m << " = " << (a * b) % m << endl;
+    if (startPrime <= 3)
+    {
+        if (not(n & 1))
+            return 2;
+        if (not(n % 3))
+            return 3;
+        startPrime = 5;
+    }
+
+    for (unsigned i = startPrime; i * i <= n; i += (i + 1) % 6 ? 4 : 2)
+        if (not(n % i))
+            return i;
+    return n;
+}
+
+bool isPrime(unsigned n)
+{
+    return n > 1 and lowestPrimeFactor(n) == n;
+}
+
+void solve(int t)
+{
+    int aux, cont = 0;
+    while (t--)
+    {
+        cin >> aux;
+        if (isPrime(aux))
+            cont++;
+    }
+    cout << cont << endl;
 }
 
 int32_t main()
@@ -58,14 +92,10 @@ int32_t main()
 
         clock_t z = clock();
 
-    int a, b, m;
-    cin >> a >> b >> m;
+    int t;
+    cin >> t;
 
-    while (!(a == 0 and b == 0 and m == 0))
-    {
-        solve(a, b, m);
-        cin >> a >> b >> m;
-    }
+    solve(t);
 
     cerr << fixed << "Run Time : " << ((double)(clock() - z) / CLOCKS_PER_SEC) << endl;
     return 0;
