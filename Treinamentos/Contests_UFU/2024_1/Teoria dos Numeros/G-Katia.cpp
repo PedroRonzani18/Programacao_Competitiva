@@ -30,8 +30,6 @@ const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
 const int MAX = 1e6+10; // 10^6 + 10
 
-unordered_set<int> primesSetPar, primesSetImpar, notPrimeSet;
-
 unsigned lowestPrimeFactor(unsigned n, unsigned startPrime = 2) {
     if (startPrime <= 3) {
         if (not (n & 1))
@@ -55,10 +53,8 @@ void solve() {
 
 	int n; cin >> n;
 	vi nums(n);
-	int lim = -1;
 	f(i,0,n) {
 		cin >> nums[i];
-		lim = max(lim, nums[i]);
 	}
 
 	f(i,0,n) {
@@ -69,9 +65,7 @@ void solve() {
 			continue;
 		}
 
-		int aux = num-2;
-
-		if(isPrime(aux)) cout << 1 << endl;
+		if(isPrime(num-2)) cout << 1 << endl;
 		else cout << 0 << endl;
 	}
 }
