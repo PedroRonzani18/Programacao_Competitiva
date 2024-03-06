@@ -1,6 +1,6 @@
 // Descricao: Funcao que verifica se um numero n eh primo.
 // Complexidade: O(sqrt(n))
-unsigned lowestPrimeFactor(unsigned n, unsigned startPrime = 2) {
+int lowestPrimeFactor(int n, int startPrime = 2) {
     if (startPrime <= 3) {
         if (not (n & 1))
             return 2;
@@ -9,12 +9,12 @@ unsigned lowestPrimeFactor(unsigned n, unsigned startPrime = 2) {
         startPrime = 5;
     }
 
-    for (unsigned i = startPrime; i * i <= n; i += (i + 1) % 6 ? 4 : 2)
+    for (int i = startPrime; i * i <= n; i += (i + 1) % 6 ? 4 : 2)
         if (not (n % i))
             return i;
     return n;
 }
 
-bool isPrime(unsigned n) {
+bool isPrime(int n) {
     return n > 1 and lowestPrimeFactor(n) == n;
 }
