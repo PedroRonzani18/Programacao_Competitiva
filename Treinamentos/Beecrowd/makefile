@@ -7,13 +7,17 @@ q:
 	code $(f).txt	
 	code $(f).cpp
 	clear
-compile: 
+runc: 
 	g++ -g $(f).cpp $(CXXFLAGS) -o $(f)
-exe:
+exec:
 	./$(f) < $(f).txt
+runj: 
+	javac $(f).java
+execj:
+	java $(f) < $(f).txt
 
-runc: compile
-runci: compile exe
+runci: runc exec
+runji: runj execj
 
 clearexe:
 	find . -maxdepth 1 -type f -executable -exec rm {} +
