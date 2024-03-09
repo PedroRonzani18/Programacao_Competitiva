@@ -26,7 +26,12 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	int n; cin >> n;
+	if(n >= 2015) {
+		cout << n-2014 << " A.C."<<endl;
+	} else {
+		cout << 2015 - n << " D.C." << endl;
+	}
 
 }
 
@@ -34,7 +39,7 @@ int32_t main() { _
 	
 	clock_t z = clock();
 
-	int t = 1; // cin >> t;
+	int t = 1; cin >> t;
 	while (t--) {
 		solve();
 	}

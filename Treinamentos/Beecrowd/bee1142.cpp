@@ -26,8 +26,16 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	int n; cin >> n;
 
+	f(i,0,n) {
+
+		f(j,1,4) {
+			cout << 4 * i + j << " ";
+		}
+
+		cout << "PUM" << endl;
+	}	
 }
 
 int32_t main() { _

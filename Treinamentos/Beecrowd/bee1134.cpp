@@ -26,7 +26,21 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	vector<int> valids(3,0);
+
+	int num;
+	while(cin >> num) {
+
+		if(num == 4) break;
+		if(!(1 <= num and num <= 3)) continue;
+
+		valids[num-1]++;
+	}
+
+	cout << "MUITO OBRIGADO" << endl;
+	cout << "Alcool: " << valids[0] << endl;
+	cout << "Gasolina: " << valids[1] << endl;
+	cout << "Diesel: " << valids[2] << endl;
 
 }
 

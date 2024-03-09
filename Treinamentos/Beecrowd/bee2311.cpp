@@ -26,7 +26,23 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	string s; cin >> s;
+	double diff; cin >> diff;
+
+	deque<double> notas(7);
+	f(i,0,7) {
+		cin >> notas[i];
+	}
+
+	sort(all(notas));
+	notas.pop_back();
+	notas.pop_front();
+
+	double sum = 0;
+	for(double x : notas) 
+		sum += (x * diff);
+
+	cout << fixed << setprecision(2) << s << " " << sum << endl;	
 
 }
 
@@ -34,7 +50,7 @@ int32_t main() { _
 	
 	clock_t z = clock();
 
-	int t = 1; // cin >> t;
+	int t = 1; cin >> t;
 	while (t--) {
 		solve();
 	}

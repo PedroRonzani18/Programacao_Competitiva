@@ -26,7 +26,23 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	int n; cin >> n;
+	vi freq(4);
+
+	while(n--) {
+		int num; cin >> num;
+		f(i,0,4) {
+
+			if((num % (i+2)) == 0) {
+				freq[i]++;
+			}
+		}
+
+	}
+
+	f(i,0,4) {
+		cout << freq[i] << " Multiplo(s) de " << i+2 << endl;
+	}
 
 }
 

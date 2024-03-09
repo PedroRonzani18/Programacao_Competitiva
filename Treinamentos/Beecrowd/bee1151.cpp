@@ -24,9 +24,29 @@ const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
 const int MAX = 1e6+10; // 10^6 + 10
 
+vector<int> memo;
+
+int fibPD(int n) {
+	if(n == 1) return memo[n] = 0;
+    if (n <= 3) return memo[n] = 1;
+    if (memo[n] != -1) return memo[n];
+    return memo[n] = fibPD(n - 1) + fibPD(n - 2);
+}
+
 void solve() {
 
-	
+	int n; cin >> n;
+	memo.resize(n+1, -1);
+
+	fibPD(n);
+
+	memo[1] = 0;
+
+	cout << memo[1];
+	f(i,2,n+1) {
+		cout << " " << memo[i];
+	}
+	cout << endl;
 
 }
 

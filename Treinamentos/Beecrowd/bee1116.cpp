@@ -7,7 +7,6 @@ using namespace std;
 #define int          long long int
 #define double       long double
 #define vi 			 vector<int>
-#define pii          pair<int,int> 
 #define endl         "\n"
 #define print_v(a)   for(auto x : a) cout << x << " "; cout << endl
 #define print_vp(a)  for(auto x : a) cout << x.F << " " << x.S << endl
@@ -26,7 +25,13 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	double a, b; cin >>a >> b;
+	if(b == 0) {
+		cout << "divisao impossivel" << endl;
+		return;
+	} 
+
+	cout << fixed << setprecision(1) << a / b << endl;
 
 }
 
@@ -34,7 +39,7 @@ int32_t main() { _
 	
 	clock_t z = clock();
 
-	int t = 1; // cin >> t;
+	int t = 1; cin >> t;
 	while (t--) {
 		solve();
 	}

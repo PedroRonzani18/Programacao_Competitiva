@@ -26,7 +26,12 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	int n; cin >> n;
+	cout << "Feliz nat";
+	f(i,0,n) {
+		cout << 'a';
+	}
+	cout<<"l!" << endl;
 
 }
 

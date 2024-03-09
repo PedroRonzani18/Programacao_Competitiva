@@ -7,7 +7,6 @@ using namespace std;
 #define int          long long int
 #define double       long double
 #define vi 			 vector<int>
-#define pii          pair<int,int> 
 #define endl         "\n"
 #define print_v(a)   for(auto x : a) cout << x << " "; cout << endl
 #define print_vp(a)  for(auto x : a) cout << x.F << " " << x.S << endl
@@ -24,9 +23,14 @@ const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
 const int MAX = 1e6+10; // 10^6 + 10
 
-void solve() {
+void solve(int a, int b) {
 
-	
+	int sum = 0;
+	f(i,a,b+1) {
+		cout << i << " ";
+		sum += i; 
+	}
+	cout << "Sum="<<sum<<endl;
 
 }
 
@@ -34,9 +38,10 @@ int32_t main() { _
 	
 	clock_t z = clock();
 
-	int t = 1; // cin >> t;
-	while (t--) {
-		solve();
+	int a, b;
+	while (cin  >> a >> b) {
+		if(a <= 0 or b <= 0) break;
+		solve(min(a,b), max(a,b));
 	}
 
 	cerr << fixed << "Run Time : " << ((double)(clock() - z) / CLOCKS_PER_SEC) << endl;

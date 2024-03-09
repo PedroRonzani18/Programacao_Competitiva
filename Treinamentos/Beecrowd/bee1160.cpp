@@ -26,15 +26,30 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	int PA, PB, ans = 0;
+	double G1, G2;
 
+	cin >> PA >> PB >> G1 >> G2; G1 /= 100., G2 /= 100.;
+
+	while (PA <= PB and ans <= 100) {
+
+		PA += (int)((PA*G1));
+		PB += (int)((PB*G2));
+
+		ans++;
+	}
+
+	if (ans > 100) 
+		cout << "Mais de 1 seculo." << endl;
+	else
+		cout << ans << " anos." << endl;
 }
 
 int32_t main() { _
 	
 	clock_t z = clock();
 
-	int t = 1; // cin >> t;
+	int t = 1; cin >> t;
 	while (t--) {
 		solve();
 	}

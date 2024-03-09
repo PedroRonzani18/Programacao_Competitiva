@@ -24,9 +24,33 @@ const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
 const int MAX = 1e6+10; // 10^6 + 10
 
-void solve() {
+int lowestPrimeFactor(int n, int startPrime = 2) {
+    if (startPrime <= 3) {
+        if (not (n & 1))
+            return 2;
+        if (not (n % 3))
+            return 3;
+        startPrime = 5;
+    }
 
-	
+    for (int i = startPrime; i * i <= n; i += (i + 1) % 6 ? 4 : 2)
+        if (not (n % i))
+            return i;
+    return n;
+}
+
+bool isPrime(int n) {
+    return n > 1 and lowestPrimeFactor(n) == n;
+}
+
+void solve() {	
+
+	int n; cin >> n;
+	if(isPrime(n)) {
+		cout << n << " eh primo" << endl;
+	} else {
+		cout << n << " nao eh primo" << endl;
+	}
 
 }
 
@@ -34,7 +58,7 @@ int32_t main() { _
 	
 	clock_t z = clock();
 
-	int t = 1; // cin >> t;
+	int t = 1;  cin >> t;
 	while (t--) {
 		solve();
 	}

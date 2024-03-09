@@ -7,7 +7,6 @@ using namespace std;
 #define int          long long int
 #define double       long double
 #define vi 			 vector<int>
-#define pii          pair<int,int> 
 #define endl         "\n"
 #define print_v(a)   for(auto x : a) cout << x << " "; cout << endl
 #define print_vp(a)  for(auto x : a) cout << x.F << " " << x.S << endl
@@ -26,7 +25,25 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	pair<double,double> nums = {-1,-1};
+
+	double aux;
+	while(cin >> aux) {
+
+		if(!(0 <= aux and aux <= 10)) {
+			cout << "nota invalida" << endl;
+			continue;
+		}
+
+		if(nums.first == -1) {
+			nums.first = aux;
+		} else {
+			nums.second = aux;
+			break;
+		}
+	}
+
+	cout << fixed << setprecision(2) << "media = " << (nums.first + nums.second) / 2. << endl;
 
 }
 

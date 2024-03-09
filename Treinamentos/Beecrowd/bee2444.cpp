@@ -26,7 +26,16 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	int ans, n; cin >> ans >> n;
+
+	while(n--) {
+		int aux; cin >> aux;
+		ans += aux;
+		ans = min(ans, (int)100);
+		ans = max(ans, (int)0);
+	}
+
+	cout << ans << endl;
 
 }
 

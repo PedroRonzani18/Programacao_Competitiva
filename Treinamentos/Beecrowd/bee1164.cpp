@@ -24,9 +24,36 @@ const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
 const int MAX = 1e6+10; // 10^6 + 10
 
+set<int> calculaDivisores(int c) {
+	int lim = sqrt(c);
+	set<int> divisors;
+	
+	for(int i = 1; i <= lim; i++) {
+		if (c % i == 0) {
+			if(c/i != i) 
+				divisors.insert(c/i);
+			divisors.insert(i);
+		}
+	}
+
+	divisors.erase(c);
+
+	return divisors;
+}
+
 void solve() {
 
-	
+	int n; cin >> n;
+
+	set<int> div = calculaDivisores(n);
+
+	int sum = 0;
+	for(int x : div) {
+		sum += x;
+		if(sum > n) break;
+	}
+
+	cout << n << (sum == n ? " " : " nao ") << "eh perfeito" << endl;
 
 }
 
@@ -34,7 +61,7 @@ int32_t main() { _
 	
 	clock_t z = clock();
 
-	int t = 1; // cin >> t;
+	int t = 1; cin >> t;
 	while (t--) {
 		solve();
 	}
