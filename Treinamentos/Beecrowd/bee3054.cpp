@@ -23,60 +23,66 @@ const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
 const int MAX = 1e6+10; // 10^6 + 10
 
-void findPrefixCount(vector<vector<int>>& p_arr, vector<vector<bool>>& arr) {
-    int n = arr.size();
-    for (int i = 0; i < n; i++) {
-        for (int j = n - 1; j >= 0; j--) {
+tuple<int, int, int> maximalRectangle(vector<vector<int>> mat) {
+    int r = mat.size();
+    if(r == 0) return make_tuple(0, 0, 0);
+    int c = mat[0].size();
 
-            if (!arr[i][j]) continue;
+    vector<vector<int>> dp(r+1, vector<int>(c));
 
-            if (j != n - 1) p_arr[i][j] += p_arr[i][j + 1];
+    int mx = 0;
+    int area = 0, height = 0, length = 0;
+    for(int i=1; i<r; ++i) {
+        int leftBound = -1;
+        stack<int> st;
+        vector<int> left(c);
 
-            p_arr[i][j] += (int)arr[i][j];
-        }
-    }
-}
+        for(int j=0; j<c; ++j) {
+            if(mat[i][j] == 1) {
+                mat[i][j] = 1+mat[i-1][j];
+                while(!st.empty() and mat[i][st.top()] >= mat[i][j])
+                    st.pop();
 
-int matrixAllOne(vector<vector<bool>>& arr) {
-    int n = arr.size();
-    vector<vector<int>> p_arr(n, vector<int>(n, 0));
+                int val = leftBound;
+                if(!st.empty())
+                    val = max(val, st.top());
 
-    findPrefixCount(p_arr, arr);
-
-    int ans = 0;
-
-    for (int j = 0; j < n; j++) {
-
-        int i = n - 1;
-
-        stack<pair<int, int> > q;
-
-        int to_sum = 0;
-
-        while (i >= 0) {
-
-            int c = 0;
-
-            while (q.size() != 0 and q.top().first > p_arr[i][j]) {
-
-                to_sum -= (q.top().second + 1) *
-                    (q.top().first - p_arr[i][j]);
-
-                c += q.top().second + 1;
-                q.pop();
+                left[j] = val;
+            } else {
+                leftBound = j;
+                left[j] = 0;
             }
+            st.push(j);
+        }
+        while(!st.empty()) st.pop();
 
-            to_sum += p_arr[i][j];
+        int rightBound = c;
+        for(int j=c-1; j>=0; j--) {
+            if(mat[i][j] != 0) {
 
-            ans += to_sum;
+                while(!st.empty() and mat[i][st.top()] >= mat[i][j])
+                    st.pop();
 
-            q.push({ p_arr[i][j], c });
+                int val = rightBound;
+                if(!st.empty())
+                    val = min(val, st.top());
 
-            i--;
+                dp[i][j] = (mat[i][j]+1) * (((val-1)-(left[j]+1)+1)+1);
+                if (dp[i][j] > mx) {
+                    mx = dp[i][j];
+                    area = mx;
+                    height = mat[i][j];
+                    length = (val-1)-(left[j]+1)+1;
+                }
+                st.push(j);
+            } else {
+                dp[i][j] = 0;
+                rightBound = j;
+            }
         }
     }
 
-    return ans;
+    return make_tuple(area, height, length);
 }
 
 void solve() {
@@ -90,41 +96,24 @@ void solve() {
         }
     }
 
-    vector<vector<int>> aux(l, vector<int>(c, 0));
+    vector<vector<int>> aux(l-1, vector<int>(c-1, 0));
 
-   int ans = 0;
-
-    f(x_0,0,l) {
-        f(y_0,0,c) {
-            f(x_siz, 1, l - x_0) {
-                f(y_siz, 1, c - y_0) {
-
-                    if(mat[x_0][y_0] + mat[x_0 + x_siz][y_0 + y_siz] <= mat[x_0][y_0 + y_siz] + mat[x_0 + x_siz][y_0]) {
-                        ans++;
-
-                        aux[x_0][y_0]++;
-                        aux[x_0 + x_siz][y_0 + y_siz]++;
-                        aux[x_0][y_0 + y_siz]++;
-                        aux[x_0 + x_siz][y_0]++;
-
-                        for(auto v : aux) {
-                            print_v(v);
-                        }
-                        cout << endl;
-
-                        for(int i = 0; i < l; i++) {
-                            for(int j = 0; j < c; j++) {
-                                aux[i][j] = 0;
-                            }
-                        }
-
-                    }
-                }
+    f(i,0,l-1) {
+        f(j,0,c-1) {
+            if(mat[i][j] + mat[i+1][j+1] <= mat[i][j+1] + mat[i+1][j]) {
+                aux[i][j] = 1;
             }
         }
     }
 
-    cout << ans << endl;
+    for(auto v : aux) {
+        print_v(v);
+    }
+
+    auto [area, alt, leng] = maximalRectangle(aux);
+
+    cout << max(c, area) << endl;
+
 }
 
 int32_t main() { _

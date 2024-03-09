@@ -7,29 +7,21 @@ q:
 	code $(f).txt	
 	code $(f).cpp
 	clear
-
-compile: 
+runc: 
 	g++ -g $(f).cpp $(CXXFLAGS) -o $(f)
-
-exe:
+exec:
 	./$(f) < $(f).txt
+runj: 
+	javac $(f).java
+execj:
+	java $(f) < $(f).txt
 
-runc: compile exec
-
-runci: compile
-	./$(f) < $(f).txt
+runci: runc exec
+runji: runj execj
 
 clearexe:
 	find . -maxdepth 1 -type f -executable -exec rm {} +
-
 cleartxt:
 	find . -type f -name "*.txt" -exec rm -f {} \; 
-
 clear: clearexe cleartxt
 	clear
-
-runp:
-	python3 $(f).py
-
-runpt:
-	python3 $(f).py < $(f).txt
