@@ -26,17 +26,32 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	float x, y; cin >> x >> y;
+
+	if(x == 0) {
+		if(y == 0) cout << "Origem" << endl;
+		else cout << "Eixo Y" << endl;
+	} else if(y == 0) {
+		cout << "Eixo X" << endl;
+	} else if(x > 0) {
+		if(y > 0) cout << "Q1" << endl;
+		else cout << "Q4" << endl;
+	} else {
+		if(y > 0) cout << "Q2" << endl;
+		else cout << "Q3" << endl;
+	}
 
 }
 
 int32_t main() { _
 	
-	// clock_t z = clock();
+	clock_t z = clock();
+
 	int t = 1; // cin >> t;
 	while (t--) {
 		solve();
 	}
-	// cerr << fixed << "Run Time : " << ((double)(clock() - z) / CLOCKS_PER_SEC) << endl;
+
+	cerr << fixed << "Run Time : " << ((double)(clock() - z) / CLOCKS_PER_SEC) << endl;
 	return 0;
 }

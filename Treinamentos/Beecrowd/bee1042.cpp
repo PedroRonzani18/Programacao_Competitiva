@@ -26,7 +26,18 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	vi nums, numsOrd; int aux;
+	while(cin >> aux) {
+		nums.push_back(aux);
+		numsOrd.push_back(aux);
+	}
+
+	sort(all(numsOrd));
+	for(int num : numsOrd) cout << num << endl;
+
+	cout << endl;
+
+	for(int num : nums) cout << num << endl;
 
 }
 

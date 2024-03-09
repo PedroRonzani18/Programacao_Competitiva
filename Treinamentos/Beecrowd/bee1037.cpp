@@ -26,17 +26,30 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	float n; cin >> n;
 
+	if(n < 0 or n > 100) {
+		cout << "Fora de intervalo" << endl;
+		return;
+	}
+
+	cout << "Intervalo ";
+
+	if(0 <= n and n <= 25) cout << "[0,25]" << endl;
+	else if(25 < n and n <= 50) cout << "(25,50]" << endl;
+	else if(50 < n and n <= 75) cout << "(50,75]" << endl;
+	else cout << "(75,100]" << endl;
 }
 
 int32_t main() { _
 	
-	// clock_t z = clock();
+	clock_t z = clock();
+
 	int t = 1; // cin >> t;
 	while (t--) {
 		solve();
 	}
-	// cerr << fixed << "Run Time : " << ((double)(clock() - z) / CLOCKS_PER_SEC) << endl;
+
+	cerr << fixed << "Run Time : " << ((double)(clock() - z) / CLOCKS_PER_SEC) << endl;
 	return 0;
 }

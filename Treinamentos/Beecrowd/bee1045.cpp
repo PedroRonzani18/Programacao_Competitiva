@@ -26,7 +26,26 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
+	vector<float> nums(3);
+
+	float A, B, C; cin >> nums[0] >> nums[1] >> nums[2];
+
+	sort(nums.rbegin(), nums.rend());
+
+	A = nums[0], B = nums[1], C = nums[2];
+
+	if(A >= B+C) {
+		cout << "NAO FORMA TRIANGULO" << endl;
+		return;
+	}
 	
+	if(pow(A,2) == (pow(B,2) + pow(C,2))) cout << "TRIANGULO RETANGULO" << endl;
+	if(pow(A,2) > (pow(B,2) + pow(C,2))) cout << "TRIANGULO OBTUSANGULO" << endl;
+	if(pow(A,2) < (pow(B,2) + pow(C,2))) cout << "TRIANGULO ACUTANGULO" << endl;
+	if(A == C and A == B) cout << "TRIANGULO EQUILATERO" << endl;
+	if((A == C and A != B )or( A == B and A != C) or (B == C and B != A)) cout << "TRIANGULO ISOSCELES" << endl;
+
+
 
 }
 

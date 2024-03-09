@@ -26,7 +26,19 @@ const int MAX = 1e6+10; // 10^6 + 10
 
 void solve() {
 
-	
+	float a, b, c; cin >> a >> b >> c;
+
+	cout << fixed << setprecision(1);
+
+	if((abs(b - c) < a and a < b + c) and
+	   (abs(a - c) < b and b < a + c) and
+	   (abs(b - a) < c and c < b + a)) {
+		cout << "Perimetro = " << a + b + c << endl;
+		return;
+	}
+
+	cout << "Area = " << (a + b) * c / 2. << endl;
+
 
 }
 

@@ -8,7 +8,7 @@ q:
 	code $(f).cpp
 	clear
 runc: 
-	g++ -g $(f).cpp $(CXXFLAGS) -o $(f)
+	@ g++ -g $(f).cpp $(CXXFLAGS) -o $(f)
 exec:
 	./$(f) < $(f).txt
 runj: 

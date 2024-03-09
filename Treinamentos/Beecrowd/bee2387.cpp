@@ -23,42 +23,38 @@ const int INF =  0x7f3f3f3f; // 0x7f com 3 3f's (10^9)
 const int LINF = 0x3f3f3f3f3f3f3f3f; // 0x com 7 3f's (10^18)
 const int MAX = 1e6+10; // 10^6 + 10
 
-int overlap(vector<pair<int, int> > v) {
+bool cmp(const pair<int,int>& p1, const pair<int,int>& p2) {
+    if(p1.second != p2.second) return p1.second < p2.second;
+    return p1.first < p2.first;
+}
 
-    int ans = 0, count = 0;
-    vector<pair<int, char>> data;
- 
-    for (int i = 0; i < v.size(); i++) { 
-        data.push_back({ v[i].first, 'x' });
-        data.push_back({ v[i].second, 'y' });
-    }
- 
-    sort(data.begin(), data.end());
+int countNonOverlappingIntervals(vector<pair<int,int>> intervals) {
 
-    for (int i = 0; i < data.size(); i++) {
- 
-        if (data[i].second == 'x')
-            count++;
- 
-        if (data[i].second == 'y')
-            count--;
- 
-        ans = max(ans, count);
+    sort(all(intervals), cmp);
+
+    int firstTermino = intervals[0].second;
+
+    int ans = 1;
+
+    f(i,1,intervals.size()) {
+        if(intervals[i].first >= firstTermino) {
+            ans++;
+            firstTermino = intervals[i].second;
+        }
     }
- 
-		return ans;
+
+    return ans;
 }
 
 void solve() {
 
-	int n; cin >> n;
-	vector<pair<int,int>> intervals(n);
-	f(i,0,n) {
-		cin >> intervals[i].first >> intervals[i].second;
-	}
+    int n; cin >> n;
+    vector<pair<int,int>> intervals(n);
+    f(i,0,n) {
+        cin >> intervals[i].first >> intervals[i].second;
+    }
 
-	dbgl(overlap(intervals));
-
+    cout << countNonOverlappingIntervals(intervals) << endl;
 }
 
 int32_t main() { _
