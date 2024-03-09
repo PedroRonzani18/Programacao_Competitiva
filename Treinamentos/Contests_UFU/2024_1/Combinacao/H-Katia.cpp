@@ -51,10 +51,6 @@ void __f(const char *names, Arg1 &&arg1, Args &&...args)
     __f(comma + 1, args...);
 }
 
-void solve()
-{
-}
-
 int factdp[20];
 
 int fact(int n)

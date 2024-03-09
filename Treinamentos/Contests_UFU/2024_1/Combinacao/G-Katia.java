@@ -74,8 +74,6 @@ public class combina {
         // reverse binarios
         Collections.reverse(binarios);
 
-  
-
         for (String bin : binarios) {
             StringBuilder aux = new StringBuilder();
             for (int i = 0; i < bin.length(); i++) {
