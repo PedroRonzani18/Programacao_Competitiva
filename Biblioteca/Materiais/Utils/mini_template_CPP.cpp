@@ -1,8 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define _ ios_base::sync_with_stdio(0); cin.tie(0);
-
+#define _ std::ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define all(a)         a.begin(), a.end()
 #define int            long long int
 #define double         long double
@@ -14,6 +13,7 @@ using namespace std;
 
 void solve() {
 
+
 }
 
 int32_t main() { _
@@ -22,6 +22,6 @@ int32_t main() { _
 	while (t--) { 
 		solve();
 	}
-
+	
 	return 0;
 }
