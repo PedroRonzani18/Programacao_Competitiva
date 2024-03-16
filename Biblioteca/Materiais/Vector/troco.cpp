@@ -1,3 +1,5 @@
+// Description: Retorna o menor número de moedas para formar um valor n
+// Complexidade: O(n*m)
 vector<int> troco(vector<int> coins, int n) {
     int first[n];
     value[0] = 0;
@@ -17,4 +19,9 @@ vector<int> troco(vector<int> coins, int n) {
         n -= first[n];
     }
     return ans;
+}
+
+void solve() {
+    vector<int> coins = {1, 3, 4};
+    vector<int> ans = troco(coins, 6); // {3,3}
 }
