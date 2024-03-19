@@ -7,7 +7,7 @@
 // build - O(n log(n))
 // query - O(1)
 
-namespace sparse {
+namespace SparseTable {
 	int m[MAX2][2*MAX], n, v[2*MAX];
 	int op(int a, int b) { return min(a, b); }
 	void build(int n2, int* v2) {

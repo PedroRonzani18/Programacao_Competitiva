@@ -23,3 +23,12 @@ bool floyd_warshall() {
 
 	return 0;
 }
+
+void solve() {
+	cin >> n; int edg; cin >> edg;
+	for (int i = 0; i < edg; i++) {
+		int u, v, w;
+		cin >> u >> v >> w;
+		d[u][v] = w;
+	}
+}

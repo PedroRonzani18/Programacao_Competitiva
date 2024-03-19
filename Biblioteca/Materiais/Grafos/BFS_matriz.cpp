@@ -28,7 +28,7 @@ void bfs(int i, int j) {
 	}
 }
 
-int main() {
+void solve() {
 	cin >> l >> c;
 	mat.resize(l, vi(c));
 	vis.resize(l, vector<bool>(c, false));

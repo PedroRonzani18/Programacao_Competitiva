@@ -29,3 +29,13 @@ void bfs(int s) {
     }
 }
 
+void solve() {
+    cin >> n; adj.resize(n);
+    for (int i = 0; i < n; i++) {
+        int u, v; cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    bfs(0);
+}
+

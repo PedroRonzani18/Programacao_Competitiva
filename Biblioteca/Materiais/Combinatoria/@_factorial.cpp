@@ -1,3 +1,6 @@
+// Calcula o fatorial de um número n
+// Complexidade: O(n)
+
 int factdp[20]; 
 
 int fact(int n) {

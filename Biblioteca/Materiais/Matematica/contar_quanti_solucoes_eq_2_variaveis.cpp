@@ -1,5 +1,6 @@
-// Description: Dada uma equacao de 2 variaveis, calcudla quantas combinacoes {x,y} inteiras que resolvem essa equacao
-
+// Description: Dada uma equacao de 2 variaveis, calcula quantas combinacoes {x,y} 
+// inteiras que resolvem essa equacao
+// Complexidade: O(sqrt(c))
 // y = numerador / denominador
 int numerador(int x) { return c - x; } // expressao do numerador
 int denominador(int x) { return 2 * x + 1; } // expressao do denominador

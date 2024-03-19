@@ -1,7 +1,5 @@
-// Kosaraju
-//
-// Complexidade: O(n + m)
-
+// Descricao: Encontra as componentes fortemente conexas de um grafo direcionado
+// Complexidade: O(V + E)
 int n;
 vector<int> g[MAX], gi[MAX]; // grafo invertido
 int vis[MAX], comp[MAX]; // componente de cada vértice 
@@ -15,7 +13,7 @@ void dfs(int k) {
 	S.push(k);
 }
 
-// Descricao: Calcula as componentes fortemente conexas de um grafo
+
 void scc(int k, int c) { 
 	vis[k] = 1;
 	comp[k] = c; // componente de k eh c
@@ -33,4 +31,14 @@ void kosaraju() {
 		int u = S.top(); S.pop();
 		if (!vis[u]) scc(u, u);
 	}
+}
+
+void solve() {
+	cin >> n; int edg; cin >> edg;
+	for (int i = 0; i < edg; i++) {
+		int u, v; cin >> u >> v;
+		g[u].push_back(v);
+		gi[v].push_back(u);
+	}
+	kosaraju();
 }

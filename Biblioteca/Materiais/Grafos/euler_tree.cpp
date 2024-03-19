@@ -1,9 +1,9 @@
+// Descricao: Encontra a euler tree de um grafo
+// Complexidade: O(n)
 vector<vector<int>> adj(MAX);
 vector<int> vis(MAX, 0);
 vector<int> euTree(MAX);
 
-// Eulerian path in tree
-// Complexity: O(V)
 void eulerTree(int u, int &index) {
     vis[u] = 1;
     euTree[index++] = u;
@@ -15,7 +15,7 @@ void eulerTree(int u, int &index) {
     }
 }
 
-int main() {
+void solve() {
 
 	f(i,0,n-1) {
 		int a, b; cin >> a >> b;
@@ -23,6 +23,5 @@ int main() {
 		adj[b].push_back(a);
 	}
 
-    int index = 0;
-	eulerTree(1, index);
+    int index = 0; eulerTree(1, index);
 }

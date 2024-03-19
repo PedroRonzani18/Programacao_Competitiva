@@ -1,10 +1,5 @@
-// Kruskal
-//
-// Gera e retorna uma AGM e seu custo total a partir do vetor de arestas (edg) do grafo
-//
-// Complexidade: O(ElogE) onde E eh o numero de arestas
-// 
-// O(m log(m) + m a(m)) = O(m log(m))
+// DEscricao: Encontra a arvore geradora minima de um grafo
+// Complexidade: O(E log V)
 
 vector<int> id, sz;
 
@@ -34,7 +29,7 @@ pair<int, vector<tuple<int, int, int>>> kruskal(vector<tuple<int, int, int>>& ed
 	return {cost, mst};
 }
 
-int main() {
+void solve() {
 
 	int n/*nodes*/, ed/*edges*/;
 

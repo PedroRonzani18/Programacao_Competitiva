@@ -15,3 +15,10 @@ vector<int> v;
 
     // Sort por uma função (comparação de pares):
     auto cmp = [](pair<int, int> a, pair<int, int> b) { return a.second > b.second; };
+
+    // Sort parcial:
+    partial_sort(v.begin(), v.begin() + n, v.end()); // sorta com n menos elementos
+    partial_sort(v.rbegin(), v.rbegin() + n, s.rend()) // sorta com n maiores elementos
+
+    // SORT VS SET
+    * para um input com elementos distintos, sort é mais rápido que set    

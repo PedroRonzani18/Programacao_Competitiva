@@ -1,4 +1,4 @@
-// Calcudla os divisores de c, sem incluir c, sem ser fatorado
+// Descricao: Calcula os divisores de c, sem incluir c, sem ser fatorado
 // Complexidade: O(sqrt(c))
 set<int> calculaDivisores(int c) {
 	int lim = sqrt(c);

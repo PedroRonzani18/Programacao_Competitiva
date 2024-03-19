@@ -1,5 +1,3 @@
-// SegTree
-//
 // Query: soma do range [a, b]
 // Update: soma x em cada elemento do range [a, b]
 //
@@ -7,7 +5,7 @@
 // build - O(n)
 // query - O(log(n))
 // update - O(log(n))
-namespace seg {
+namespace SegTree {
 
 	int seg[4*MAX];
 	int n, *v;

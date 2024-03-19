@@ -41,15 +41,13 @@ vector<int> restorePath(int v) {
     return path;
 }
 
-void call() {
+void solve() {
 
     adj.resize(n); /*n = nodes*/
-
     f(i,0,n) {
         int a, b, w; cin >> a >> b >> w;
         adj[a].push_back({b, w});
         adj[b].push_back({a, w});
     }
-
     dijkstra(0);
 }
