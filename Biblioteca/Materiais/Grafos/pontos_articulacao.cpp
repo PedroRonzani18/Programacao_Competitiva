@@ -12,69 +12,66 @@ vector<vii> adj;
 vi dfs_num, dfs_low, dfs_parent, articulation_vertex;
 int dfsCounter, dfsRoot, rootChildren;
 
+vi verticesAns;
+vii bridgesAns;
+
 void articulationPointAndBridge(int u) {
-    dfs_low[u] = dfs_num[u] = dfsCounter++;  // dfs_low[u]<=dfs_num[u]
+    dfs_low[u] = dfs_num[u] = dfsCounter++;
     for (auto &[v, w] : adj[u]) {
-        if (dfs_num[v] == -1) {               // a tree edge
+        if (dfs_num[v] == -1) {
             dfs_parent[v] = u;
-            if (u == dfsRoot) ++rootChildren;          // special case, root
+            if (u == dfsRoot) ++rootChildren;
 
             articulationPointAndBridge(v);
 
-            if (dfs_low[v] >= dfs_num[u])              // for articulation point
-                articulation_vertex[u] = 1;              // store this info first
-            if (dfs_low[v] > dfs_num[u])               // for bridge
+            if (dfs_low[v] >= dfs_num[u])
+                articulation_vertex[u] = 1;
+            if (dfs_low[v] > dfs_num[u]) {
                 cout << " Edge (" << u << ", " << v << ") is a bridge" << endl;
-            dfs_low[u] = min(dfs_low[u], dfs_low[v]);  // subtree, always update
+                bridgesAns.emplace_back(u, v);    
+            }
+            dfs_low[u] = min(dfs_low[u], dfs_low[v]);
         }
-        else if (v != dfs_parent[u])                 // if a non-trivial cycle
-            dfs_low[u] = min(dfs_low[u], dfs_num[v]);  // then can update
+        else if (v != dfs_parent[u])
+            dfs_low[u] = min(dfs_low[u], dfs_num[v]);
     }
 }
 
-int main() {
-    /*
-    // Left graph in Figure 4.6/4.7/4.8
-    6
-    1 1 0
-    3 0 0 2 0 4 0
-    1 1 0
-    1 4 0
-    3 1 0 3 0 5 0
-    1 4 0
+void findArtBridges(int n) {
 
-    // Right graph in Figure 4.6/4.7/4.8
-    6
-    1 1 0
-    5 0 0 2 0 3 0 4 0 5 0
-    1 1 0
-    1 1 0
-    2 1 0 5 0
-    2 1 0 4 0
-    */
+    cout << "Bridges:" << endl;
+    for (int u = 0; u < n; ++u) {
+        if (dfs_num[u] == -1) {
+            dfsRoot = u; rootChildren = 0;
+            articulationPointAndBridge(u);
+            articulation_vertex[dfsRoot] = (rootChildren > 1);
+        }
+    }
 
-   int n, edg; cin >> n >> edg;
+    cout << "Articulation Points:" << endl;
+    for (int u = 0; u < n; ++u) {
+        if (articulation_vertex[u]) {
+            verticesAns.push_back(u);
+            cout << " Vertex " << u << endl;
+        }
+    }
+}
+
+void solve() {
+
+    int n, edg; cin >> n >> edg;
     adj.assign(n, vii());
     while(edg--) {
         int a, b, w; cin >> a >> b >> w;
         adj[a].emplace_back(b, w);
     }
 
-    dfs_num.assign(n, -1); dfs_low.assign(n, 0);
-    dfs_parent.assign(n, -1); articulation_vertex.assign(n, 0);
+    dfs_num.assign(n, -1); dfs_parent.assign(n, -1);
+    dfs_low.assign(n,  0); articulation_vertex.assign(n, 0);
     dfsCounter = 0;
-    cout << "Bridges:" << endl;
-    for (int u = 0; u < n; ++u)
-        if (dfs_num[u] == -1) {
-            dfsRoot = u; rootChildren = 0;
-            articulationPointAndBridge(u);
-            articulation_vertex[dfsRoot] = (rootChildren > 1); // special case
-        }
 
-    cout << "Articulation Points:" << endl;
-    for (int u = 0; u < n; ++u)
-        if (articulation_vertex[u])
-            cout << " Vertex " << u << endl;
+    findArtBridges(n);
 
-    return 0;
+    // Vertices: verticesAns
+    // Bridges: bridgesAns
 }
