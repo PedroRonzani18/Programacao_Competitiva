@@ -27,7 +27,6 @@ void articulationPointAndBridge(int u) {
             if (dfs_low[v] >= dfs_num[u])
                 articulation_vertex[u] = 1;
             if (dfs_low[v] > dfs_num[u]) {
-                cout << " Edge (" << u << ", " << v << ") is a bridge" << endl;
                 bridgesAns.emplace_back(u, v);    
             }
             dfs_low[u] = min(dfs_low[u], dfs_low[v]);
@@ -39,7 +38,6 @@ void articulationPointAndBridge(int u) {
 
 void findArtBridges(int n) {
 
-    cout << "Bridges:" << endl;
     for (int u = 0; u < n; ++u) {
         if (dfs_num[u] == -1) {
             dfsRoot = u; rootChildren = 0;
@@ -48,11 +46,9 @@ void findArtBridges(int n) {
         }
     }
 
-    cout << "Articulation Points:" << endl;
     for (int u = 0; u < n; ++u) {
         if (articulation_vertex[u]) {
             verticesAns.push_back(u);
-            cout << " Vertex " << u << endl;
         }
     }
 }
