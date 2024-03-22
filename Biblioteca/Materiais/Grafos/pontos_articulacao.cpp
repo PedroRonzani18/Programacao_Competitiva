@@ -1,19 +1,12 @@
 // Description: Encontra os pontos de articulação e pontes de um grafo não direcionado
 // Complexidade: O(n + m)
 
-#include <bits/stdc++.h>
-using namespace std;
-
-typedef pair<int, int> ii;
-typedef vector<ii> vii;
-typedef vector<int> vi;
-
-vector<vii> adj;
-vi dfs_num, dfs_low, dfs_parent, articulation_vertex;
+vector<vector<pair<int,int>>> adj;
+vector<int> dfs_num, dfs_low, dfs_parent, articulation_vertex;
 int dfsCounter, dfsRoot, rootChildren;
 
-vi verticesAns;
-vii bridgesAns;
+vector<int> verticesAns;
+vector<pair<int,int>> bridgesAns;
 
 void articulationPointAndBridge(int u) {
     dfs_low[u] = dfs_num[u] = dfsCounter++;
@@ -56,7 +49,7 @@ void findArtBridges(int n) {
 void solve() {
 
     int n, edg; cin >> n >> edg;
-    adj.assign(n, vii());
+    adj.assign(n, vector<pair<int,int>>());
     while(edg--) {
         int a, b, w; cin >> a >> b >> w;
         adj[a].emplace_back(b, w);
