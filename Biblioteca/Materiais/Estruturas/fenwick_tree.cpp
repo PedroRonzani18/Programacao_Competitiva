@@ -1,11 +1,4 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 #define LSOne(S) ((S) & -(S)) // the key operation
-#define int long long int
-
-typedef vector<int> vi;
-typedef vector<int> vi;
 
 class FenwickTree { // index 0 is not used
     private:
