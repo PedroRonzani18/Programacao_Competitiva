@@ -25,7 +25,7 @@ vector<pair<int,int>> mov = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 int l, c;
 
 bool valid(int x, int y, int w) {
-	return (0 <= x and x < l and 0 <= y and y < c and !vis[x][y] and w > 0);
+	return (0 <= x and x < l and 0 <= y and y < c and !vis[x][y] and w > 0 and (grid[x][y] == '.' or grid[x][y] == 'o'));
 }
 
 void bfs(queue<tuple<int,int,int>> q) {
