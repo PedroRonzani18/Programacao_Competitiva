@@ -23,6 +23,8 @@ void solve() {
 	
 	f(i,0,capacidadeMochila) { memo[0][i] = 0; } // testar com e sem essa linha
 
+	cin >> n;
+
 	valor.assign(n, 0);
 	peso.assign(n, 0);
 
