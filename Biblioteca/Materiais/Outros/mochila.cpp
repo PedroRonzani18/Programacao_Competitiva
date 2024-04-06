@@ -1,30 +1,36 @@
-#define MAXN 1010 // maior peso / valor 
-#define MAXS 1010 // maior capacidade mochila
-
-int n, valor[MAXN], peso[MAXN], tab[MAXN][MAXS];
-
-// Description: Retorna o maior valor que pode ser colocado na mochila
+// Description: Problema da mochila 0-1: retorna o valor maximo que pode ser carregado
 // Complexidade: O(n*capacidade)
-int mochila(int obj=0, int aguenta=MAXS){
-	
-	if(tab[obj][aguenta]>=0) return tab[obj][aguenta];
-	if(obj==n or !aguenta) return tab[obj][aguenta]=0;
-	
-	int nao_coloca = mochila(obj+1, aguenta);
-	
-	if(peso[obj] <= aguenta){
-		int coloca = valor[obj] + mochila(obj+1, aguenta-peso[obj]);
-		return tab[obj][aguenta] = max(coloca, nao_coloca);
-	}
-	
-	return tab[obj][aguenta]=nao_coloca;
+
+const int MAX_QNT_OBJETOS = 60; // 50 + 10
+const int MAX_PESO_OBJETO = 1010; // 1000 + 10
+
+int n, memo[MAX_QNT_OBJETOS][MAX_PESO_OBJETO];
+vi valor, peso;
+
+int mochila(int id, int remW) {
+	if ((id == n) || (remW == 0)) return 0;
+	int &ans = memo[id][remW];
+	if (ans != -1) return ans;
+	if (peso[id] > remW) return ans = mochila(id+1, remW);
+	return ans = max(mochila(id+1, remW), valor[id]+mochila(id+1, remW-peso[id]));
 }
 
 void solve() {
-	cin >> n; // quantidade de elementos
-	memset(tab, -1, sizeof(tab));
-	for (int i = 0; i < n; i++) 
-		cin >> valor[i] >> peso[i];
-	cout << mochila() << endl; 
-}
 
+	memset(memo, -1, sizeof memo);
+
+	int capacidadeMochila; cin >> capacidadeMochila;
+	f(i,0,capacidadeMochila) {
+		memo[0][i] = 0;
+	}
+
+	valor.assign(n, 0);
+	peso.assign(n, 0);
+
+	f(i,0,n) {
+	  cin >> peso[i] >> valor[i];
+	}
+	
+	cout << mochila(0, capacidadeMochila) << endl << endl;
+
+}
