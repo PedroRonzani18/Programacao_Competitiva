@@ -20,9 +20,8 @@ void solve() {
 	memset(memo, -1, sizeof memo);
 
 	int capacidadeMochila; cin >> capacidadeMochila;
-	f(i,0,capacidadeMochila) {
-		memo[0][i] = 0;
-	}
+	
+	f(i,0,capacidadeMochila) { memo[0][i] = 0; } // testar com e sem essa linha
 
 	valor.assign(n, 0);
 	peso.assign(n, 0);
@@ -31,6 +30,6 @@ void solve() {
 	  cin >> peso[i] >> valor[i];
 	}
 	
-	cout << mochila(0, capacidadeMochila) << endl << endl;
+	cout << mochila(0, capacidadeMochila) << endl;
 
 }
