@@ -1,7 +1,7 @@
 // BFS com informacoes adicionais sobre a distancia e o pai de cada vertice
 // Complexidade: O(V + E), onde V eh o numero de vertices e E o numero de areqas
 
-int n; // n = numero de vertices
+int n;
 vector<bool> vis;
 vector<int> d, p;
 vector<vector<int>> adj;
@@ -40,3 +40,4 @@ void solve() {
     bfs(0);
 }
 
+// OBS: Pode ser usado para encontrar o menor caminho entre dois vertices em um grafo sem pesos

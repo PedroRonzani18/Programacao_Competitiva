@@ -1,44 +1,61 @@
-// Descricao: Encontra as componentes fortemente conexas de um grafo direcionado
+// Description: Encontra o numero de componentes fortemente conexas em um grafo direcionado
 // Complexidade: O(V + E)
-int n;
-vector<int> g[MAX], gi[MAX]; // grafo invertido
-int vis[MAX], comp[MAX]; // componente de cada vértice 
-stack<int> S;
 
-void dfs(int k) {
-	vis[k] = 1;
-	for (int i = 0; i < (int) g[k].size(); i++)
-		if (!vis[g[k][i]]) dfs(g[k][i]);
+int dfsNumberCounter, numSCC;
+vector<vii> adj, adj_t;
+vi dfs_num, dfs_low, S, visited;
+stack<int> St;
 
-	S.push(k);
+void kosarajuUtil(int u, int pass) {
+	dfs_num[u] = 1;
+	vii &neighbor = (pass == 1) ? adj[u] : adj_t[u];
+	for (auto &[v, w] : neighbor)
+		if (dfs_num[v] == -1)
+		kosarajuUtil(v, pass);
+	S.push_back(u);
 }
 
+bool kosaraju(int n) {
+	
+	S.clear();
+	dfs_num.assign(n, -1);
 
-void scc(int k, int c) { 
-	vis[k] = 1;
-	comp[k] = c; // componente de k eh c
-	for (int i = 0; i < (int) gi[k].size(); i++)
-		if (!vis[gi[k][i]]) scc(gi[k][i], c);
-}
-
-void kosaraju() {
-    
-	memset(vis, 0, sizeof(vis));    
-    for(int i=0; i<n; i++) if(!vis[i]) dfs(i);
-	memset(vis, 0, sizeof(vis));
-    
-	while (S.size()) {
-		int u = S.top(); S.pop();
-		if (!vis[u]) scc(u, u);
+	f(u,0,n) {
+		if (dfs_num[u] == -1)
+			kosarajuUtil(u, 1);
 	}
+
+	int numSCC = 0;
+	dfs_num.assign(n, -1);
+	f(i,n-1,-1) {
+		if (dfs_num[S[i]] == -1)
+			numSCC++, kosarajuUtil(S[i], 2);
+	}
+
+	return numSCC == 1;
 }
 
 void solve() {
-	cin >> n; int edg; cin >> edg;
-	for (int i = 0; i < edg; i++) {
-		int u, v; cin >> u >> v;
-		g[u].push_back(v);
-		gi[v].push_back(u);
+	
+	int n, ed; cin >> n >> ed;
+	adj.assign(n, vii());
+	adj_t.assign(n, vii());
+
+	while (ed--) {
+		int u, v, w; cin >> u >> v >> w;
+		AL[u].emplace_back(v, 1);
+		adj_t[v].emplace_back(u, 1);
 	}
-	kosaraju();
+
+	// Printa se o grafo eh fortemente conexo
+	cout << kosaraju(n) << endl; 
+
+	// Printa o numero de componentes fortemente conexas
+	cout << numSCC << endl;
+
+	// Printa os vertices de cada componente fortemente conexa
+	f(i,0,n){
+		if (dfs_num[i] == -1) cout << i << ": " << "Nao visitado" << endl;
+		else cout << i << ": " << dfs_num[i] << endl;	
+	}
 }

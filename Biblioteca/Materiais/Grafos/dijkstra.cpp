@@ -51,3 +51,16 @@ void solve() {
     }
     dijkstra(0);
 }
+
+// VARIANTES
+
+/* Menor caminho de todos os vertices para um vertice s
+    -> Inverter a direcao das arestas
+    -> dijkstra(s)
+*/
+
+/* Multi-Sources Shortest Paths
+    - Menor caminho de um conjunto de vertices para todos os outros
+    -> dist[a] = 0, q.push(a) para todo source a
+    -> dijkstra()
+*/

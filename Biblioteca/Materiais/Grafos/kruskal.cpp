@@ -17,7 +17,7 @@ void uni(int a, int b) { // O(a(N)) amortizado
 
 pair<int, vector<tuple<int, int, int>>> kruskal(vector<tuple<int, int, int>>& edg) {
 
-	sort(edg.begin(), edg.end());
+	sort(edg.begin(), edg.end()); // Minimum Spanning Tree 
 	
 	int cost = 0;
 	vector<tuple<int, int, int>> mst; // opcional
@@ -31,7 +31,7 @@ pair<int, vector<tuple<int, int, int>>> kruskal(vector<tuple<int, int, int>>& ed
 
 void solve() {
 
-	int n/*nodes*/, ed/*edges*/;
+	int n, ed;
 
 	id.resize(n); iota(all(id), 0);
 	sz.resize(n, -1);
@@ -44,3 +44,31 @@ void solve() {
 
 	auto [cost, mst] = kruskal(edg);
 }
+
+// VARIANTES
+
+// Maximum Spanning Tree: sort(edg.rbegin(), edg.rend());
+
+/* 'Minimum' Spanning Subgraph:
+	- Algumas arestas ja foram adicionadas (maior prioridade - Questao das rodovias)
+	- Arestas que nao foram adicionadas (menor prioridade - ferrovias)
+	-> kruskal(rodovias); kruskal(ferrovias);
+*/
+
+/* Minimum Spanning Forest:
+	- Queremos uma floresta com k componentes
+	-> kruskal(edg); if(mst.sizer() == k) break;
+*/
+
+/* MiniMax
+	- Encontrar menor caminho entre dous vertices com maior quantidade de arestas
+	-> kruskal(edg); dijsktra(mst);
+*/
+
+/* Second Best MST
+	- Encontrar a segunda melhor arvore geradora minima
+	-> kruskal(edg); 
+	-> flag mst[i] = 1;
+	-> sort(cmp(edg.flag != -1)) => da prioridade para outras arestas
+*/
+
