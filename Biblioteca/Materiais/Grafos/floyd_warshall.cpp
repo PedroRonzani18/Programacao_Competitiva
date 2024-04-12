@@ -1,34 +1,40 @@
-// Floyd-Warshall
-//
-// encontra o menor caminho entre todo
-// par de vertices e detecta ciclo negativo
-// returna 1 sse ha ciclo negativo
-// d[i][i] deve ser 0
-// para i != j, d[i][j] deve ser w se ha uma aresta
-// (i, j) de peso w, INF caso contrario
-//
-// O(n^3)
+// Description: Caminho minimo entre todos os pares de vertices em um grafo
+// Complexity: O(n^3)
 
-int n;
-int d[MAX][MAX];
+const int INF = 1e9;
+const int MAX_V = 450;
+int AM[MAX_V][MAX_V];
 
-bool floyd_warshall() {
-	for (int k = 0; k < n; k++)
-	for (int i = 0; i < n; i++)
-	for (int j = 0; j < n; j++)
-		d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
+void floyd_warshall(int n) {
 
-	for (int i = 0; i < n; i++)
-		if (d[i][i] < 0) return 1;
+	for (int k = 0; k < n; ++k)
+	for (int u = 0; u < n; ++u)
+	for (int v = 0; v < n; ++v)
+		AM[u][v] = min(AM[u][v], AM[u][k]+AM[k][v]);
+}
 
-	return 0;
+void printAnswer(int n) {
+	for (int u = 0; u < n; ++u)
+	for (int v = 0; v < n; ++v)
+	cout << "APSP("<<u<<", "<<v<<") = " << AM[u][v] << endl;
 }
 
 void solve() {
-	cin >> n; int edg; cin >> edg;
-	for (int i = 0; i < edg; i++) {
-		int u, v, w;
-		cin >> u >> v >> w;
-		d[u][v] = w;
+
+	int n, ed; cin >> n >> ed;
+	f(u,0,n) {
+		f(v,0,n) {
+			AM[u][v] = INF;
+		}
+		AM[u][u] = 0;
 	}
+
+	f(i,0,ed) {
+		int u, v, w; cin >> u >> v >> w;
+		AM[u][v] = w;
+	}
+
+	floyd_warshall(n);
+
+	// printAnswer(n);
 }
