@@ -1,5 +1,6 @@
 // Description: Caminho minimo entre todos os pares de vertices em um grafo
 // Complexity: O(n^3)
+// Classe: All Pairs Shortest Path (APSP)
 
 const int INF = 1e9;
 const int MAX_V = 450;

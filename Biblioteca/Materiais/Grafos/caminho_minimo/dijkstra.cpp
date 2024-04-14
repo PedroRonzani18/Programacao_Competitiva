@@ -1,3 +1,7 @@
+// Description: Algoritmo de Dijkstra para caminho mínimo em grafos.
+// Complexity: O(E log V)
+// Classe: Single Source Shortest Path (SSSP)
+
 vi dist;
 vector<vector<pii>> adj;
 
