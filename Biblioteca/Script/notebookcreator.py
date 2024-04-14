@@ -52,13 +52,12 @@ def get_dir():
             if file_name.endswith(('.cpp', '.py', '.sh', '.java')) or file_name.find('makefile') != -1:
                 subsection.append(file_name)
             elif(os.path.isdir(os.path.join(section_path, file_name))):
-                # Sub Directory
                 sub_files = os.listdir(os.path.join(section_path, file_name))
                 subsection.extend([
-                    os.path.join(file_name, name) \
-                    for name in sub_files if (name.endswith('.cpp', '.py', '.sh', '.java') or name.find('makefile') != -1)
+                    os.path.join(file_name, name) 
+                    for name in sub_files #if (name.endswith('.cpp', '.py', '.sh', '.java') or name.find('makefile') != -1)
                 ])
-
+        subsection.sort()
         section.append((section_name, subsection))
     return section
 
@@ -75,8 +74,13 @@ def create_notebook(section, blocked):
                     continue
 
                 name, ext = os.path.splitext(file)
-                name = os.path.split(name)[1]  # Remove Segtree/ prefix
-                file_name = " ".join([x.capitalize() for x in name.split("_")])
+                name = ' - '.join([part.replace('_', ' ').title() for part in name.split('/')])
+                file_name = name
+                nomes_separados = name.split("/")
+                if(len(nomes_separados) > 1):
+                    name = nomes_separados[0].capitalize()
+                    for i in range(1, len(nomes_separados)):
+                        name += " - " + nomes_separados[i].capitalize()
                 file_path = os.path.join(path, item, file).replace("\\","/")
 
                 aux += '\\includes{%s}{%s}\n' % \
