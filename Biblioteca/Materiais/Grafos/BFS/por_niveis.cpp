@@ -3,7 +3,7 @@
 
 int n; 
 vi dist;
-vector<vi> gruposDoItem, itensDoGrupo;
+vector<vi> niveisDoNode, itensDoNivel;
 
 void bfs(int s) {
 
@@ -12,8 +12,8 @@ void bfs(int s) {
     while (!q.empty()) {
         auto [v, dis] = q.front(); q.pop(); 
 
-        for(auto grupo : gruposDoItem[v]) {
-            for(auto u : itensDoGrupo[grupo]) {
+        for(auto nivel : niveisDoNode[v]) {
+            for(auto u : itensDoNivel[nivel]) {
                 if (dist[u] == 0) {
                     q.push({u, dis+1});
                     dist[u] = dis + 1;
@@ -26,16 +26,15 @@ void bfs(int s) {
 void solve() {
 
     int n, ed; cin >> n >> ed;
-	dist.clear(), itensDoGrupo.clear(), gruposDoItem.clear();
-    itensDoGrupo.resize(n);
+	dist.clear(), itensDoNivel.clear(), niveisDoNode.clear();
+    itensDoNivel.resize(n);
 
 	f(i,0,ed) {
-
 		int q; cin >> q;
         while(q--) {
             int v; cin >> v;
-			gruposDoItem[v].push_back(i);
-			itensDoGrupo[i].push_back(v);
+			niveisDoNode[v].push_back(i);
+			itensDoNivel[i].push_back(v);
         }
 	}
 
