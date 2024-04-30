@@ -33,7 +33,7 @@ int maxHistogramRect(const vector<int>& hist) {
 	return ans; 
 } 
 
-int main() { 
+void solve() { 
 	vector<int> hist = { 6, 2, 5, 4, 5, 1, 6 }; 
     cout << maxHistogramRect(hist) << endl;
 }
