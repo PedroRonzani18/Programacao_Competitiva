@@ -1,5 +1,6 @@
 // Description: Retorna ordenacao topologica de adj, e vazio se nao for DAG
 // Complexidade: O(V+E)
+// Explicacao: usado para ordenar vercies de um DAG de forma que para cada aresta direcionada uv, o vértice u aparece antes do vértice v na ordenacao
 
 #define MAXN 50010
 
