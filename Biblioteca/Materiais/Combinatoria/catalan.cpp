@@ -1,7 +1,6 @@
 const int MAX_N = 100010;
 const int p = 1e9+7; // p is a prime > MAX_N
 
-
 int mod(int a, int m) {
   return ((a%m) + m) % m;
 }

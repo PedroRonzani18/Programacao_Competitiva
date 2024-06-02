@@ -1,3 +1,5 @@
+// Description: Calcula o valor de comb(n, k) % p, onde p é um primo > n.
+// Complexidade: O(n)
 const int MAX_N = 100010;
 const int p = 1e9+7; // p is a prime > MAX_N
 
@@ -14,21 +16,19 @@ int modPow(int b, int p, int m) {
 }
 
 int inv(int a) { 
-    return modPow(a, p-2, p); 
+  return modPow(a, p-2, p); 
 } 
 
 int fact[MAX_N];
 
 int comb(int n, int k) {
-    // O(log p)
-    if (n < k) return 0;
-    // clearly
-    return (((fact[n] * inv(fact[k])) % p) * inv(fact[n-k])) % p;
+  if (n < k) return 0;
+  return (((fact[n] * inv(fact[k])) % p) * inv(fact[n-k])) % p;
 }
 
 void solve() {
-    fact[0] = 1;
-    for (int i = 1; i < MAX_N; ++i)
-    fact[i] = (fact[i-1]*i) % p;
-    cout << C(100000, 50000) << "\n";
+  fact[0] = 1;
+  for (int i = 1; i < MAX_N; ++i)
+  fact[i] = (fact[i-1]*i) % p;
+  cout << comb(3, 3) << "\n";
 }

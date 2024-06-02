@@ -8,7 +8,6 @@
 // build - O(n)
 // query - O(log(n))
 // update - O(log(n))
-
 namespace bit {
 	int bit[2][MAX+2];
 	int n;
@@ -29,7 +28,7 @@ namespace bit {
 	int get2(int p) {
 		return get(0, p) * p + get(1, p);
 	}
-	int query(int l, int r) {
+	int query(int l, int r) { // zero-based
 		return get2(r+1) - get2(l);
 	}
 	void update(int l, int r, int x) {
@@ -37,3 +36,13 @@ namespace bit {
 		add(1, l+1, -x*l), add(1, r+2, x*(r+1));
 	}
 };
+
+void solve() {
+
+	vector<int> v {0,1,2,3,4,5}; // v[0] eh inutilizada
+	bit::build(v.size(), v);
+
+	int a = 0, b = 3;
+	bit::query(a, b); // v[a] + v[a+1] + ... + v[b] = 6  | 1+2+3 = 6 | zero-based
+	bit::update(a, b, 2); // v[a...b] += 2 | zero-based
+}

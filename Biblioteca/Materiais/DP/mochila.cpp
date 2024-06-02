@@ -33,5 +33,4 @@ void solve() {
 	}
 	
 	cout << mochila(0, capacidadeMochila) << endl;
-
 }

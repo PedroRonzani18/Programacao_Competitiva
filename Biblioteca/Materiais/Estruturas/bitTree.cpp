@@ -1,3 +1,6 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 /*		 n --> No. of elements present in input array. 
 	BITree[0..n] --> Array that represents Binary Indexed Tree. 
 	arr[0..n-1] --> Input array for which prefix sum is evaluated. */
@@ -40,8 +43,13 @@ void solve() {
 	cout << "Sum of elements in arr[0..5] is"<< getSum(BITree, 5); 
 	// Let use test the update operation 
 	freq[3] += 6; 
-	updateBIT(BITree, n, 3, 6); //Update BIT for above change in arr[] 
+	updateBIT(BITree, n, 3, 6); // BIT[4] = 6
 
 	cout << "\nSum of elements in arr[0..5] after update is "
 		<< getSum(BITree, 5); 
+}
+
+int main() {
+	solve();
+	return 0;
 }
