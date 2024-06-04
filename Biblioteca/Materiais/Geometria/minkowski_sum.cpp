@@ -1,3 +1,6 @@
+// Nome: Minkowski Sum
+// Complexidade: O(n + m)
+
 struct pt{
     long long x, y;
     pt operator + (const pt & p) const {

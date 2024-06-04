@@ -1,58 +1,72 @@
-// Description: Encontra pontos de articulacao e pontes em um grafo nao direcionado
-// Complexidade: O(V + E)
+// Description: encontra os pontos de articulação de um grafo
+// Complexidade: O(V+E)
 
-vector<vector<pii>> adj;
-vi dfs_num, dfs_low, dfs_parent, articulation_vertex;
-int dfsNumberCounter, dfsRoot, rootChildren;
-vector<pii> bridgesAns;
+const int MAX = 410;
 
-void articulationPointAndBridgeUtil(int u) {
+vector<int> adj[MAX];
 
-    dfs_low[u] = dfs_num[u] = dfsNumberCounter++;
-    for (auto &[v, w] : adj[u]) {
-        if (dfs_num[v] == -1) {
-            dfs_parent[v] = u;
-            if (u == dfsRoot) ++rootChildren;
+void APUtil(int u, bool visited[], int disc[], int low[], int& time, int parent, bool isAP[]) {
+    int children = 0;
 
-            articulationPointAndBridgeUtil(v);
+    visited[u] = true;
 
-            if (dfs_low[v] >= dfs_num[u])
-                articulation_vertex[u] = 1;
-            if (dfs_low[v] > dfs_num[u])
-                bridgesAns.push_back({u, v});
-            dfs_low[u] = min(dfs_low[u], dfs_low[v]);
+    disc[u] = low[u] = ++time;
+
+    for (auto v : adj[u]) {
+        if (!visited[v]) {
+            children++;
+            APUtil(v, visited, disc, low, time, u, isAP);
+
+            low[u] = min(low[u], low[v]);
+
+            if (parent != -1 && low[v] >= disc[u])
+                isAP[u] = true;
         }
-        else if (v != dfs_parent[u])
-            dfs_low[u] = min(dfs_low[u], dfs_num[v]);
+
+        else if (v != parent)
+            low[u] = min(low[u], disc[v]);
     }
+
+    if (parent == -1 && children > 1)
+        isAP[u] = true;
 }
 
-void articulationPointAndBridge(int n) {
-    dfsNumberCounter = 0;
-    f(u,0,n) {
-        if (dfs_num[u] == -1) {
-            dfsRoot = u; rootChildren = 0;
-            articulationPointAndBridgeUtil(u);
-            articulation_vertex[dfsRoot] = (rootChildren > 1);
+void AP(int V) {
+    int disc[V] = { 0 };
+    int low[V];
+    bool visited[V] = { false };
+    bool isAP[V] = { false };
+    int time = 0, par = -1;
+
+    for (int u = 0; u < V; u++)
+        if (!visited[u])
+            APUtil(u, visited, disc, low, time, par, isAP);
+
+    bool printed = false;
+
+    for (int u = 0; u < V; u++) {
+        if (isAP[u] == true) {
+            cout << u+1 << " ";
+            printed = true;
         }
     }
+
+    if (!printed) cout << "nenhum" << endl;
+    else cout << endl;
 }
 
 void solve() {
 
     int n, ed; cin >> n >> ed;
-    adj.assign(n, vector<pii>());
 
-    f(i,0,ed) {
-        int u, v, w; cin >> u >> v >> w;
-        adj[u].emplace_back(v, w);
+    for(int i = 0; i < n; i++) 
+        adj[i].clear();
+
+    while(ed--) {
+        int a, b; cin >> a >> b; a--, b--;
+        adj[a].push_back(b);
+        adj[b].push_back(a);
     }
 
-    dfs_num.assign(n, -1); dfs_low.assign(n, 0);
-    dfs_parent.assign(n, -1); articulation_vertex.assign(n, 0);
-
-    articulationPointAndBridge(n);
-
-    // Vertices: articulation_vertex[u] == 1
-    // Bridges: bridgesAns
+    AP(n);
 }
