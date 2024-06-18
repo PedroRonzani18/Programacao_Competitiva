@@ -3,7 +3,7 @@
 
 const int MAX = 410;
 
-vector<int> adj[MAX];
+vector  <int> adj[MAX];
 
 void APUtil(int u, bool visited[], int disc[], int low[], int& time, int parent, bool isAP[]) {
     int children = 0;

@@ -7,7 +7,7 @@ vector<vector<pii>> adj;
 
 void dijkstra(int s) {
 
-    dist[s] = 0;
+    dist[s] = 0; // se eventualmente puder voltar pra ca, tipo ciclo | salesman | remover essa linha
 
     priority_queue<pii, vector<pii>, greater<pii>> pq; pq.push({0, s});
 
@@ -15,6 +15,8 @@ void dijkstra(int s) {
         auto [d, u] = pq.top(); pq.pop();
 
         if (d > dist[u]) continue;
+
+        // if(u == s and dist[u] < INF) break; | pra quando tiver que fazer um ciclo
         
         for (auto &[v, w] : adj[u]) {
             if (dist[u] + w >= dist[v]) continue;
