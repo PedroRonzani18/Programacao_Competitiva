@@ -1,22 +1,19 @@
 // Description: Union-Find (Disjoint Set Union)
+const int MAX = 5e4+10;
 
-typedef vector<int> vi;
+int p[MAX], ranking[MAX], setSize[MAX];
 
 struct UnionFind {
-    vi p, rank, setSize;
     int numSets;
+
     UnionFind(int N) {
-        p.assign(N, 0);
-        for (int i = 0; i < N; ++i)
-            p[i] = i;
-        rank.assign(N, 0);
-        setSize.assign(N, 1);
+		iota(p,p+N+1,0);
+		memset(ranking, 0, sizeof ranking);
+		memset(setSize, 1, sizeof setSize);
         numSets = N;
     }
 
-    // Retorna o numero de sets disjuntos (separados)
     int numDisjointSets() { return numSets; }
-    // Retorna o tamanho do set que contem o elemento i
     int sizeOfSet(int i) { return setSize[find(i)]; }
 
     int find(int i) { return (p[i] == i) ? i : (p[i] = find(p[i])); }
@@ -25,18 +22,25 @@ struct UnionFind {
         if (same(i, j))
             return;
         int x = find(i), y = find(j);
-        if (rank[x] > rank[y])
+        if (ranking[x] > ranking[y])
             swap(x, y);
         p[x] = y;
-        if (rank[x] == rank[y])
-            ++rank[y];
+        if (ranking[x] == ranking[y])
+            ++ranking[y];
         setSize[y] += setSize[x];
         --numSets;
     }
 };
 
 void solve() {
-    int n; cin >> n;
-    UnionFind UF(n);
-    UF.uni(0, 1);
+
+	int n, ed; cin >> n >> ed;
+	UnionFind uni(n);
+
+	f(i,0,ed) {
+		int a, b; cin >> a >> b; a--, b--;
+		uni.uni(a,b);
+	}
+
+	cout << uni.numDisjointSets() << endl;
 }
