@@ -3,7 +3,7 @@ using namespace std;
 
 #define _ ios_base::sync_with_stdio(0);cin.tie(0);
 #define all(a)       a.begin(), a.end()
-#define int          long long int
+#define int          long lo	ng int
 #define double       long double
 #define f(i,s,e) 	 for(int i=s;i<e;i++)
 #define dbg(x) cout << #x << " = " << x << " ";
