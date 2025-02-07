@@ -608,7 +608,98 @@ c0f 	}
 
 \section{Grafos}
 
-\subsection{MinCostMaxFlow}
+\subsection{Fluxo - Dinitz (Max Flow)}
+\begin{lstlisting}
+// Encontra fluxo maximo de um grafo
+// O(min(m * max_flow, n^2 m))
+// Grafo com capacidades 1: O(min(m sqrt(m), m * n^(2/3)))
+// Todo vertice tem grau de entrada ou saida 1: O(m sqrt(n))
+
+472 struct dinitz {
+61f 	const bool scaling = false; // com scaling -> O(nm log(MAXCAP)),
+206 	int lim;                    // com constante alta
+670 	struct edge {
+358 		int to, cap, rev, flow;
+7f9 		bool res;
+d36 		edge(int to_, int cap_, int rev_, bool res_)
+a94 			: to(to_), cap(cap_), rev(rev_), flow(0), res(res_) {}
+f70 	};
+    
+002 	vector<vector<edge>> g;
+216 	vector<int> lev, beg;
+a71 	ll F;
+190 	dinitz(int n) : g(n), F(0) {}
+    
+087 	void add(int a, int b, int c) {
+bae 		g[a].emplace_back(b, c, g[b].size(), false);
+4c6 		g[b].emplace_back(a, 0, g[a].size()-1, true);
+5c2 	}
+123 	bool bfs(int s, int t) {
+90f 		lev = vector<int>(g.size(), -1); lev[s] = 0;
+64c 		beg = vector<int>(g.size(), 0);
+8b2 		queue<int> q; q.push(s);
+402 		while (q.size()) {
+be1 			int u = q.front(); q.pop();
+bd9 			for (auto& i : g[u]) {
+dbc 				if (lev[i.to] != -1 or (i.flow == i.cap)) continue;
+b4f 				if (scaling and i.cap - i.flow < lim) continue;
+185 				lev[i.to] = lev[u] + 1;
+8ca 				q.push(i.to);
+f97 			}
+e87 		}
+0de 		return lev[t] != -1;
+742 	}
+dfb 	int dfs(int v, int s, int f = INF) {
+50b 		if (!f or v == s) return f;
+88f 		for (int& i = beg[v]; i < g[v].size(); i++) {
+027 			auto& e = g[v][i];
+206 			if (lev[e.to] != lev[v] + 1) continue;
+ee0 			int foi = dfs(e.to, s, min(f, e.cap - e.flow));
+749 			if (!foi) continue;
+3c5 			e.flow += foi, g[e.to][e.rev].flow -= foi;
+45c 			return foi;
+618 		}
+bb3 		return 0;
+4b1 	}
+ff6 	ll max_flow(int s, int t) {
+a86 		for (lim = scaling ? (1<<30) : 1; lim; lim /= 2)
+9d1 			while (bfs(s, t)) while (int ff = dfs(s, t)) F += ff;
+4ff 		return F;
+8b9 	}
+86f };
+
+// Recupera as arestas do corte s-t
+dbd vector<pair<int, int>> get_cut(dinitz& g, int s, int t) {
+f07 	g.max_flow(s, t);
+68c 	vector<pair<int, int>> cut;
+1b0 	vector<int> vis(g.g.size(), 0), st = {s};
+321 	vis[s] = 1;
+3c6 	while (st.size()) {
+b17 		int u = st.back(); st.pop_back();
+322 		for (auto e : g.g[u]) if (!vis[e.to] and e.flow < e.cap)
+c17 			vis[e.to] = 1, st.push_back(e.to);
+d14 	}
+481 	for (int i = 0; i < g.g.size(); i++) for (auto e : g.g[i])
+9d2 		if (vis[i] and !vis[e.to] and !e.res) cut.emplace_back(i, e.to);
+d1b 	return cut;
+1e8 }
+
+63d void solve() {
+    
+1a8 	int n; // numero de arestas
+b06 	dinitz g(n);
+    
+732 	int edges;
+6e0 	while(edges--) {
+1e1 		int a, b, w; cin >> a >> b >> c;
+f93 		g.add(a,b,c); // a -> b com capacidade c
+fa1 	}
+    
+07a 	int maxFlow = g.max_flow(SRC, SNK); // max flow de SRC -> SNK
+a7b }
+\end{lstlisting}
+
+\subsection{Fluxo - MinCostMaxFlow}
 \begin{lstlisting}
 // min_cost_flow(s, t, f) computa o par (fluxo, custo)
 // com max(fluxo) <= f que tenha min(custo)
@@ -746,6 +837,26 @@ ab4 	mincost.add(u, v, cap, cost); // unidirecional
 073 	auto [flow, cost] = mincost.min_cost_flow(src, end/*, initialFlow*/);
     
 da5 }
+\end{lstlisting}
+
+\subsection{Fluxo - Problemas}
+\begin{lstlisting}
+// 1: Problema do Corte
+7a9 - Entrada:
+bc1 	- N itens
+388 	- Curso Wi Inteiro
+7c3 	- M restricoes: se eu pegar Ai, eu preciso pegar Bi...
+387 - Saida: valor maximo pegavel
+
+ac2 - Solucao: corte maximo com Dinitz
+019 	- dinitz(n+m+1)
+593 	- f(i,0,n): i -> SNK com valor Ai
+9eb 	- f(i,0,m):
+9e2 		* SRC -> n+i com valor Wi
+a9e 		* ParaTodo dependente Bj: n+i -> Bj com peso INF
+8a0 	- ans = somatorio(Wi) - maxFlow(SRC,SNK);
+
+/* ======================================================= */
 \end{lstlisting}
 
 \pagebreak

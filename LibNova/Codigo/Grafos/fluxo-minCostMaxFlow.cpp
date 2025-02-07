@@ -1,4 +1,4 @@
-// MinCostMaxFlow
+// Fluxo - MinCostMaxFlow
 //
 // min_cost_flow(s, t, f) computa o par (fluxo, custo)
 // com max(fluxo) <= f que tenha min(custo)
