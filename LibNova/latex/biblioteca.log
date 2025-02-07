@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.2.3)  4 FEB 2025 11:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.2.3)  6 FEB 2025 23:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -666,24 +666,20 @@ LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 7
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <9> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 86.
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 81.
 
-[1
-
-pdfTeX warning: pdflatex (file pdftex.map): cannot open font map file
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
 ]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [2]
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [3]
-Underfull \vbox (badness 1527) has occurred while \output is active []
-
-
+ [2]
+[3]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [4]
@@ -692,33 +688,45 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [5]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
  [6]
-[7] [8
+[7]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [9]
+[10] [11
 
 ] (./biblioteca.aux)
 Package rerunfilecheck Info: File `biblioteca.out' has not changed.
-(rerunfilecheck)             Checksum: DD1F8431F02462F7A013B78785675886;1923.
+(rerunfilecheck)             Checksum: 9220F5E6A6BC929D90C62F39E52A54FF;2198.
  ) 
 Here is how much of TeX's memory you used:
- 18709 strings out of 480247
- 272052 string characters out of 5896152
- 1156510 words of memory out of 5000000
- 35808 multiletter control sequences out of 15000+600000
- 483696 words of font info for 71 fonts, out of 8000000 for 9000
+ 19225 strings out of 480247
+ 278363 string characters out of 5896152
+ 1176510 words of memory out of 5000000
+ 36053 multiletter control sequences out of 15000+600000
+ 485886 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  74i,8n,100p,3263b,1980s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/pedro/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt0900.600
-pk> </home/pedro/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.60
-0pk> </home/pedro/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.6
-00pk> </home/pedro/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.
-600pk> </home/pedro/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440
-.600pk> </home/pedro/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm120
-0.600pk> </home/pedro/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm17
-28.600pk>
-Output written on biblioteca.pdf (8 pages, 110910 bytes).
+{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf/fonts/t
+ype1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super
+/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/
+share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/ty
+pe1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/
+sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0900.pfb>
+Output written on biblioteca.pdf (11 pages, 216305 bytes).
 PDF statistics:
- 1045 PDF objects out of 1200 (max. 8388607)
- 790 compressed objects within 8 object streams
- 558 named destinations out of 1000 (max. 500000)
- 137 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1164 PDF objects out of 1200 (max. 8388607)
+ 1123 compressed objects within 12 object streams
+ 823 named destinations out of 1000 (max. 500000)
+ 161 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -72,6 +72,131 @@ basicstyle=\ttfamily\footnotesize, % fonte
 
 \section{Estruturas}
 
+\subsection{DSU}
+\begin{lstlisting}
+// Une dois conjuntos e acha a qual conjunto um elemento pertence por seu id
+//
+// find e unite: O(a(n)) ~= O(1) amortizado
+
+8d3 struct dsu {
+825 	vector<int> id, sz;
+    
+b33 	dsu(int n) : id(n), sz(n, 1) { iota(id.begin(), id.end(), 0); }
+    
+0cf 	int find(int a) { return a == id[a] ? a : id[a] = find(id[a]); }
+    
+440 	void unite(int a, int b) {
+605 		a = find(a), b = find(b);
+d54 		if (a == b) return;
+956 		if (sz[a] < sz[b]) swap(a, b);
+6d0 		sz[a] += sz[b], id[b] = a;
+ea7 	}
+8e1 };
+
+// DSU de bipartido
+//
+// Une dois vertices e acha a qual componente um vertice pertence
+// Informa se a componente de um vertice e bipartida
+//
+// find e unite: O(log(n))
+
+8d3 struct dsu {
+6f7 	vector<int> id, sz, bip, c;
+    
+5b4 	dsu(int n) : id(n), sz(n, 1), bip(n, 1), c(n) { 
+db8 		iota(id.begin(), id.end(), 0); 
+f25 	}
+    
+ef0 	int find(int a) { return a == id[a] ? a : find(id[a]); }
+f30 	int color(int a) { return a == id[a] ? c[a] : c[a] ^ color(id[a]); }
+    
+440 	void unite(int a, int b) {
+263 		bool change = color(a) == color(b);
+605 		a = find(a), b = find(b);
+a89 		if (a == b) {
+4ed 			if (change) bip[a] = 0;
+505 			return;
+32d 		}
+    		
+956 		if (sz[a] < sz[b]) swap(a, b);
+efe 		if (change) c[b] = 1;
+2cd 		sz[a] += sz[b], id[b] = a, bip[a] &= bip[b];
+22b 	}
+118 };
+
+
+// DSU Persistente
+//
+// Persistencia parcial, ou seja, tem que ir
+// incrementando o 't' no une
+//
+// find e unite: O(log(n))
+
+8d3 struct dsu {
+33c 	vector<int> id, sz, ti;
+    
+733 	dsu(int n) : id(n), sz(n, 1), ti(n, -INF) { 
+db8 		iota(id.begin(), id.end(), 0); 
+aad 	}
+    
+5e6 	int find(int a, int t) { 
+6ba 		if (id[a] == a or ti[a] > t) return a;
+ea5 		return find(id[a], t);
+6cb 	}
+    
+fa0 	void unite(int a, int b, int t) {
+84f 		a = find(a, t), b = find(b, t);
+d54 		if (a == b) return;
+956 		if (sz[a] < sz[b]) swap(a, b);
+35d 		sz[a] += sz[b], id[b] = a, ti[b] = t;
+513 	}
+6c6 };
+
+// DSU com rollback
+//
+// checkpoint(): salva o estado atual de todas as variaveis
+// rollback(): retorna para o valor das variaveis para 
+// o ultimo checkpoint
+//
+// Sempre que uma variavel muda de valor, adiciona na stack
+//
+// find e unite: O(log(n))
+// checkpoint: O(1)
+// rollback: O(m) em que m e o numero de vezes que alguma
+// variavel mudou de valor desde o ultimo checkpoint
+
+8d3 struct dsu {
+825 	vector<int> id, sz;
+27c 	stack<stack<pair<int&, int>>> st;
+    
+98d 	dsu(int n) : id(n), sz(n, 1) { 
+1cc 		iota(id.begin(), id.end(), 0), st.emplace(); 
+8cd 	}
+    		
+bdf 	void save(int &x) { st.top().emplace(x, x); }
+    
+30d 	void checkpoint() { st.emplace(); }
+    	
+5cf 	void rollback() {
+ba9 		while(st.top().size()) {
+6bf 			auto [end, val] = st.top().top(); st.top().pop();
+149 			end = val;
+f9a 		}
+25a 		st.pop();
+3c6 	}
+    
+ef0 	int find(int a) { return a == id[a] ? a : find(id[a]); }
+    
+440 	void unite(int a, int b) {
+605 		a = find(a), b = find(b);
+d54 		if (a == b) return;
+956 		if (sz[a] < sz[b]) swap(a, b);
+803 		save(sz[a]), save(id[b]);
+6d0 		sz[a] += sz[b], id[b] = a;
+1b9 	}
+c6e };
+\end{lstlisting}
+
 \subsection{Fenwick Tree (BIT)}
 \begin{lstlisting}
 // Operacoes 0-based
@@ -473,6 +598,156 @@ c0f 	}
 01b }
 \end{lstlisting}
 
+
+
+%%%%%%%%%%%%%%%%%%%%
+%
+% Grafos
+%
+%%%%%%%%%%%%%%%%%%%%
+
+\section{Grafos}
+
+\subsection{MinCostMaxFlow}
+\begin{lstlisting}
+// min_cost_flow(s, t, f) computa o par (fluxo, custo)
+// com max(fluxo) <= f que tenha min(custo)
+// min_cost_flow(s, t) -> Fluxo maximo de custo minimo de s pra t
+// Se for um dag, da pra substituir o SPFA por uma DP pra nao
+// pagar O(nm) no comeco
+// Se nao tiver aresta com custo negativo, nao precisa do SPFA
+//
+// O(nm + f * m log n)
+
+123 template<typename T> struct mcmf {
+670 	struct edge {
+b75 		int to, rev, flow, cap; // para, id da reversa, fluxo, capacidade
+7f9 		bool res; // se eh reversa
+635 		T cost; // custo da unidade de fluxo
+892 		edge() : to(0), rev(0), flow(0), cap(0), cost(0), res(false) {}
+1d7 		edge(int to_, int rev_, int flow_, int cap_, T cost_, bool res_)
+f8d 			: to(to_), rev(rev_), flow(flow_), cap(cap_), res(res_), cost(cost_) {}
+723 	};
+    
+002 	vector<vector<edge>> g;
+168 	vector<int> par_idx, par;
+f1e 	T inf;
+a03 	vector<T> dist;
+    
+b22 	mcmf(int n) : g(n), par_idx(n), par(n), inf(numeric_limits<T>::max()/3) {}
+    
+91c 	void add(int u, int v, int w, T cost) { // de u pra v com cap w e custo cost
+2fc 		edge a = edge(v, g[v].size(), 0, w, cost, false);
+234 		edge b = edge(u, g[u].size(), 0, 0, -cost, true);
+    
+b24 		g[u].push_back(a);
+c12 		g[v].push_back(b);
+0ed 	}
+    
+8bc 	vector<T> spfa(int s) { // nao precisa se nao tiver custo negativo
+871 		deque<int> q;
+3d1 		vector<bool> is_inside(g.size(), 0);
+577 		dist = vector<T>(g.size(), inf);
+    
+a93 		dist[s] = 0;
+a30 		q.push_back(s);
+ecb 		is_inside[s] = true;
+    
+14d 		while (!q.empty()) {
+b1e 			int v = q.front();
+ced 			q.pop_front();
+48d 			is_inside[v] = false;
+    
+76e 			for (int i = 0; i < g[v].size(); i++) {
+9d4 				auto [to, rev, flow, cap, res, cost] = g[v][i];
+e61 				if (flow < cap and dist[v] + cost < dist[to]) {
+943 					dist[to] = dist[v] + cost;
+    
+ed6 					if (is_inside[to]) continue;
+020 					if (!q.empty() and dist[to] > dist[q.front()]) q.push_back(to);
+b33 					else q.push_front(to);
+b52 					is_inside[to] = true;
+2d1 				}
+8cd 			}
+f2c 		}
+8d7 		return dist;
+96c 	}
+2a2 	bool dijkstra(int s, int t, vector<T>& pot) {
+489 		priority_queue<pair<T, int>, vector<pair<T, int>>, greater<>> q;
+577 		dist = vector<T>(g.size(), inf);
+a93 		dist[s] = 0;
+115 		q.emplace(0, s);
+402 		while (q.size()) {
+91b 			auto [d, v] = q.top();
+833 			q.pop();
+68b 			if (dist[v] < d) continue;
+76e 			for (int i = 0; i < g[v].size(); i++) {
+9d4 				auto [to, rev, flow, cap, res, cost] = g[v][i];
+e8c 				cost += pot[v] - pot[to];
+e61 				if (flow < cap and dist[v] + cost < dist[to]) {
+943 					dist[to] = dist[v] + cost;
+441 					q.emplace(dist[to], to);
+88b 					par_idx[to] = i, par[to] = v;
+873 				}
+de3 			}
+9d4 		}
+1d4 		return dist[t] < inf;
+c68 	}
+    
+3d2 	pair<int, T> min_cost_flow(int s, int t, int flow = INF) {
+3dd 		vector<T> pot(g.size(), 0);
+9e4 		pot = spfa(s); // mudar algoritmo de caminho minimo aqui
+    
+d22 		int f = 0;
+ce8 		T ret = 0;
+4a0 		while (f < flow and dijkstra(s, t, pot)) {
+bda 			for (int i = 0; i < g.size(); i++)
+d2a 				if (dist[i] < inf) pot[i] += dist[i];
+    
+71b 			int mn_flow = flow - f, u = t;
+045 			while (u != s){
+90f 				mn_flow = min(mn_flow,
+07d 					g[par[u]][par_idx[u]].cap - g[par[u]][par_idx[u]].flow);
+3d1 				u = par[u];
+935 			}
+    
+1f2 			ret += pot[t] * mn_flow;
+    
+476 			u = t;
+045 			while (u != s) {
+e09 				g[par[u]][par_idx[u]].flow += mn_flow;
+d98 				g[u][g[par[u]][par_idx[u]].rev].flow -= mn_flow;
+3d1 				u = par[u];
+bcc 			}
+    
+04d 			f += mn_flow;
+36d 		}
+    
+15b 		return make_pair(f, ret);
+cc3 	}
+    
+    	// Opcional: retorna as arestas originais por onde passa flow = cap
+182 	vector<pair<int,int>> recover() {
+24a 		vector<pair<int,int>> used;
+2a4 		for (int i = 0; i < g.size(); i++) for (edge e : g[i])
+587 			if(e.flow == e.cap && !e.res) used.push_back({i, e.to});
+f6b 		return used;
+390 	}
+697 };
+
+63d void solve(){
+    
+1a8 	int n; // numero de vertices
+4c5 	mcmf<int> mincost(n);
+    
+ab4 	mincost.add(u, v, cap, cost); // unidirecional
+983 	mincost.add(v, u, cap, cost); // bidirecional
+    
+073 	auto [flow, cost] = mincost.min_cost_flow(src, end/*, initialFlow*/);
+    
+da5 }
+\end{lstlisting}
+
 \pagebreak
 
 
@@ -522,7 +797,7 @@ using namespace std;
 
 #define _ ios_base::sync_with_stdio(0);cin.tie(0);
 #define all(a)       a.begin(), a.end()
-#define int          long long int
+#define int          long lo	ng int
 #define double       long double
 #define f(i,s,e) 	 for(int i=s;i<e;i++)
 #define dbg(x) cout << #x << " = " << x << " ";
