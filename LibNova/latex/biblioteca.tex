@@ -608,6 +608,75 @@ c0f 	}
 
 \section{Grafos}
 
+\subsection{Emparelhamento Max Grafo Bipartido (Kuhn)}
+\begin{lstlisting}
+// Computa matching maximo em grafo bipartido
+// 'n' e 'm' sao quantos vertices tem em cada particao
+// chamar add(i, j) para add aresta entre o cara i
+// da particao A, e o cara j da particao B
+// (entao i < n, j < m)
+// Para recuperar o matching, basta olhar 'ma' e 'mb'
+// 'recover' recupera o min vertex cover como um par de
+// {caras da particao A, caras da particao B}
+//
+// O(|V| * |E|)
+// Na pratica, parece rodar tao rapido quanto o Dinitz
+
+
+878 mt19937 rng((int) chrono::steady_clock::now().time_since_epoch().count());
+
+6c6 struct kuhn {
+14e 	int n, m;
+789 	vector<vector<int>> g;
+d3f 	vector<int> vis, ma, mb;
+    
+40e 	kuhn(int n_, int m_) : n(n_), m(m_), g(n),
+8af 		vis(n+m), ma(n, -1), mb(m, -1) {}
+    
+ba6 	void add(int a, int b) { g[a].push_back(b); }
+    
+caf 	bool dfs(int i) {
+29a 		vis[i] = 1;
+29b 		for (int j : g[i]) if (!vis[n+j]) {
+8c9 			vis[n+j] = 1;
+2cf 			if (mb[j] == -1 or dfs(mb[j])) {
+bfe 				ma[i] = j, mb[j] = i;
+8a6 				return true;
+b17 			}
+82a 		}
+d1f 		return false;
+4ef 	}
+bf7 	int matching() {
+1ae 		int ret = 0, aum = 1;
+5a8 		for (auto& i : g) shuffle(i.begin(), i.end(), rng);
+392 		while (aum) {
+618 			for (int j = 0; j < m; j++) vis[n+j] = 0;
+c5d 			aum = 0;
+830 			for (int i = 0; i < n; i++)
+01f 				if (ma[i] == -1 and dfs(i)) ret++, aum = 1;
+085 		}
+edf 		return ret;
+2ee 	}
+b0d };
+
+63d void solve() {
+    
+be0 	int n1; // Num vertices lado esquerdo grafo bipartido
+e4c 	int n2; // Num vertices lado direito grafo bipartido
+    	
+761 	kuhn K(n1, n2);
+    
+732 	int edges;
+    
+6e0 	while(edges--) {
+b1f 		int a, b; cin >> a >> b;
+3dc 		K.add(a,b); // a -> b
+5b7 	}
+    
+69b 	int emparelhamentoMaximo = K.matching();
+76b }
+\end{lstlisting}
+
 \subsection{Fluxo - Dinitz (Max Flow)}
 \begin{lstlisting}
 // Encontra fluxo maximo de um grafo
