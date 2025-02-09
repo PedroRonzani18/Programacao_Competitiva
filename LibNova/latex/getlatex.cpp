@@ -245,31 +245,44 @@ int main(int argc, char** argv) {
 	}
 
 	printa_arquivo("comeco.tex", true);
+
+	vector<struct dirent*> entries;
+
 	struct dirent* entry = nullptr;
 	DIR* dp = nullptr;
 	dp = opendir(path.c_str());
-	if (dp != nullptr) while ((entry = readdir(dp))) {
-		if (entry->d_name[0] == '.') continue;
-		if (entry->d_type != DT_DIR) continue;
+	if (dp != nullptr) { 
+		while ((entry = readdir(dp))) {
+			entries.push_back(entry);
+		}
 
-		string dir(entry->d_name);
-		if (dir == "Extra") continue;
-		printa_section(dir);
-
-		vector<pair<string, string>> files;
-		dfs(files, path + dir);
-
-		sort(files.begin(), files.end(), [&](auto f1, auto f2) {
-			return lower(get_name(f1.second)) < lower(get_name(f2.second));
+		sort(entries.begin(), entries.end(), [](auto a, auto b) {
+			return strcmp(a->d_name, b->d_name) < 0;
 		});
 
-		cerr << "=== " << dir << " ===" << endl;
-		for (auto [f, path] : files) {
-			bool printed = printa_listing(f.substr(0, f.size() - 4), path);
-			// cerr << "path: " << path << endl;
-			if (printed) cerr << get_name(path) << endl;
+		for(auto& entry : entries) {
+			if (entry->d_name[0] == '.') continue;
+			if (entry->d_type != DT_DIR) continue;
+	
+			string dir(entry->d_name);
+			if (dir == "Extra") continue;
+			printa_section(dir);
+	
+			vector<pair<string, string>> files;
+			dfs(files, path + dir);
+	
+			sort(files.begin(), files.end(), [&](auto f1, auto f2) {
+				return lower(get_name(f1.second)) < lower(get_name(f2.second));
+			});
+	
+			cerr << "=== " << dir << " ===" << endl;
+			for (auto [f, path] : files) {
+				bool printed = printa_listing(f.substr(0, f.size() - 4), path);
+				// cerr << "path: " << path << endl;
+				if (printed) cerr << get_name(path) << endl;
+			}
+			cerr << endl;
 		}
-		cerr << endl;
 	}
 
 	cout << "\\pagebreak" << endl;
