@@ -928,6 +928,69 @@ a9e 		* ParaTodo dependente Bj: n+i -> Bj com peso INF
 /* ======================================================= */
 \end{lstlisting}
 
+
+
+%%%%%%%%%%%%%%%%%%%%
+%
+% Matematica
+%
+%%%%%%%%%%%%%%%%%%%%
+
+\section{Matematica}
+
+\subsection{Primos - Lowest Prime Factor}
+\begin{lstlisting}
+// Menor fator primo de n
+// O(sqrt(n))
+
+074 int lowestPrimeFactor(int n, int startPrime = 2) {
+9d5     if (startPrime <= 3) {
+fb4         if (not (n & 1)) return 2;
+5a0         if (not (n % 3)) return 3;
+72a         startPrime = 5;
+43a     }
+    
+c94     for (int i = startPrime; i * i <= n; i += (i + 1) % 6 ? 4 : 2)
+dcb         if (not (n % i))
+d9a             return i;
+041     return n;
+6c5 }
+\end{lstlisting}
+
+\subsection{Primos - Primo}
+\begin{lstlisting}
+// Verifica se um numero eh primo
+// O(sqrt(n))
+5f7 bool isPrime(int n) {
+e32     return n > 1 and lowestPrimeFactor(n) == n;
+822 }
+\end{lstlisting}
+
+
+
+%%%%%%%%%%%%%%%%%%%%
+%
+% String
+%
+%%%%%%%%%%%%%%%%%%%%
+
+\section{String}
+
+\subsection{Split de String}
+\begin{lstlisting}
+// O(|s| * |del|).
+5a6 vector<string> split(string s, string del = " ") {
+cd5    vector<string> retorno;
+0f4    int start, end = -1*del.size();
+016    do {
+a3b        start = end + del.size();
+257        end = s.find(del, start);
+36c        retorno.push_back(s.substr(start, end - start));
+3a7    } while (end != -1);
+5fa    return retorno;
+f80 }
+\end{lstlisting}
+
 \pagebreak
 
 
@@ -968,49 +1031,6 @@ int read_int() {
 # Para usar (hash das linhas [l1, l2]):
 # bash hash.sh arquivo.cpp l1 l2
 sed -n $2','$3' p' $1 | sed '/^#w/d' | cpp -dD -P -fpreprocessed | tr -d '[:space:]' | md5sum | cut -c-6
-\end{lstlisting}
-
-\subsection{template.cpp}
-\begin{lstlisting}
-#include <bits/stdc++.h>
-using namespace std;
-
-#define _ ios_base::sync_with_stdio(0);cin.tie(0);
-#define all(a)       a.begin(), a.end()
-#define int          long lo	ng int
-#define double       long double
-#define f(i,s,e) 	 for(int i=s;i<e;i++)
-#define dbg(x) cout << #x << " = " << x << " ";
-#define dbgl(x) cout << #x << " = " << x << endl;
-
-#define vi 			 vector<int>
-#define pii	         pair<int,int>
-#define endl         "\n"
-#define print_v(a)   for(auto x : a)cout<<x<<" ";cout<<endl
-#define print_vp(a)  for(auto x : a)cout<<x.first<<" "<<x.second<< endl
-#define rf(i,e,s) 	 for(int i=e-1;i>=s;i--)
-#define CEIL(a, b)   ((a) + (b - 1))/b
-#define TRUNC(x, n)  floor(x * pow(10, n))/pow(10, n)
-#define ROUND(x, n)  round(x * pow(10, n))/pow(10, n)
-
-const int INF = 1e9;    // 2^31-1
-const int LLINF = 4e18; // 2^63-1
-const double EPS = 1e-9;
-const int MAX = 1e6+10; // 10^6 + 10
-
-void solve() {
-
-	
-}
-
-int32_t main() { _
-	
-	int t = 1; // cin >> t;
-	while (t--) {
-		solve();
-	}
-	return 0;
-}
 \end{lstlisting}
 
 \subsection{stress.sh}
@@ -1102,6 +1122,49 @@ CXXFLAGS = -fsanitize=address,undefined -fno-omit-frame-pointer -g -Wall -Wshado
 
 clearexe:
 	find . -maxdepth 1 -type f -executable -exec rm {} +
+\end{lstlisting}
+
+\subsection{temp.cpp}
+\begin{lstlisting}
+#include <bits/stdc++.h>
+using namespace std;
+
+#define _ ios_base::sync_with_stdio(0);cin.tie(0);
+#define all(a)       a.begin(), a.end()
+#define int          long lo	ng int
+#define double       long double
+#define f(i,s,e) 	 for(int i=s;i<e;i++)
+#define dbg(x) cout << #x << " = " << x << " ";
+#define dbgl(x) cout << #x << " = " << x << endl;
+
+#define vi 			 vector<int>
+#define pii	         pair<int,int>
+#define endl         "\n"
+#define print_v(a)   for(auto x : a)cout<<x<<" ";cout<<endl
+#define print_vp(a)  for(auto x : a)cout<<x.first<<" "<<x.second<< endl
+#define rf(i,e,s) 	 for(int i=e-1;i>=s;i--)
+#define CEIL(a, b)   ((a) + (b - 1))/b
+#define TRUNC(x, n)  floor(x * pow(10, n))/pow(10, n)
+#define ROUND(x, n)  round(x * pow(10, n))/pow(10, n)
+
+const int INF = 1e9;    // 2^31-1
+const int LLINF = 4e18; // 2^63-1
+const double EPS = 1e-9;
+const int MAX = 1e6+10; // 10^6 + 10
+
+void solve() {
+
+	
+}
+
+int32_t main() { _
+	
+	int t = 1; // cin >> t;
+	while (t--) {
+		solve();
+	}
+	return 0;
+}
 \end{lstlisting}
 
 \subsection{rand.cpp}
