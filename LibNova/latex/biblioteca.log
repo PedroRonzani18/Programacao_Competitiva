@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.2.3)  24 FEB 2025 22:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.2.3)  25 FEB 2025 17:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -694,10 +694,10 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [7]
-[8]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [9]
+ [8]
+[9]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [10]
@@ -711,17 +711,15 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [13]
-[14] [15
-
-] (./biblioteca.aux)
+[14] [15] (./biblioteca.aux)
 Package rerunfilecheck Info: File `biblioteca.out' has not changed.
-(rerunfilecheck)             Checksum: 0E6048E4136738396889E6FF4A7127C8;3991.
+(rerunfilecheck)             Checksum: 720FC3F23B1CE5E2FB6CA0B8CFE329C9;4237.
  ) 
 Here is how much of TeX's memory you used:
- 19833 strings out of 480247
- 285828 string characters out of 5896152
- 1190510 words of memory out of 5000000
- 36362 multiletter control sequences out of 15000+600000
+ 19908 strings out of 480247
+ 286813 string characters out of 5896152
+ 1185510 words of memory out of 5000000
+ 36389 multiletter control sequences out of 15000+600000
  485886 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  74i,8n,100p,3263b,1871s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -732,10 +730,10 @@ ype1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super
 share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/ty
 pe1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/
 sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on biblioteca.pdf (15 pages, 246265 bytes).
+Output written on biblioteca.pdf (15 pages, 249586 bytes).
 PDF statistics:
- 1588 PDF objects out of 1728 (max. 8388607)
- 1539 compressed objects within 16 object streams
- 1122 named destinations out of 1200 (max. 500000)
- 257 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1649 PDF objects out of 1728 (max. 8388607)
+ 1600 compressed objects within 16 object streams
+ 1170 named destinations out of 1200 (max. 500000)
+ 265 words of extra memory for PDF output out of 10000 (max. 10000000)
 
