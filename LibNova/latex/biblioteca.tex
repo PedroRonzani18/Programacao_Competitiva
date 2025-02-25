@@ -118,6 +118,40 @@ d56 	return memo[x-1];
 1d6 }
 \end{lstlisting}
 
+\subsection{Is Subset Sum (Iterativo)}
+\begin{lstlisting}
+// Verifica se a soma de 0 <= i <= n elementos iguala a sum
+// Temporal: O(sum * n)
+// Espacial: O(sum * n)
+
+c00 const int MAXN = 100;
+bc4 const int MAXSUM = 5000;
+
+759 bool isSubsetSum(vector<int>& v, int n, int sum) {
+10a     f(i, 0, n + 1) { memo[i][0] = true; }
+258     f(j, 1, sum + 1) { memo[0][j] = false; }
+        
+336     f(i, 1, n + 1) {
+9e0         f(j, 1, sum + 1) {
+a1d             if(j < v[i-1])
+2b7                 memo[i][j] = memo[i-1][j];
+295             else
+c1f                 memo[i][j] = memo[i-1][j] || memo[i-1][j- v[i-1]];
+66a         }
+7f7     }
+138     return memo[n][sum];
+f54 }
+
+c0b void solve(int n, int sum) {
+        
+70a     vector<int> v(n);
+9b4 	for(auto& x : n) cin >> x;
+        
+dbf     cout << (isSubsetSum(v, n, k) ? "S" : "N") << endl;
+707 }
+
+\end{lstlisting}
+
 \subsection{Knapsack tradicional}
 \begin{lstlisting}
 // O(n * cap)

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.2.3)  25 FEB 2025 18:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.2.3)  25 FEB 2025 19:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -680,28 +680,31 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [4]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 1527) has occurred while \output is active []
 
  [5]
-[6]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
+ [6]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [7]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [8]
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [9]
+ [8]
+[9]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [10]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [11]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [12]
@@ -713,13 +716,13 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 ] (./biblioteca.aux)
 Package rerunfilecheck Info: File `biblioteca.out' has not changed.
-(rerunfilecheck)             Checksum: 720FC3F23B1CE5E2FB6CA0B8CFE329C9;4237.
+(rerunfilecheck)             Checksum: 516403466DA4E226616A3D9E0F1544A3;4435.
  ) 
 Here is how much of TeX's memory you used:
- 19962 strings out of 480247
- 287467 string characters out of 5896152
- 1150510 words of memory out of 5000000
- 36415 multiletter control sequences out of 15000+600000
+ 20014 strings out of 480247
+ 288184 string characters out of 5896152
+ 1185510 words of memory out of 5000000
+ 36436 multiletter control sequences out of 15000+600000
  485886 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  74i,8n,100p,3263b,1871s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -730,10 +733,10 @@ ype1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super
 share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/ty
 pe1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/
 sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on biblioteca.pdf (16 pages, 252026 bytes).
+Output written on biblioteca.pdf (16 pages, 254200 bytes).
 PDF statistics:
- 1687 PDF objects out of 1728 (max. 8388607)
- 1636 compressed objects within 17 object streams
- 1198 named destinations out of 1200 (max. 500000)
- 265 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1728 PDF objects out of 1728 (max. 8388607)
+ 1677 compressed objects within 17 object streams
+ 1229 named destinations out of 1440 (max. 500000)
+ 273 words of extra memory for PDF output out of 10000 (max. 10000000)
 
