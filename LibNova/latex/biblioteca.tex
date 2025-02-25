@@ -127,7 +127,9 @@ b94 const int MAXN = 110;
 
 ba9 int n, memo[MAXN][MAXW];
 310 int v[MAXN], w[MAXN];
+74a int pego[MAXN] = {0};
 
+// Retorna o lucro maximo 
 12c int dp(int id, int cap) {
 1bb 	if(cap < 0) return -LLINF;
 ecb 	if(id == n or cap == 0) return 0;
@@ -136,6 +138,19 @@ d64 	if(~ans) return ans;
 86f 	return ans = max(dp(id+1, cap), dp(id+1, cap-w[id]) + v[id]);
 d95 }
 
+// Armazena em pego os itens pegos 
+7d0 void recuperar(int id, int cap) {
+efa 	if(id >= n) return;
+fca 	if(dp(id+1, cap-w[id]) + v[id] > dp(id+1, cap)) { // se pegar eh otimo
+44c 		pego[id] = true;
+3fd 		recuperar(id+1, cap-w[id]);
+4ee 	} else { // nao pegar eh otimo
+884 		pego[id] = false;
+45d 		recuperar(id+1, cap);
+549 	}
+845 }
+
+
 63d void solve() {
     
 311 	int cap; cin >> n >> cap;
@@ -143,8 +158,20 @@ d95 }
     
 03b 	f(i,0,n) { cin >> w[i] >> v[i]; }
     
-03b 	cout << dp(0, cap) << endl; 
-5b0 }
+304 	int lucro_max = dp(0, cap);
+    
+ae7 	recuperar(0, cap);
+    	
+4cc 	int lucro = 0, peso = 0;
+418 	f(i,0,n) {
+ecd 		if(pego[i]) {
+73f 			lucro += v[i];
+20e 			peso += w[i];
+c3f 		}
+b7f 	}
+    	
+d13 	assert(lucro_max == lucro and peso <= cap);
+f6f }
 \end{lstlisting}
 
 
