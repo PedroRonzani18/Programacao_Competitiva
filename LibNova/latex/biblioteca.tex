@@ -66,6 +66,91 @@ basicstyle=\ttfamily\footnotesize, % fonte
 
 %%%%%%%%%%%%%%%%%%%%
 %
+% DP
+%
+%%%%%%%%%%%%%%%%%%%%
+
+\section{DP}
+
+\subsection{Exemplo Sapo}
+\begin{lstlisting}
+// There are N stones, numbered 1,2,...,N. 
+// For each i (1<=i<=N), the height of Stone i is hi.
+// There is a frog who is initially on Stone 1. 
+// He will repeat the following action some number of times to reach Stone N:
+// If the frog is currently on Stone i, jump to one of the following: Stone i+1,i+2,...,i+K. Here, a cost of|hi - hj| is incurred, wherej is the stone to land on.
+// Find the minimum possible total cost incurred before the frog reaches Stone N.
+
+dca int n, k;
+
+// Top Down
+4d3 int dp(int i) {
+563 	if(i == 0) return 0;
+7f9 	auto& ans = memo[i];
+d64 	if(~ans) return ans;
+    
+5f9 	int ret = INF;
+a7f 	f(j, max(0ll,i-k), i)
+f97 		ret = min(ret, dp(j) + abs(h[j] - h[i]));
+    
+655 	return ans = ret;
+641 }
+
+// Bootom Up
+e63 int dp_2(int x) {
+    	
+ecd 	memo[0] = 0;
+b85 	f(i,1,x) {
+90b 		int best = INF;
+203 		f(j, max(0ll, i-k), i) {
+428 			best = min(best, memo[j] + abs(h[i] - h[j]));
+8b8 		}
+bc2 		memo[i] = best;
+832 	}
+    
+d56 	return memo[x-1];
+6f3 }
+
+63d void solve() {
+0a1 	cin >> n >> k;
+3f0 	f(i,0,n) cin >> h[i];
+8e4 	cout << dp(n-1) << endl;
+1d6 }
+\end{lstlisting}
+
+\subsection{Knapsack tradicional}
+\begin{lstlisting}
+// O(n * cap)
+
+b94 const int MAXN = 110;
+689 const int MAXW = 1e5+10;
+
+ba9 int n, memo[MAXN][MAXW];
+310 int v[MAXN], w[MAXN];
+
+12c int dp(int id, int cap) {
+1bb 	if(cap < 0) return -LLINF;
+ecb 	if(id == n or cap == 0) return 0;
+c1a 	int &ans = memo[id][cap];
+d64 	if(~ans) return ans;
+86f 	return ans = max(dp(id+1, cap), dp(id+1, cap-w[id]) + v[id]);
+d95 }
+
+63d void solve() {
+    
+311 	int cap; cin >> n >> cap;
+457 	memset(memo, -1, sizeof memo);
+    
+03b 	f(i,0,n) { cin >> w[i] >> v[i]; }
+    
+03b 	cout << dp(0, cap) << endl; 
+5b0 }
+\end{lstlisting}
+
+
+
+%%%%%%%%%%%%%%%%%%%%
+%
 % Estruturas
 %
 %%%%%%%%%%%%%%%%%%%%
@@ -937,6 +1022,18 @@ a9e 		* ParaTodo dependente Bj: n+i -> Bj com peso INF
 %%%%%%%%%%%%%%%%%%%%
 
 \section{Matematica}
+
+\subsection{Numero de Digitos}
+\begin{lstlisting}
+// Calcula o numero de digitos de n 
+// 1234 = 4; 0 = 1
+
+09c int numDigits(int n) {
+209     if (n == 0) return 1;
+662     n = std::abs(n);
+146     return static_cast<int>(std::floor(std::log10(n))) + 1;
+d2b }
+\end{lstlisting}
 
 \subsection{Primos - Lowest Prime Factor}
 \begin{lstlisting}
