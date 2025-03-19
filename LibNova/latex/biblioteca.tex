@@ -66,6 +66,31 @@ basicstyle=\ttfamily\footnotesize, % fonte
 
 %%%%%%%%%%%%%%%%%%%%
 %
+% Array
+%
+%%%%%%%%%%%%%%%%%%%%
+
+\section{Array}
+
+\subsection{Longest Increasing Subsequence}
+\begin{lstlisting}
+// Retorna a mauir subsequencia crescente dentro de um vetor
+// O(n logn)
+d7d vector<int> lis(vector<int>& arr) {
+61d     vector<int> subseq;
+ed5     for(int& x : arr) {
+8a2         auto it = lower_bound(subseq.begin(), subseq.end(), x);
+d3e         if (it == subseq.end()) subseq.push_back(x);
+77c         else *it = x;
+b53     }
+cff     return subseq;
+c0e }
+\end{lstlisting}
+
+
+
+%%%%%%%%%%%%%%%%%%%%
+%
 % DP
 %
 %%%%%%%%%%%%%%%%%%%%
@@ -1074,6 +1099,130 @@ a9e 		* ParaTodo dependente Bj: n+i -> Bj com peso INF
 /* ======================================================= */
 \end{lstlisting}
 
+\subsection{Lowest Common Ancestor (LCA) com peso}
+\begin{lstlisting}
+// Encontra o LCA de uma arvore com peso, assim como a distancia 
+// entre 2 vertices.
+//
+// Assume que um vertice eh ancestral dele mesmo, ou seja,
+// se a eh ancestral de b, lca(a, b) = a
+// dist(a, b) retorna a distancia entre a e b
+//
+// build - O(n)
+// lca - O(1)
+// dist - O(1)
+
+47e const int MAXN = 1e5+10;
+
+67a template<typename T> 
+9f6 struct rmq {
+517     vector<T> v;
+1a8     int n; 
+bac     static const int b = 30;
+70e     vector<int> mask, t;
+    
+18e     int op(int x, int y) { return v[x] < v[y] ? x : y; }
+ee1     int msb(int x) { return __builtin_clz(1) - __builtin_clz(x); }
+        
+6ad     rmq() {}
+43c     rmq(const vector<T>& v_) : v(v_), n(v.size()), mask(n), t(n) {
+2e5         for (int i = 0, at = 0; i < n; mask[i++] = at |= 1) {
+a61             at = (at << 1) & ((1 << b) - 1);
+411             while (at and op(i, i - msb(at & -at)) == i)
+282                 at ^= at & -at;
+53c         }
+9c0         for (int i = 0; i < n / b; i++) 
+e78             t[i] = b * i + b - 1 - msb(mask[b * i + b - 1]);
+dce         for (int j = 1; (1 << j) <= n / b; j++) 
+122             for (int i = 0; i + (1 << j) <= n / b; i++)
+0ee                 t[n / b * j + i] = op(t[n / b * (j - 1) + i],
+cc8                                        t[n / b * (j - 1) + i + (1 << (j - 1))]);
+2d3     }
+        
+879     int small(int r, int sz = b) { 
+7e3         return r - msb(mask[r] & ((1 << sz) - 1)); 
+c92     }
+        
+b7a     T query(int l, int r) {
+27b         if (r - l + 1 <= b) return small(r, r - l + 1);
+7bf         int ans = op(small(l + b - 1), small(r));
+e80         int x = l / b + 1, y = r / b - 1;
+e25         if (x <= y) {
+a4e             int j = msb(y - x + 1);
+002             ans = op(ans, op(t[n / b * j + x], t[n / b * j + y - (1 << j) + 1]));
+4b6         }
+ba7         return ans;
+6bf     }
+b75 };
+
+065 namespace lca {
+2f8     vector<pair<int,int>> g[MAXN];
+        
+13c     int v[2 * MAXN];
+e3b     int pos[MAXN];
+9bb     int level[2 * MAXN];
+8bd     int t;
+2de     rmq<int> RMQ;
+        
+9d3     int dist[MAXN];
+    
+2f0     void dfs(int i, int l = 0, int p = -1, long long d = 0) {
+ae8         v[t] = i;
+1f1         pos[i] = t;
+f68         level[t] = l;
+0f9         dist[i] = d;
+c82         t++;
+eaf         for (auto edge : g[i]) {
+149             int nxt = edge.first;
+68a             int w = edge.second;
+40e             if (nxt == p) continue;
+749             dfs(nxt, l + 1, i, d + w);
+ae8             v[t] = i;
+f68             level[t] = l;
+c82             t++;
+001         }
+165     }
+        
+cda     void build(int n, int root = 0) {
+a34         t = 0;
+14e         dfs(root);
+c64         vector<int> levelVec(level, level + (2 * n - 1));
+a0c         RMQ = rmq<int>(levelVec);
+d91     }
+        
+7be     int lca(int a, int b) {
+ab7         a = pos[a], b = pos[b];
+d11         if (a > b) swap(a, b);
+544         return v[RMQ.query(a, b)];
+413     }
+        
+7a4     long long queryDist(int a, int b) {
+851         int anc = lca(a, b);
+88b         return dist[a] + dist[b] - 2LL * dist[anc];
+731     }
+c13 }
+
+63d void solve() {
+    	
+9ee 	int n; cin >> n;
+    
+a45 	f(i,0,n)
+5af 		lca::g[i].clear();
+    	
+8b2 	f(i,1,n) {
+d25 		int a, b, w; cin >> a >> b >> w;
+cbc 		lca::g[a].push_back({b, w});
+b41 		lca::g[b].push_back({a, w});
+d6c 	}
+    	
+a78 	lca::build(n, 0); // arvore com n vertices com raiz em 0
+    
+903 	int lowestCommonAncertor = lca::lca(0,1); // LCA entre 0 e 1
+258 	int dist = lca::queryDist(0,1); // Distancia entre 0 e 1
+    
+df1 }
+\end{lstlisting}
+
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -1083,6 +1232,122 @@ a9e 		* ParaTodo dependente Bj: n+i -> Bj com peso INF
 %%%%%%%%%%%%%%%%%%%%
 
 \section{Matematica}
+
+\subsection{Conversao de Bases}
+\begin{lstlisting}
+// Converte de 10 -> {2, 8, 10, 16} (log n)
+// Converte de {2, 8, 10, 16} -> 10 (n)
+9c7 char charForDigit(int digit) {
+431     if (digit > 9) return digit + 87;
+d4a     return digit + 48;
+826 }
+
+// 10 -> {2, 8, 10, 16}
+0f3 string decimalToBase(int n, int base = 10) {
+f40     if (not n) return "0";
+461     stringstream ss;
+fcb     for (int i = n; i > 0; i /= base) {
+ac7         ss << charForDigit(i % base);
+cd2     }
+f1f     string s = ss.str();
+01f     reverse(s.begin(), s.end());
+047     return s;
+01e }
+
+9a2 int intForDigit(char digit) {
+374     int intDigit = digit - 48;
+545     if (intDigit > 9) return digit - 87;
+a09     return intDigit;
+acc }
+
+// {2, 8, 10, 16} -> 10
+e37 int baseToDecimal(const string& n, int base = 10) {
+c18     int result = 0;
+e09     int basePow =1;
+000     for (auto it = n.rbegin(); it != n.rend(); ++it, basePow *= base)
+445         result += intForDigit(*it) * basePow;
+dc8     return result;
+9f0 }
+\end{lstlisting}
+
+\subsection{Divisores - Contar}
+\begin{lstlisting}
+// Conta o numero de divisores de um numero baseadp no Smallest Prime Factor
+
+191 vector<int> spf; // Smallest Prime Factor
+
+254 void computeSpf(int n) {
+768     spf.resize(n + 1);
+78a     for (int i = 1; i <= n; i++) {
+cdc         spf[i] = i;
+7a5     }
+2ed     for (int i = 2; i * i <= n; i++) {
+a58         if (spf[i] == i) {
+985             for (int j = i * i; j <= n; j += i) {
+d91                 if (spf[j] == j)
+9a0                     spf[j] = i;
+622             }
+44b         }
+1ee     }
+0fe }
+
+1e3 int getDivisorCount(int x) {
+4e4     int cntDiv = 1;
+40e     while (x > 1) {
+80a         int p = spf[x];
+ac9         int cnt = 0;
+fa7         while (x % p == 0) {
+f65             cnt++;
+43f             x /= p;
+cfd         }
+2ba         cntDiv *= (cnt + 1);
+646     }
+a87     return cntDiv;
+d96 }
+
+63d void solve() {
+1a8 	int n; // maior dos numeros a ser computado a listagem
+aee 	computeSpf(n); // gera os spf para todos ate n
+d9c 	cout << getDivisorCount(n) << endl;
+4f6 }
+\end{lstlisting}
+
+\subsection{MDC e MMC}
+\begin{lstlisting}
+// O(log n)
+
+// MDC entre 2 numeros
+8c1 int mdc(int a, int b) {
+ce2     for (int r = a % b; r; a = b, b = r, r = a % b);
+73f     return b;
+8f5 }
+
+// MDC entre N numeros
+460 int mdc_many(vector<int> arr) {
+7b6    int result = arr[0];
+    
+aa6    for (int& num : arr) {
+437        result = mdc(num, result);
+    
+c03        if(result == 1) return 1;
+885    }
+dc8    return result;
+0c9 }
+
+// MMC entre 2 numeros
+3ec int mmc(int a, int b) {
+6fe     return a / mdc(a, b) * b;
+770 }
+
+// MMC entre N numeros
+1db int mmc_many(vector<int> arr) {
+7b6     int result = arr[0];
+    
+05f     for (int &num : arr)
+9c4         result = (num * result / mdc(num, result));
+dc8     return result;
+72c }
+\end{lstlisting}
 
 \subsection{Numero de Digitos}
 \begin{lstlisting}
@@ -1122,6 +1387,28 @@ d9a             return i;
 5f7 bool isPrime(int n) {
 e32     return n > 1 and lowestPrimeFactor(n) == n;
 822 }
+\end{lstlisting}
+
+\subsection{Sieve}
+\begin{lstlisting}
+// Gera todos os primos do intervalo [1,lim]
+// O(n log log n)
+
+324 int _sieve_size;
+467 bitset<10000010> bs;
+632 vector<int> p;
+
+5c4 void sieve(int lim) {
+1ba     _sieve_size = lim+1;
+0a3     bs.set();
+e52     bs[0] = bs[1] = 0;
+a0a     f(i,2,_sieve_size) { 
+a47         if (bs[i]) {
+bfe             for (int j = i*i; j < _sieve_size; j += i) bs[j] = 0;
+d8d             p.push_back(i);
+70b         }
+ab8     }
+841 }
 \end{lstlisting}
 
 

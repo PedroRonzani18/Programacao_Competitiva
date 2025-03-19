@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.2.3)  25 FEB 2025 19:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.2.3)  18 MAR 2025 23:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -656,15 +656,14 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-(./biblioteca.toc)
+(./biblioteca.toc [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+
+
+])
 \tf@toc=\write6
 \openout6 = `biblioteca.toc'.
 
- [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
-
-
-
-]
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 7
 6.
 
@@ -672,33 +671,32 @@ LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 7
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <9> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 84.
- [2]
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 79.
+ [2] [3]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [3]
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [4]
-Underfull \vbox (badness 1527) has occurred while \output is active []
+[5]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [5]
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [6]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [7]
+[7]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [8]
-[9]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [10]
+ [9]
+[10]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [11]
@@ -711,18 +709,23 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [13]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [14]
-[15] [16
 
-] (./biblioteca.aux)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [14]
+[15] [16]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [17]
+[18] [19] (./biblioteca.aux)
 Package rerunfilecheck Info: File `biblioteca.out' has not changed.
-(rerunfilecheck)             Checksum: 516403466DA4E226616A3D9E0F1544A3;4435.
+(rerunfilecheck)             Checksum: 1302DE976C396BF5A12841EE8054135D;5482.
  ) 
 Here is how much of TeX's memory you used:
- 20014 strings out of 480247
- 288184 string characters out of 5896152
+ 20537 strings out of 480247
+ 294789 string characters out of 5896152
  1185510 words of memory out of 5000000
- 36436 multiletter control sequences out of 15000+600000
+ 36690 multiletter control sequences out of 15000+600000
  485886 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  74i,8n,100p,3263b,1871s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -733,10 +736,10 @@ ype1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super
 share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/ty
 pe1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/
 sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on biblioteca.pdf (16 pages, 254200 bytes).
+Output written on biblioteca.pdf (19 pages, 276976 bytes).
 PDF statistics:
- 1728 PDF objects out of 1728 (max. 8388607)
- 1677 compressed objects within 17 object streams
- 1229 named destinations out of 1440 (max. 500000)
- 273 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2094 PDF objects out of 2487 (max. 8388607)
+ 2036 compressed objects within 21 object streams
+ 1498 named destinations out of 1728 (max. 500000)
+ 329 words of extra memory for PDF output out of 10000 (max. 10000000)
 
