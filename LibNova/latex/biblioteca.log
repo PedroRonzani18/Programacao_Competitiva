@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.2.3)  1 APR 2025 18:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.2.3)  1 APR 2025 18:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -717,7 +717,10 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 1527) has occurred while \output is active []
 
  [16]
-[17] [18] [19]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [17]
+[18] [19]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [20]
@@ -728,8 +731,8 @@ Package rerunfilecheck Info: File `biblioteca.out' has not changed.
 (rerunfilecheck)             Checksum: F5DCFC7A0DEB4D4842FDB3B86BB8CE13;6015.
  ) 
 Here is how much of TeX's memory you used:
- 20869 strings out of 480247
- 299146 string characters out of 5896152
+ 20874 strings out of 480247
+ 299226 string characters out of 5896152
  1174510 words of memory out of 5000000
  36812 multiletter control sequences out of 15000+600000
  485886 words of font info for 80 fonts, out of 8000000 for 9000
@@ -742,10 +745,10 @@ ype1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super
 share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/ty
 pe1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/
 sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on biblioteca.pdf (22 pages, 290946 bytes).
+Output written on biblioteca.pdf (22 pages, 291155 bytes).
 PDF statistics:
- 2374 PDF objects out of 2487 (max. 8388607)
- 2310 compressed objects within 24 object streams
- 1708 named destinations out of 1728 (max. 500000)
+ 2380 PDF objects out of 2487 (max. 8388607)
+ 2316 compressed objects within 24 object streams
+ 1713 named destinations out of 1728 (max. 500000)
  361 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,5 +1,10 @@
 // Pontos de Articulacao + Pontes
 //
+// Computa os pontos de articulacao (vertices criticos) de um grafo
+//
+// art[i] armazena o numero de novas componentes criadas ao deletar vertice i
+// se art[i] >= 1, entao vertice i eh ponto de articulacao
+// 
 // O(V + E)
 
 const int MAXN = 410;
