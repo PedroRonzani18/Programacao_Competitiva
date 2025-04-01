@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.2.3)  1 APR 2025 17:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.2.3)  1 APR 2025 17:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -728,10 +728,10 @@ Package rerunfilecheck Info: File `biblioteca.out' has not changed.
 (rerunfilecheck)             Checksum: C4C4913C6D64AFCEF0799A86BB8F35D6;5795.
  ) 
 Here is how much of TeX's memory you used:
- 20720 strings out of 480247
- 297248 string characters out of 5896152
+ 20736 strings out of 480247
+ 297420 string characters out of 5896152
  1174510 words of memory out of 5000000
- 36749 multiletter control sequences out of 15000+600000
+ 36761 multiletter control sequences out of 15000+600000
  485886 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  74i,8n,100p,3263b,1871s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -742,10 +742,10 @@ ype1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super
 share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/ty
 pe1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/
 sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on biblioteca.pdf (21 pages, 285303 bytes).
+Output written on biblioteca.pdf (21 pages, 285608 bytes).
 PDF statistics:
- 2264 PDF objects out of 2487 (max. 8388607)
- 2202 compressed objects within 23 object streams
- 1622 named destinations out of 1728 (max. 500000)
+ 2268 PDF objects out of 2487 (max. 8388607)
+ 2206 compressed objects within 23 object streams
+ 1626 named destinations out of 1728 (max. 500000)
  353 words of extra memory for PDF output out of 10000 (max. 10000000)
 

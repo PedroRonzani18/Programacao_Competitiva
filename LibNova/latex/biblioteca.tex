@@ -828,45 +828,49 @@ cc9         adj[u].push_back(v);
 \begin{lstlisting}
 //  Encontrar distancia entre S e outros pontos em que pontos estao agrupados (terminais)
 
-2a7 const int MAXN = 1e4+10;
-d95 const int MAXEDG = 1e4+10;
+ef8 const int MAXN = 510;
+57d const int MAXEDG = 510; // maximo numero de terminais
 
 9d3 int dist[MAXN];
-8aa vector<int> niveisDoNode[MAXN], itensDoNivel[MAXEDG];
+a19 vector<int> niveisDoNode[MAXN], nodesDoNivel[MAXEDG];
 
 94c void bfs(int s) {
     
 735     queue<pair<int, int>> q; q.push({s, 0});
     
+a93 	dist[s] = 0;
+    
 14d     while (!q.empty()) {
 2bc         auto [v, dis] = q.front(); q.pop(); 
     
 400         for(auto nivel : niveisDoNode[v]) {
-fce             for(auto u : itensDoNivel[nivel]) {
+8fd             for(auto u : nodesDoNivel[nivel]) {
 619                 if (dist[u] == 0) {
 324                     q.push({u, dis+1});
 554                     dist[u] = dis + 1;
 12f                 }
-648             }
-19c         }
-e96     }
-a35 }
+46b             }
+ffe         }
+e19     }
+e00 }
 
 63d void solve() {
     
-98f 	int n, ed;
-31c 	f(i,0,ed) {
-509 		int q; cin >> q; // quantidade de elementos nesse nivel
+09d 	int n, terminais, s, e;
     
+6bf 	f(i,0,terminais) {
+509 		int q; cin >> q;
 1f4 		while(q--) {
-1b3             int v; cin >> v;
+9aa 			int v; v--;
 e19 			niveisDoNode[v].push_back(i);
-59a 			itensDoNivel[i].push_back(v);
-e5f         }
-e3b 	}
+b14 			nodesDoNivel[i].push_back(v);
+fd8 		}
+6ec 	}
     
-19c 	int s; bfs(s);
-020 }
+aff 	bfs(s);
+    
+85a 	cout << dist[e] << endl;
+7b3 }
 \end{lstlisting}
 
 \subsection{Dijktra}
