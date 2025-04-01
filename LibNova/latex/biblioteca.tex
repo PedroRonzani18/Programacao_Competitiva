@@ -1355,6 +1355,90 @@ a78 	lca::build(n, 0); // arvore com n vertices com raiz em 0
 df1 }
 \end{lstlisting}
 
+\subsection{Pontos de Articulacao + Pontes}
+\begin{lstlisting}
+// O(V + E)
+
+aec const int MAXN = 410;
+
+ea6 vector<int> adj[MAXN];
+5d0 int id[MAXN], art[MAXN];
+4ce stack<int> s;
+
+3e1 int dfs_art(int i, int &t, int p = -1) {
+cf0     int lo = id[i] = t++;
+e07     int children = 0;
+18e     s.push(i);
+f78     for (int j : adj[i]) {
+d09         if (j == p) continue;
+9a3         if (id[j] == -1) {
+c5f             children++;
+206             int val = dfs_art(j, t, i);
+0c3             lo = min(lo, val);
+588             if (val >= id[i]) {
+66a                 art[i]++;
+bd9                 while (s.top() != j) s.pop();
+2eb                 s.pop();
+1f3             }
+    			// if (val > id[i]) aresta i-j eh ponte
+682         }
+4e6         else {
+872             lo = min(lo, id[j]);
+30c         }
+798     }
+        
+924 	if (p == -1) {
+0d6         if (children > 1)
+4f4             art[i] = children - 1;
+295         else
+2b9             art[i] = -1;
+abc     }
+253     return lo;
+db5 }
+
+4d9 void AP(int n) {
+    
+79e 	s = stack<int>();
+        
+418 	f(i,0,n) { 
+9c8         id[i] = -1; 
+2b9         art[i] = -1; 
+ec6     }
+6bb     int t = 0;
+418     f(i,0,n) {
+766         if (id[i] == -1)
+625             dfs_art(i, t, -1);
+d39     }
+f67 }
+
+e03 void solve(int n, int ed) {
+    
+98f 	int n, ed;
+a45 	f(i,0,n)
+9b0         adj[i] = vector<int>();
+    
+c92     while(ed--) {
+ba2         int a, b; 
+fab         adj[a].push_back(b);
+c87         adj[b].push_back(a);
+9a0     }
+    
+bd2     AP(n);
+        
+516     vector<int> pontos;
+        // Para vertices nao-raiz, art[i] >= 0 indica que eh ponto de articulacao.
+        // Para a raiz (i==0) ela so deve ser considerada se tiver 2 ou mais filhos, ou seja, se art[0] > 0.
+418     f(i,0,n) {
+995         if (i == 0) {
+0f8             if (art[i] > 0) pontos.push_back(i+1);
+e74         } else {
+72a             if (art[i] >= 0) pontos.push_back(i+1);
+802         }
+c23     }
+fdb }
+
+\end{lstlisting}
+
 
 
 %%%%%%%%%%%%%%%%%%%%
