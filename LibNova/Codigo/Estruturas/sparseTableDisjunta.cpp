@@ -4,11 +4,8 @@
 // Complexity Temporal: O(n log n) para construir e O(1) para consultar
 // Complexidade Espacial: O(n log n)
 
-#include <bits/stdc++.h>
-using namespace std;
-
-#define MAX 100010
-#define MAX2 20 // log(MAX)
+const int MAX = 100010
+const int MAX2 = 20 // log(MAX)
 
 namespace SparseTable {
 	int m[MAX2][2*MAX], n, v[2*MAX];

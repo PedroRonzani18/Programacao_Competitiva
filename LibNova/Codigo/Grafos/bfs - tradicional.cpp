@@ -41,3 +41,5 @@ void solve() {
 
 	int s; bfs(s);
 }
+
+// Checar Fortemente Conexo: BFS adj e adj reverso, ver se todos os vertices foram visitados.

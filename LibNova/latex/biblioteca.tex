@@ -243,6 +243,57 @@ f6f }
 
 \section{Estruturas}
 
+\subsection{BIT}
+\begin{lstlisting}
+// BIT de soma 0-based
+// 
+// upper_bound(x) retorna o menor p tal que pref(p) > x 
+//
+// Complexidades:
+// build - O(n)
+// update - O(log(n))
+// query - O(log(n))
+// upper_bound - O(log(n))
+
+8eb struct Bit {
+1a8 	int n;
+116 	vector<int> bit;
+e86 	Bit(int _n=0) : n(_n), bit(n + 1) {}
+70f 	Bit(vector<int>& v) : n(v.size()), bit(n + 1) {
+78a 		for (int i = 1; i <= n; i++) {
+671 			bit[i] += v[i - 1];
+edf 			int j = i + (i & -i);
+b8a 			if (j <= n) bit[j] += bit[i];
+806 		}
+e89 	}
+cf6 	void update(int i, int x) { // soma x na posicao i
+b64 		for (i++; i <= n; i += i & -i) bit[i] += x;
+850 	}
+cdb 	int pref(int i) { // soma [0, i]
+7c9 		int ret = 0;
+4d3 		for (i++; i; i -= i & -i) ret += bit[i];
+edf 		return ret;
+065 	}
+9e3 	int query(int l, int r) {  // soma [l, r]
+89b 		return pref(r) - pref(l - 1); 
+e97 	}
+bdf 	int upper_bound(int x) {
+1ba 		int p = 0;
+0af 		for (int i = __lg(n); i+1; i--) 
+6f5 			if (p + (1<<i) <= n and bit[p + (1<<i)] <= x)
+68e 				x -= bit[p += (1 << i)];
+74e 		return p;
+be4 	}
+f75 };
+
+63d void solve() {
+    
+70a 	vector<int> v(n);
+    
+8b8 	Bit bit (v);
+edc }
+\end{lstlisting}
+
 \subsection{DSU}
 \begin{lstlisting}
 // Une dois conjuntos e acha a qual conjunto um elemento pertence por seu id
@@ -368,7 +419,7 @@ d54 		if (a == b) return;
 c6e };
 \end{lstlisting}
 
-\subsection{Fenwick Tree (BIT)}
+\subsection{Fenwick Tree (BIT) Range }
 \begin{lstlisting}
 // Operacoes 0-based
 // query(l, r) retorna a soma de v[l..r]
@@ -379,7 +430,7 @@ c6e };
 // query - O(log(n))
 // update - O(log(n))
 
-e04 namespace bit {
+796 namespace BitRange {
 06d 	int bit[2][MAX+2];
 1a8 	int n;
     
@@ -406,17 +457,17 @@ ff5 		return get2(r+1) - get2(l);
 e5f 		add(0, l+1, x), add(0, r+2, -x);
 f58 		add(1, l+1, -x*l), add(1, r+2, x*(r+1));
 5ce 	}
-17a };
+1b4 };
 
 63d void solve() {
     
 97a 	vector<int> v {0,1,2,3,4,5}; // v[0] eh inutilizada
-c7b 	bit::build(v.size(), v);
+f98 	BitRange::build(v.size(), v);
     
 67f 	int a = 0, b = 3;
-9b0 	bit::query(a, b); // v[a] + v[a+1] + ... + v[b] = 6  | 1+2+3 = 6 | zero-based
-b3d 	bit::update(a, b, 2); // v[a...b] += 2 | zero-based
-7b4 }
+3d5 	BitRange::query(a, b); // v[a] + v[a+1] + ... + v[b] = 6  | 1+2+3 = 6 | zero-based
+a4b 	BitRange::update(a, b, 2); // v[a...b] += 2 | zero-based
+d65 }
 \end{lstlisting}
 
 \subsection{SegTree}
@@ -536,11 +587,8 @@ a15 };
 // Complexity Temporal: O(n log n) para construir e O(1) para consultar
 // Complexidade Espacial: O(n log n)
 
-2b7 #include <bits/stdc++.h>
-ca4 using namespace std;
-
-005 #define MAX 100010
-352 #define MAX2 20 // log(MAX)
+125 const int MAX = 100010
+d5a const int MAX2 = 20 // log(MAX)
 
 82d namespace SparseTable {
 9bf 	int m[MAX2][2*MAX], n, v[2*MAX];
@@ -722,38 +770,37 @@ b68     tabuleiro.atribuirLinha(linha, static_cast<int8_t>(valor)); // f(i,0,C) 
 
 \subsection{Union-Find (Disjoint Set Union)}
 \begin{lstlisting}
-f3b const int MAX = 5e4+10;
-
-074 int p[MAX], ranking[MAX], setSize[MAX];
+da5 const int MAXN = 1e3+10;
 
 0cd struct UnionFind {
 c55     int numSets;
+320     int id[MAXN], sz[MAXN];
     
 02d     UnionFind(int N) {
-680 		iota(p,p+N+1,0);
-340 		memset(ranking, 0, sizeof ranking);
-f0a 		memset(setSize, 1, sizeof setSize);
 0bd         numSets = N;
-142     }
+faa         for (int i = 0; i < N; i++) {
+963             id[i] = i;
+02c             sz[i] = 1;
+0e9         }
+41f     }
     
-c59     int numDisjointSets() { return numSets; }
-a5b     int sizeOfSet(int i) { return setSize[find(i)]; }
+aee     int find(int a) { 
+3da         return id[a] = (id[a] == a ? a : find(id[a]));
+c7b     }
     
-8ee     int find(int i) { return (p[i] == i) ? i : (p[i] = find(p[i])); }
-da3     bool same(int i, int j) { return find(i) == find(j); }
-92e     void uni(int i, int j) {
-ea5         if (same(i, j))
-505             return;
-c56         int x = find(i), y = find(j);
-e4f         if (ranking[x] > ranking[y])
-9dd             swap(x, y);
-ae9         p[x] = y;
-6e9         if (ranking[x] == ranking[y])
-3cf             ++ranking[y];
-223         setSize[y] += setSize[x];
+78b     void uni(int a, int b) { 
+605         a = find(a), b = find(b);
+d54         if(a == b) return;
+3c6         if(sz[a] > sz[b]) swap(a, b);
+351         id[a] = b;
+582         sz[b] += sz[a];
 92a         --numSets;
-e3f     }
-b6b };
+650     }
+        
+3ae     int sizeOfSet(int a) { return sz[find(a)]; }
+c59     int numDisjointSets() { return numSets; }
+864 };
+
 
 63d void solve() {
     
@@ -778,6 +825,80 @@ c0f 	}
 %%%%%%%%%%%%%%%%%%%%
 
 \section{Grafos}
+
+\subsection{APSP - Floyd Warshall}
+\begin{lstlisting}
+// Calcula caminho minimo entre todos os pares de vertices
+// O(V^3)
+
+b94 const int MAXN = 110;
+
+0eb int adj[MAXN][MAXN];
+
+eac void printAnswer(int n) {
+5bf 	for (int u = 0; u < n; ++u)
+a3f 	for (int v = 0; v < n; ++v)
+6ab 	cout << "APSP("<<u<<", "<<v<<") = " << adj[u][v] << endl;
+8c7 }
+
+e4a void prepareParent() {
+418 	f(i,0,n) {
+001 		f(j,0,n) {
+b5a 			p[i][j] = i;
+441 		}
+d89 	}
+    
+b9b 	for (int k = 0; k < n; ++k)
+6cb 	for (int i = 0; i < n; ++i)
+a9e 	for (int j = 0; j < n; ++j)
+c1d 		if (adj[i][k] + adj[k][j] < adj[i][j]) {
+a1a 			adj[i][j] = adj[i][k]+adj[k][j];
+9b6 			p[i][j] = p[k][j];
+a04 		}
+c85 }
+
+470 vector<int> restorePath(int u, int v) {
+    
+36d 	if (adj[u][v] == INF) return {};
+5b4 	vector<int>  path;
+81f 	for (; v != u; v = p[u][v]) {
+ff8 		if (v == -1) return {};
+80a 		path.push_back(v);
+3d1 	}
+960 	path.push_back(u);
+3a9 	reverse(path.begin(), path.end());
+535 	return path;
+16a }
+
+230 void floyd_warshall(int n) {
+e22 	for (int k = 0; k < n; k++)
+830 	for (int i = 0; i < n; i++)
+f90 	for (int j = 0; j < n; j++)
+ffd 		adj[i][j] = min(adj[i][j], adj[i][k] + adj[k][j]);
+e78 }
+
+e03 void solve(int n, int ed) {
+    
+418 	f(i,0,n) {
+001 		f(j,0,n) {
+59d 			adj[i][j] = INF;
+93d 		}
+774 		adj[i][i] = 0;
+c4e 	}
+    
+c92 	while(ed--) {
+c48 		int u, v, w; cin >> u >> v >> w; u--, v--;
+7da 		adj[u][v] = adj[v][u] = w;
+2a0 	}
+    
+803 	floyd_warshall(n);
+    
+    	// prepareParent();
+    	// auto path = restorePath(0, 3);
+649 }
+
+// Diametro do Grafo: maior valor de adj[u][v] != INF
+\end{lstlisting}
 
 \subsection{BFS}
 \begin{lstlisting}
@@ -822,6 +943,8 @@ cc9         adj[u].push_back(v);
     
 19c 	int s; bfs(s);
 81a }
+
+// Checar Fortemente Conexo: BFS adj e adj reverso, ver se todos os vertices foram visitados.
 \end{lstlisting}
 
 \subsection{BFS - por niveis}
@@ -871,44 +994,6 @@ aff 	bfs(s);
     
 85a 	cout << dist[e] << endl;
 7b3 }
-\end{lstlisting}
-
-\subsection{Dijktra}
-\begin{lstlisting}
-// O(E log V)
-
-2a7 const int MAXN = 1e4+10;
-
-3ac vector<pair<int,int>> adj[MAXN];
-9d3 int dist[MAXN];
-
-3f4 void dijkstra(int s) {
-a93     dist[s] = 0;
-63c     priority_queue<pii, vector<pii>, greater<pii>> pq; pq.push({0, s});
-    
-502     while (!pq.empty()) {
-5c1         auto [d, u] = pq.top(); pq.pop();
-3e1         if (d > dist[u]) continue;
-3c0         for (auto &[v, w] : adj[u]) {
-c21             if (dist[u] + w >= dist[v]) continue;
-491             dist[v] = dist[u]+w;
-bf3             pq.push({dist[v], v});
-a42         }
-6df     }
-695 }
-
-63d void solve() {
-    
-8ed 	int v, ed; cin >> v >> ed;
-98b 	f(i,0,v) { 	dist[i] = INF; }
-    
-c92 	while(ed--) {
-691 		int a, b, w; cin >> a >> b >> w; a--, b--;
-fbc 		adj[a].emplace_back(b,w);
-    		// adj[b].emplace_back(a,w);
-47c 	}
-458 	int s; dijkstra(s);
-c49 }
 \end{lstlisting}
 
 \subsection{Emparelhamento Max Grafo Bipartido (Kuhn)}
@@ -1231,6 +1316,236 @@ a9e 		* ParaTodo dependente Bj: n+i -> Bj com peso INF
 /* ======================================================= */
 \end{lstlisting}
 
+\subsection{IsBipartido}
+\begin{lstlisting}
+// Verifica se um grafo eh bipartido
+// O(V+E)
+
+b94 const int MAXN = 110;
+
+ea6 vector<int> adj[MAXN];
+496 int color[MAXN];
+
+64d bool bipartido(int n) {
+    
+37f     int s = 0;
+8b2     queue<int> q; q.push(s);
+56d     color[s] = 0;
+4fd     bool ans = true; 
+    
+984     while (!q.empty() and ans) { 
+be1         int u = q.front(); q.pop();
+    
+cab         for (auto &v : adj[u]) {
+f75             if (color[v] == INF) {                            
+23d                 color[v] = 1 - color[u]; 
+2a1                 q.push(v);
+763             }
+ec1             else if (color[v] == color[u]) {                        
+7bd                 ans = false; 
+c2b                 break;               
+d89             }
+d57         }
+8fe     }
+    
+ba7     return ans;
+61e }
+
+5a4 void solve(int n) {
+    
+418 	f(i,0,n) {
+9b0 		adj[i] = vector<int>();
+f49 		color[i] = INF;
+417 	}
+    
+    	// preenche grafo ...
+    
+bcc 	bool ans = bipartido(n);
+b1b }
+\end{lstlisting}
+
+\subsection{Kruskal}
+\begin{lstlisting}
+// Encontra a Arvore Geradora Minima (AGM) de um grafo
+// O(E log V)
+
+da5 const int MAXN = 1e3+10;
+
+320 int id[MAXN], sz[MAXN];
+
+aee int find(int a) { 
+3da     return id[a] = (id[a] == a ? a : find(id[a]));
+c7b }
+
+78b void uni(int a, int b) { // O(a(N)) amortizado
+605     a = find(a), b = find(b);
+d54     if(a == b) return;
+    
+3c6     if(sz[a] > sz[b]) swap(a,b);
+6eb     id[a] = b, sz[b] += sz[a];
+2de }
+
+057 int kruskal(vector<tuple<int, int, int>>& edg) {
+    	
+704 	int cost = 0;
+    	// vector<tuple<int, int, int>> mst;
+fea 	for (auto [w,x,y] : edg) if (find(x) != find(y)) {
+    		// mst.emplace_back(w, x, y);
+45f 		cost += w; 
+cf2 		uni(x,y);
+815 	}
+12d 	return cost;
+798 }
+
+e03 void solve(int n, int ed) {
+    
+f51 	vector<tuple<int, int, int>> edg(n);
+    
+863 	for(auto& [w,u,v] : edg) {
+261 		cin >> u >> v >> w; u--, v--;
+afd 	}
+    
+418 	f(i,0,n) {
+963 		id[i] = i;
+bc4 		sz[i] = -1;
+55b 	}
+    	
+c14 	sort(all(edg));
+    
+772 	int cost = kuskal(edg);
+8c8 }
+
+// VARIANTES
+
+// Maximum Spanning Tree: sort(edg.rbegin(), edg.rend());
+
+// 'Minimum' Spanning Subgraph:
+//	- Algumas arestas ja foram adicionadas (maior prioridade - Questao das rodovias)
+//	- Arestas que nao foram adicionadas (menor prioridade - ferrovias)
+//	-> kruskal(rodovias); kruskal(ferrovias);
+
+// Minimum Spanning Forest:
+// 	- Queremos uma floresta com k componentes
+// 	-> kruskal(edg); if(mst.sizer() == k) break;
+
+//  MiniMax
+//	- Encontrar menor caminho entre dous vertices com maior quantidade de arestas
+//	-> kruskal(edg); dijsktra(mst);
+
+// Second Best MST
+// 	- Encontrar a segunda melhor arvore geradora minima
+// 	-> kruskal(edg);
+// 	-> flag mst[i] = 1;
+// 	-> sort(cmp(edg.flag != -1)) => da prioridade para outras arestas
+\end{lstlisting}
+
+\subsection{LCA com RMQ}
+\begin{lstlisting}
+// Assume que um vertice eh ancestral dele mesmo, ou seja,
+// se a eh ancestral de b, lca(a, b) = a
+// dist(a, b) retorna a distancia entre a e b
+//
+// build - O(n)
+// lca - O(1)
+// dist - O(1)
+
+67a template<typename T> 
+9f6 struct rmq {
+517     vector<T> v;
+1a8     int n; 
+bac     static const int b = 30;
+70e     vector<int> mask, t;
+    
+6b4     int op(int x, int y) { 
+ffd         return v[x] < v[y] ? x : y; 
+18e     }
+543     int msb(int x) { 
+391         return __builtin_clz(1) - __builtin_clz(x); 
+ee1     }
+6ad     rmq() {}
+43c     rmq(const vector<T>& v_) : v(v_), n(v.size()), mask(n), t(n) {
+2e5         for (int i = 0, at = 0; i < n; mask[i++] = at |= 1) {
+a61             at = (at << 1) & ((1 << b) - 1);
+411             while (at and op(i, i - msb(at & -at)) == i)
+282                 at ^= at & -at;
+53c         }
+9c0         for (int i = 0; i < n / b; i++) 
+e78             t[i] = b * i + b - 1 - msb(mask[b * i + b - 1]);
+dce         for (int j = 1; (1 << j) <= n / b; j++) 
+122             for (int i = 0; i + (1 << j) <= n / b; i++)
+ba5                 t[n / b * j + i] = op(t[n / b * (j - 1) + i], t[n / b * (j - 1) + i + (1 << (j - 1))]);
+2d3     }
+879     int small(int r, int sz = b) { 
+7e3         return r - msb(mask[r] & ((1 << sz) - 1)); 
+c92     }
+b7a     T query(int l, int r) {
+cb5         if (r - l + 1 <= b)
+e60             return small(r, r - l + 1);
+7bf         int ans = op(small(l + b - 1), small(r));
+e80         int x = l / b + 1, y = r / b - 1;
+e25         if (x <= y) {
+a4e             int j = msb(y - x + 1);
+002             ans = op(ans, op(t[n / b * j + x], t[n / b * j + y - (1 << j) + 1]));
+4b6         }
+ba7         return ans;
+6bf     }
+b75 };
+
+065 namespace lca {
+282     vector<int> g[MAXN];
+1d9     int v[2 * MAXN], pos[MAXN], dep[2 * MAXN];
+8bd     int t;
+2de     rmq<int> RMQ;
+        
+4cf     void dfs(int i, int d = 0, int p = -1) {
+ae8         v[t] = i;
+1f1         pos[i] = t;
+949         dep[t] = d;
+c82         t++;
+45a         for (auto j : g[i])
+f25             if(j != p) {
+8ec                 dfs(j, d + 1, i);
+ae8                 v[t] = i;
+949                 dep[t] = d;
+c82                 t++;
+fcd             }
+8de     }
+        
+789     void build(int n, int root) {
+a34         t = 0;
+14e         dfs(root);
+659         vector<int> depVec(dep, dep + 2 * n - 1);
+ac6         RMQ = rmq<int>(depVec);
+631     }
+        
+7be     int lca(int a, int b) {
+ab7         a = pos[a], b = pos[b];
+d11         if(a > b) swap(a, b);
+544         return v[RMQ.query(a, b)];
+413     }
+        
+b5d     int dist(int a, int b) {
+72b         int l = lca(a, b);
+798         return dep[pos[a]] + dep[pos[b]] - 2 * dep[pos[l]];
+2ed     }
+767 }
+
+   
+5a4 void solve(int n) {
+        
+742 	f(i,0,n-1){
+bf7         int a, b; cin >> a >> b; a--; b--;
+ec9         lca::g[a].push_back(b);
+b2f         lca::g[b].push_back(a);
+32a     }
+        
+a78     lca::build(n, 0); // raiz nesse caso eh 0
+      
+d00 	cout << lca::dist(1,2) << endl // distancia entre vertices 1 e 2 da arvore
+83a }
+
+\end{lstlisting}
+
 \subsection{Lowest Common Ancestor (LCA) com peso}
 \begin{lstlisting}
 // Encontra o LCA de uma arvore com peso, assim como a distancia 
@@ -1442,6 +1757,92 @@ e74         } else {
 c23     }
 fdb }
 
+\end{lstlisting}
+
+\subsection{SSSP - Bellman Ford}
+\begin{lstlisting}
+// Aceita pesos negativos
+//
+// Conexo: O(VE)
+// Desconexo: O(EV^2)
+
+1a0 const int MAXEDG = 1e3+10;
+
+203 tuple<int,int,int>> edg [MAXN];
+989 int dist[MAXN];i
+
+f6e int bellman_ford(int n, int src) {
+11b     dist.assign(n+1, INT_MAX);
+    
+41e     f(i,0,n+2) {
+d77         for(auto& [u, v, w] : edg) {
+20a             if(dist[u] != INT_MAX and dist[v] > w + dist[u])
+491                 dist[v] = dist[u] + w;
+224         }
+a1e     }
+    
+        // Possivel checar ciclos negativos (ciclo de peso total negativo)
+d77     for(auto& [u, v, w] : edg) {
+20a         if(dist[u] != INT_MAX and dist[v] > w + dist[u])
+6a5             return 1;
+40f     }
+    
+bb3     return 0;
+0b4 }
+
+e03 void solve(int n, int ed) {
+    
+040 	f(i,0,n) { dist[i] = INF; }
+    
+31c 	f(i,0,ed) {
+2ef         int u, v, w; u--, v--;
+732 		edg[i] = {u,v,w};
+5ce     }
+    
+447     bellman_ford(n, 0);
+bd8 }
+\end{lstlisting}
+
+\subsection{SSSP - Dijktra}
+\begin{lstlisting}
+// O(E log V)
+
+2a7 const int MAXN = 1e4+10;
+
+3ac vector<pair<int,int>> adj[MAXN];
+9d3 int dist[MAXN];
+// int parent[MAXN];
+
+3f4 void dijkstra(int s) {
+a93     dist[s] = 0; // se eventualmente puder voltar pra ca, tipo ciclo | salesman | remover essa linha
+63c     priority_queue<pii, vector<pii>, greater<pii>> pq; pq.push({0, s});
+    
+502     while (!pq.empty()) {
+5c1         auto [d, u] = pq.top(); pq.pop();
+3e1         if (d > dist[u]) continue;
+    		 // if(u == s and dist[u] < INF) break; | pra quando tiver que fazer um ciclo
+    
+3c0         for (auto &[v, w] : adj[u]) {
+c21             if (dist[u] + w >= dist[v]) continue;
+491             dist[v] = dist[u]+w;
+    			// parent[v] = u;
+bf3             pq.push({dist[v], v});
+a42         }
+6df     }
+695 }
+
+63d void solve() {
+    
+8ed 	int v, ed; cin >> v >> ed;
+98b 	f(i,0,v) { 	dist[i] = INF; }
+    
+c92 	while(ed--) {
+691 		int a, b, w; cin >> a >> b >> w; a--, b--;
+fbc 		adj[a].emplace_back(b,w);
+    		// adj[b].emplace_back(a,w);
+47c 	}
+458 	int s; dijkstra(s);
+c49 }
 \end{lstlisting}
 
 

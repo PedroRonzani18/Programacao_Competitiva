@@ -1,37 +1,36 @@
 // Union-Find (Disjoint Set Union)
 
-const int MAX = 5e4+10;
-
-int p[MAX], ranking[MAX], setSize[MAX];
+const int MAXN = 1e3+10;
 
 struct UnionFind {
     int numSets;
+    int id[MAXN], sz[MAXN];
 
     UnionFind(int N) {
-		iota(p,p+N+1,0);
-		memset(ranking, 0, sizeof ranking);
-		memset(setSize, 1, sizeof setSize);
         numSets = N;
+        for (int i = 0; i < N; i++) {
+            id[i] = i;
+            sz[i] = 1;
+        }
     }
 
-    int numDisjointSets() { return numSets; }
-    int sizeOfSet(int i) { return setSize[find(i)]; }
+    int find(int a) { 
+        return id[a] = (id[a] == a ? a : find(id[a]));
+    }
 
-    int find(int i) { return (p[i] == i) ? i : (p[i] = find(p[i])); }
-    bool same(int i, int j) { return find(i) == find(j); }
-    void uni(int i, int j) {
-        if (same(i, j))
-            return;
-        int x = find(i), y = find(j);
-        if (ranking[x] > ranking[y])
-            swap(x, y);
-        p[x] = y;
-        if (ranking[x] == ranking[y])
-            ++ranking[y];
-        setSize[y] += setSize[x];
+    void uni(int a, int b) { 
+        a = find(a), b = find(b);
+        if(a == b) return;
+        if(sz[a] > sz[b]) swap(a, b);
+        id[a] = b;
+        sz[b] += sz[a];
         --numSets;
     }
+    
+    int sizeOfSet(int a) { return sz[find(a)]; }
+    int numDisjointSets() { return numSets; }
 };
+
 
 void solve() {
 

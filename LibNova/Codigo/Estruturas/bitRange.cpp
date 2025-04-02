@@ -1,4 +1,4 @@
-// Fenwick Tree (BIT)
+// Fenwick Tree (BIT) Range 
 //
 // Operacoes 0-based
 // query(l, r) retorna a soma de v[l..r]
@@ -9,7 +9,7 @@
 // query - O(log(n))
 // update - O(log(n))
 
-namespace bit {
+namespace BitRange {
 	int bit[2][MAX+2];
 	int n;
 
@@ -41,9 +41,9 @@ namespace bit {
 void solve() {
 
 	vector<int> v {0,1,2,3,4,5}; // v[0] eh inutilizada
-	bit::build(v.size(), v);
+	BitRange::build(v.size(), v);
 
 	int a = 0, b = 3;
-	bit::query(a, b); // v[a] + v[a+1] + ... + v[b] = 6  | 1+2+3 = 6 | zero-based
-	bit::update(a, b, 2); // v[a...b] += 2 | zero-based
+	BitRange::query(a, b); // v[a] + v[a+1] + ... + v[b] = 6  | 1+2+3 = 6 | zero-based
+	BitRange::update(a, b, 2); // v[a...b] += 2 | zero-based
 }

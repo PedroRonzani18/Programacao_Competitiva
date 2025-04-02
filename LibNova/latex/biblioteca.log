@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.2.3)  1 APR 2025 18:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.2.3)  2 APR 2025 18:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -673,33 +673,34 @@ File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <9> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 79.
  [2]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 1527) has occurred while \output is active []
 
  [3]
+[4]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [4]
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [5]
-Underfull \vbox (badness 1527) has occurred while \output is active []
-
-
+[6]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [6]
-[7]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
+ [7]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [8]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [9]
-[10] [11]
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [9]
+[10]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [11]
+Underfull \vbox (badness 1527) has occurred while \output is active []
 
  [12]
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -711,30 +712,32 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [15]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \vbox (badness 1527) has occurred while \output is active []
-
- [16]
+[16]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [17]
-[18] [19]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [18]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [19]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [20]
-[21] [22
+[21] [22] [23]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-] (./biblioteca.aux)
+ [24]
+[25] [26] (./biblioteca.aux)
 Package rerunfilecheck Info: File `biblioteca.out' has not changed.
-(rerunfilecheck)             Checksum: F5DCFC7A0DEB4D4842FDB3B86BB8CE13;6015.
+(rerunfilecheck)             Checksum: 282424E12969B05DC1B891FEA7841120;6834.
  ) 
 Here is how much of TeX's memory you used:
- 20874 strings out of 480247
- 299226 string characters out of 5896152
- 1174510 words of memory out of 5000000
- 36812 multiletter control sequences out of 15000+600000
+ 21392 strings out of 480247
+ 306704 string characters out of 5896152
+ 1178510 words of memory out of 5000000
+ 36938 multiletter control sequences out of 15000+600000
  485886 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  74i,8n,100p,3263b,1871s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -745,10 +748,10 @@ ype1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super
 share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/ty
 pe1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/
 sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on biblioteca.pdf (22 pages, 291155 bytes).
+Output written on biblioteca.pdf (26 pages, 317030 bytes).
 PDF statistics:
- 2380 PDF objects out of 2487 (max. 8388607)
- 2316 compressed objects within 24 object streams
- 1713 named destinations out of 1728 (max. 500000)
- 361 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2892 PDF objects out of 2984 (max. 8388607)
+ 2819 compressed objects within 29 object streams
+ 2105 named destinations out of 2487 (max. 500000)
+ 409 words of extra memory for PDF output out of 10000 (max. 10000000)
 
