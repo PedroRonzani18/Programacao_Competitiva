@@ -294,6 +294,42 @@ f75 };
 edc }
 \end{lstlisting}
 
+\subsection{BIT-Sort Tree}
+\begin{lstlisting}
+// Tipo uma MergeSort Tree usando Bit
+// Apesar da complexidade ser pior, fica melhor na pratica.
+//
+// query(l, r, k) retorna o numero de elementos menores que k 
+// no intervalo [l, r]
+//
+// Memoria: O(n logn)
+// Build: O(n log^2(n)) 
+// Query: O(log^2(n)) 
+
+6fa template<typename T> struct ms_bit {
+1a8     int n;
+b2f     vector<vector<T>> bit;
+      
+899     ms_bit(vector<T>& v) : n(v.size()), bit(n+1) {
+830         for (int i = 0; i < n; i++)
+d51             for (int j = i+1; j <= n; j += j&-j)
+dad                 bit[j].push_back(v[i]);
+535         for (int i = 1; i <= n; i++)
+eec             sort(bit[i].begin(), bit[i].end());
+b4d     }
+    
+257     int p_query(int i, T k) {
+7c9         int ret = 0;
+be8         for (i++; i; i -= i&-i)
+1bd             ret += lower_bound(bit[i].begin(), bit[i].end(), k) - bit[i].begin();
+edf         return ret;
+6f9     }
+690     int query(int l, int r, T k) {
+83d         return p_query(r, k) - p_query(l-1, k);
+bcc     }
+8d0 };
+\end{lstlisting}
+
 \subsection{DSU}
 \begin{lstlisting}
 // Une dois conjuntos e acha a qual conjunto um elemento pertence por seu id
@@ -468,6 +504,42 @@ f98 	BitRange::build(v.size(), v);
 3d5 	BitRange::query(a, b); // v[a] + v[a+1] + ... + v[b] = 6  | 1+2+3 = 6 | zero-based
 a4b 	BitRange::update(a, b, 2); // v[a...b] += 2 | zero-based
 d65 }
+\end{lstlisting}
+
+\subsection{RMQ <O(n), O(1)> - min queue}
+\begin{lstlisting}
+// O(n) pra buildar, query O(1)
+// Se tiver varios minimos, retorna
+// o de menor indice
+
+1a5 template<typename T> struct rmq {
+517 	vector<T> v;
+fcc 	int n; static const int b = 30;
+70e 	vector<int> mask, t;
+    
+183 	int op(int x, int y) { return v[x] <= v[y] ? x : y; }
+ee1 	int msb(int x) { return __builtin_clz(1)-__builtin_clz(x); }
+c92 	int small(int r, int sz = b) { return r-msb(mask[r]&((1<<sz)-1)); }
+6ad 	rmq() {}
+43c 	rmq(const vector<T>& v_) : v(v_), n(v.size()), mask(n), t(n) {
+2e5 		for (int i = 0, at = 0; i < n; mask[i++] = at |= 1) {
+a61 			at = (at<<1)&((1<<b)-1);
+c00 			while (at and op(i-msb(at&-at), i) == i) at ^= at&-at;
+c2f 		}
+ea4 		for (int i = 0; i < n/b; i++) t[i] = small(b*i+b-1);
+39d 		for (int j = 1; (1<<j) <= n/b; j++) for (int i = 0; i+(1<<j) <= n/b; i++)
+ba5 			t[n/b*j+i] = op(t[n/b*(j-1)+i], t[n/b*(j-1)+i+(1<<(j-1))]);
+41a 	}
+e34 	int index_query(int l, int r) {
+27b 		if (r-l+1 <= b) return small(r, r-l+1);
+e80 		int x = l/b+1, y = r/b-1;
+fd3 		if (x > y) return op(small(l+b-1), small(r));
+a4e 		int j = msb(y-x+1);
+ea3 		int ans = op(small(l+b-1), op(t[n/b*j+x], t[n/b*j+y-(1<<j)+1]));
+be6 		return op(ans, small(r));
+62a 	}
+093 	T query(int l, int r) { return v[index_query(l, r)]; }
+bab };
 \end{lstlisting}
 
 \subsection{SegTree}
@@ -898,6 +970,184 @@ c48 		int u, v, w; cin >> u >> v >> w; u--, v--;
 649 }
 
 // Diametro do Grafo: maior valor de adj[u][v] != INF
+\end{lstlisting}
+
+\subsection{Arvore - Centro}
+\begin{lstlisting}
+// Retorna o diametro e o(s) centro(s) da arvore
+// Uma arvore tem sempre um ou dois centros e estes estao no meio do diametro
+//
+// O(n)
+
+042 vector<int> g[MAX];
+df1 int d[MAX], par[MAX];
+
+544 pair<int, vector<int>> center() {
+a95 	int f, df;
+36d 	function<void(int)> dfs = [&] (int v) {
+d47 		if (d[v] > df) f = v, df = d[v];
+e68 		for (int u : g[v]) if (u != par[v]) 
+1a5 			d[u] = d[v] + 1, par[u] = v, dfs(u);
+90d 	};
+     
+1b0 	f = df = par[0] = -1, d[0] = 0;
+41e 	dfs(0);
+c2d 	int root = f;
+0f6 	f = df = par[root] = -1, d[root] = 0;
+14e 	dfs(root);
+     
+761  	vector<int> c;
+87e 	while (f != -1) {
+999 		if (d[f] == df/2 or d[f] == (df+1)/2) c.push_back(f);
+19c 		f = par[f];
+3bf 	}
+     
+00f 	return {df, c};
+9c7 }
+\end{lstlisting}
+
+\subsection{Arvore - Centroid}
+\begin{lstlisting}
+// Computa os 2 centroids da arvore
+//
+// O(n)
+
+97a int n, subsize[MAX];
+042 vector<int> g[MAX];
+
+98f void dfs(int k, int p=-1) {
+bd2 	subsize[k] = 1;
+6e5 	for (int i : g[k]) if (i != p) {
+801 		dfs(i, k);
+2e3 		subsize[k] += subsize[i];
+1b2 	}
+5a5 }
+
+2e8 int centroid(int k, int p=-1, int size=-1) {
+e73 	if (size == -1) size = subsize[k];
+8df 	for (int i : g[k]) if (i != p) if (subsize[i] > size/2)
+bab 		return centroid(i, k, size);
+839 	return k;
+b6a }
+
+f20 pair<int, int> centroids(int k=0) {
+051 	dfs(k);
+909 	int i = centroid(k), i2 = i;
+8dd 	for (int j : g[i]) if (2*subsize[j] == subsize[k]) i2 = j;
+0cb 	return {i, i2};
+cf4 }
+\end{lstlisting}
+
+\subsection{Arvore - Isomorfismo}
+\begin{lstlisting}
+// thash() retorna o hash da arvore (usando centroids como vertices especiais).
+// Duas arvores sao isomorfas sse seu hash eh o mesmo
+//
+// O(|V|.log(|V|))
+
+91f map<vector<int>, int> mphash;
+
+df6 struct tree {
+1a8 	int n;
+789 	vector<vector<int>> g;
+347 	vector<int> sz, cs;
+    
+1b5 	tree(int n_) : n(n_), g(n_), sz(n_) {}
+    
+76b 	void dfs_centroid(int v, int p) {
+588 		sz[v] = 1;
+fa7 		bool cent = true;
+18e 		for (int u : g[v]) if (u != p) {
+365 			dfs_centroid(u, v), sz[v] += sz[u];
+e90 			if(sz[u] > n/2) cent = false;
+ece 		}
+1f6 		if (cent and n - sz[v] <= n/2) cs.push_back(v);
+368 	}
+784 	int fhash(int v, int p) {
+544 		vector<int> h;
+332 		for (int u : g[v]) if (u != p) h.push_back(fhash(u, v));
+1c9 		sort(h.begin(), h.end());
+3ac 		if (!mphash.count(h)) mphash[h] = mphash.size();
+bbc 		return mphash[h];
+748 	}
+38f 	ll thash() {
+23a 		cs.clear();
+3a5 		dfs_centroid(0, -1);
+16d 		if (cs.size() == 1) return fhash(cs[0], -1); // se forem enraizadas, chamar esse direto com o vertice raiz
+772 		ll h1 = fhash(cs[0], cs[1]), h2 = fhash(cs[1], cs[0]);
+fae 		return (min(h1, h2) << 30) + max(h1, h2);
+138 	}
+4dd };
+
+
+// Versao mais rapida com hash, ideal para hash de floresta.
+// subtree_hash(v, p) retorna o hash da subarvore enraizada em v com pai p.
+// tree_hash() retorna o hash da arvore.
+// forest_hash() retorna o hash da floresta.
+// use o vetor forb[] para marcar vertices que nao podem ser visitados.
+//
+// O(|V|.log(|V|))
+
+c8a mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+426 int uniform(ll l, ll r) {
+969 	uniform_int_distribution<ll> uid(l, r);
+f54 	return uid(rng);
+5fc }
+
+3e4 const int MOD = 1e9 + 7;
+58c const int H = 13;
+db1 const int P = uniform(1, MOD-1);
+325 const int P2 = uniform(1, MOD-1);
+
+df6 struct tree {
+2e2 	int fn;
+789 	vector<vector<int>> g;
+347 	vector<int> sz, cs;
+268 	vector<bool> forb;
+    
+f73 	tree(int n_) : fn(n_), g(n_), sz(n_), forb(n_) {}
+    
+762 	void dfs_size(int v, int p) {
+588 		sz[v] = 1;
+d8a 		for (int u : g[v]) if (u != p and !forb[u]) {
+db5 			dfs_size(u, v), sz[v] += sz[u];
+896 		}
+156 	}
+301 	void dfs_centroid(int v, int p, int n) {
+fa7 		bool cent = true;
+d8a 		for (int u : g[v]) if (u != p and !forb[u]) {
+e1f 			dfs_centroid(u, v, n);
+e90 			if(sz[u] > n/2) cent = false;
+235 		}
+1f6 		if (cent and n - sz[v] <= n/2) cs.push_back(v);
+188 	}
+1fc 	int subtree_hash(int v, int p) {
+3a7 		int h = H;
+d8a 		for (int u : g[v]) if (u != p and !forb[u]) {
+d36 			h = ll(h) * (P + subtree_hash(u, v)) %  MOD;
+cf2 		}
+81c 		return h;
+d83 	}
+126 	int tree_hash(int v=0) {
+23a 		cs.clear();
+575 		dfs_size(v, -1);
+8a5 		dfs_centroid(v, -1, sz[v]);
+d8d 		if (cs.size() == 1) return subtree_hash(cs[0], -1);
+098 		assert (cs.size() == 2);
+403 		int h1 = subtree_hash(cs[0], cs[1]);
+c49 		int h2 = subtree_hash(cs[1], cs[0]);
+1ae 		return ll(P + h1) * (P + h2) % MOD;
+ad7 	}
+c50 	int forest_hash() {
+5d7 		fill(sz.begin(), sz.end(), 0);
+eb4 		int hash = 1;
+778 		for (int v = 0; v < fn; v++) if (!sz[v] and !forb[v]) {
+f21 			hash = hash * ll(P2 + tree_hash(v)) % MOD;
+cc2 		}
+34e 		return hash;
+2ce 	}
+2fe };
 \end{lstlisting}
 
 \subsection{BFS}
@@ -1759,6 +2009,59 @@ fdb }
 
 \end{lstlisting}
 
+\subsection{Prufer code}
+\begin{lstlisting}
+// Traduz de lista de arestas para prufer code
+// e vice-versa
+// Os vertices tem label de 0 a n-1
+// Todo array com n-2 posicoes e valores de
+// 0 a n-1 sao prufer codes validos
+// 
+// O(n)
+
+47d vector<int> to_prufer(vector<pair<int, int>> tree) {
+1fa 	int n = tree.size()+1;
+2cf 	vector<int> d(n, 0);
+4aa 	vector<vector<int>> g(n);
+f87 	for (auto [a, b] : tree) d[a]++, d[b]++,
+f60 		g[a].push_back(b), g[b].push_back(a);
+c5a 	vector<int> pai(n, -1);
+260 	queue<int> q; q.push(n-1);
+402 	while (q.size()) {
+be1 		int u = q.front(); q.pop();
+34c 		for (int v : g[u]) if (v != pai[u])
+9c9 			pai[v] = u, q.push(v);
+70d 	}
+399 	int idx, x;
+897 	idx = x = find(d.begin(), d.end(), 1) - d.begin();
+4b8 	vector<int> ret;
+b28 	for (int i = 0; i < n-2; i++) {
+d4b 		int y = pai[x];
+e81 		ret.push_back(y);
+666 		if (--d[y] == 1 and y < idx) x = y;
+367 		else idx = x = find(d.begin()+idx+1, d.end(), 1) - d.begin();
+5f9 	}
+edf 	return ret;
+d3b }
+
+4d8 vector<pair<int, int>> from_prufer(vector<int> p) {
+455 	int n = p.size()+2;
+126 	vector<int> d(n, 1);
+650 	for (int i : p) d[i]++;
+85b 	p.push_back(n-1);
+399 	int idx, x;
+897 	idx = x = find(d.begin(), d.end(), 1) - d.begin();
+1df 	vector<pair<int, int>> ret;
+b06 	for (int y : p) {
+dab 		ret.push_back({x, y});
+666 		if (--d[y] == 1 and y < idx) x = y;
+367 		else idx = x = find(d.begin()+idx+1, d.end(), 1) - d.begin();
+c3b 	}
+edf 	return ret;
+765 }
+
+\end{lstlisting}
+
 \subsection{SSSP - Bellman Ford}
 \begin{lstlisting}
 // Aceita pesos negativos
@@ -1855,6 +2158,42 @@ c49 }
 
 \section{Matematica}
 
+\subsection{Aritmetica Modular}
+\begin{lstlisting}
+968 int add(int a, int b, int mod) { return (a + b) % mod;}
+8d6 int sub(int a, int b, int mod) { return ((a - b) % mod + mod) % mod; }
+6ac int mul(int a, int b, int mod) { return (a * b) % mod; }
+
+999 int mul2(int a, int b, int m) {
+921     int ret = a*b - int((long double)1/m*a*b+0.5)*m;
+074     return ret < 0 ? ret + m : ret;
+14a }
+
+b99 int fastExp(int a, int b, int mod) {
+01a     int result = 1;
+67c     a %= mod;
+63a     while(b > 0) {
+886         if(b & 1)
+007             result = (result * a) % mod;
+4e2         a = (a * a) % mod;
+1b4         b >>= 1;
+208     }
+dc8     return result;
+3e3 }
+
+59e int mod(int a, int m) {
+2f8     return ((a%m) + m) % m;
+9f5 }
+
+// Complexidade: O(log(min(b, m)))
+e0b int modInverse(int b, int m) {
+e91     int x, y;
+87b     int d = extEuclid(b, m, x, y);
+be5     if (d != 1) return -1;
+ab6     return mod(x, m);
+01d }
+\end{lstlisting}
+
 \subsection{Conversao de Bases}
 \begin{lstlisting}
 // Converte de 10 -> {2, 8, 10, 16} (log n)
@@ -1934,6 +2273,161 @@ d9c 	cout << getDivisorCount(n) << endl;
 4f6 }
 \end{lstlisting}
 
+\subsection{Euclides estendido}
+\begin{lstlisting}
+// Acha x e y tal que ax + by = mdc(a, b) (nao eh unico)
+// Assume a, b >= 0
+//
+// O(log(min(a, b)))
+
+6f9 tuple<int, int, int> ext_gcd(int a, int b) {
+3bd     if (!a) return {b, 0, 1};
+550     auto [g, x, y] = ext_gcd(b%a, a);
+c59     return {g, y - b/a*x, x};
+596 }
+\end{lstlisting}
+
+\subsection{Fast Fib}
+\begin{lstlisting}
+// O(log n)
+
+0f3 string decimal_to_bin(int n) {
+af3 	string bin = bitset<sizeof(int) * 8>(n).to_string();
+813 	auto loc = bin.find('1');
+    	// remove leading zeros
+945 	if (loc != string::npos)
+460 		return bin.substr(loc);
+50f 	return "0";
+b49 }
+
+c53 int fastfib(int n) {
+6c4 	string bin_of_n = decimal_to_bin(n);
+    
+a87 	int f[] = { 0, 1 };
+    
+e70 	for (auto b : bin_of_n) {
+840 		int f2i1 = f[1] * f[1] + f[0] * f[0];
+7dc 		int f2i = f[0] * (2 * f[1] - f[0]);
+    
+fe5 		if (b == '0') {
+abd 			f[0] = f2i;
+981 			f[1] = f2i1;
+ba3 		} else {
+0f0 			f[0] = f2i1;
+722 			f[1] = f2i1 + f2i;
+459 		}
+666 	}
+    
+bb5 	return f[0];
+b6f }
+\end{lstlisting}
+
+\subsection{Gauss}
+\begin{lstlisting}
+// Resolve sistema linear
+// Retornar um par com o numero de solucoes
+// e alguma solucao, caso exista
+//
+// O(n^2 * m)
+
+67a template<typename T>
+728 pair<int, vector<T>> gauss(vector<vector<T>> a, vector<T> b) {
+6ca 	const double eps = 1e-6;
+f92 	int n = a.size(), m = a[0].size();
+2f0 	for (int i = 0; i < n; i++) a[i].push_back(b[i]);
+    
+3cb 	vector<int> where(m, -1);
+237 	for (int col = 0, row = 0; col < m and row < n; col++) {
+f05 		int sel = row;
+b95 		for (int i=row; i<n; ++i)
+e55 			if (abs(a[i][col]) > abs(a[sel][col])) sel = i;
+2c4 		if (abs(a[sel][col]) < eps) continue;
+1ae 		for (int i = col; i <= m; i++)
+dd2 			swap(a[sel][i], a[row][i]);
+2c3 		where[col] = row;
+    
+0c0 		for (int i = 0; i < n; i++) if (i != row) {
+96c 			T c = a[i][col] / a[row][col];
+d5c 			for (int j = col; j <= m; j++)
+c8f 				a[i][j] -= a[row][j] * c;
+490 		}
+b70 		row++;
+3d8 	}
+    
+b1d 	vector<T> ans(m, 0);
+e1a 	for (int i = 0; i < m; i++) if (where[i] != -1)
+12a 		ans[i] = a[where[i]][m] / a[where[i]][i];
+603 	for (int i = 0; i < n; i++) {
+501 		T sum = 0;
+a75 		for (int j = 0; j < m; j++)
+5a9 			sum += ans[j] * a[i][j];
+b1f 		if (abs(sum - a[i][m]) > eps)
+6cd 			return pair(0, vector<T>());
+ec9 	}
+    
+12e 	for (int i = 0; i < m; i++) if (where[i] == -1)
+018 		return pair(INF, ans);
+280 	return pair(1, ans);
+292 }
+\end{lstlisting}
+
+\subsection{Integracao Numerica}
+\begin{lstlisting}
+// Metodo de Simpson 3/8
+// Integra f no intervalo [a, b], erro cresce proporcional a (b - a)^5
+
+676 const int N = 3*100; // multiplo de 3
+050 double integrate(double a, double b, function<double(double)> f) {
+621     double s = 0, h = (b - a)/N;
+067     for (int i = 1 ; i < N; i++) s += f(a + i*h)*(i%3 ? 3 : 2);
+0da     return (f(a) + s + f(b))*3*h/8;
+6cb }
+\end{lstlisting}
+
+\subsection{Karatsuba}
+\begin{lstlisting}
+// Multiplicacao de polinomios
+//
+// Os pragmas podem ajudar
+// Para n ~ 2e5, roda em < 1 s
+//
+// O(n^1.58)
+
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target ("avx,avx2")
+77a template<typename T> void kar(T* a, T* b, int n, T* r, T* tmp) {
+d4c 	if (n <= 64) {
+510 		for (int i = 0; i < n; i++) for (int j = 0; j < n; j++)
+212 			r[i+j] += a[i] * b[j];
+505 		return;
+bb8 	}
+194 	int mid = n/2;
+2d7 	T *atmp = tmp, *btmp = tmp+mid, *E = tmp+n;
+4f1 	memset(E, 0, sizeof(E[0])*n);
+c65 	for (int i = 0; i < mid; i++) {
+c72 		atmp[i] = a[i] + a[i+mid];
+4b9 		btmp[i] = b[i] + b[i+mid];
+a3f 	}
+38a 	kar(atmp, btmp, mid, E, tmp+2*n);
+b1e 	kar(a, b, mid, r, tmp+2*n);
+229 	kar(a+mid, b+mid, mid, r+n, tmp+2*n);
+c65 	for (int i = 0; i < mid; i++) {
+735 		T temp = r[i+mid];
+de7 		r[i+mid] += E[i] - r[i] - r[i+2*mid];
+f1e 		r[i+2*mid] += E[i+mid] - temp - r[i+3*mid];
+f72 	}
+28f }
+
+e38 template<typename T> vector<T> karatsuba(vector<T> a, vector<T> b) {
+ba3 	int n = max(a.size(), b.size());
+a84 	while (n&(n-1)) n++;
+ca9 	a.resize(n), b.resize(n);
+ae0 	vector<T> ret(2*n), tmp(4*n);
+644 	kar(&a[0], &b[0], n, &ret[0], &tmp[0]);
+edf 	return ret;
+f87 }
+\end{lstlisting}
+
 \subsection{MDC e MMC}
 \begin{lstlisting}
 // O(log n)
@@ -1971,6 +2465,46 @@ dc8     return result;
 72c }
 \end{lstlisting}
 
+\subsection{Miller-Rabin}
+\begin{lstlisting}
+// Testa se n eh primo, n <= 3 * 10^18
+//
+// O(log(n)), considerando multiplicacao
+// e exponenciacao constantes
+
+d8b ll mul(ll a, ll b, ll m) {
+e7a 	ll ret = a*b - ll((long double)1/m*a*b+0.5)*m;
+074 	return ret < 0 ? ret+m : ret;
+2f3 }
+
+03c ll pow(ll x, ll y, ll m) {
+13a 	if (!y) return 1;
+dbc 	ll ans = pow(mul(x, x, m), y/2, m);
+7fa 	return y%2 ? mul(x, ans, m) : ans;
+539 }
+
+1a2 bool prime(ll n) {
+1aa 	if (n < 2) return 0;
+237 	if (n <= 3) return 1;
+9de 	if (n % 2 == 0) return 0;
+f6a 	ll r = __builtin_ctzll(n - 1), d = n >> r;
+    
+     	// com esses primos, o teste funciona garantido para n <= 2^64
+    	// funciona para n <= 3*10^24 com os primos ate 41
+dd1 	for (int a : {2, 325, 9375, 28178, 450775, 9780504, 1795265022}) {
+da0 		ll x = pow(a, d, n);
+709 		if (x == 1 or x == n - 1 or a % n == 0) continue;
+    		
+4a2 		for (int j = 0; j < r - 1; j++) {
+10f 			x = mul(x, x, n);
+df0 			if (x == n - 1) break;
+1ff 		}
+e1b 		if (x != n - 1) return 0;
+5b0 	}
+6a5 	return 1;
+9a1 }
+\end{lstlisting}
+
 \subsection{Numero de Digitos}
 \begin{lstlisting}
 // Calcula o numero de digitos de n 
@@ -1981,6 +2515,56 @@ dc8     return result;
 662     n = std::abs(n);
 146     return static_cast<int>(std::floor(std::log10(n))) + 1;
 d2b }
+\end{lstlisting}
+
+\subsection{Primos - IsPrime - Miinter-Rabin}
+\begin{lstlisting}
+// Testa se n eh primo, 10^9 <= n <= 3 * 10^18
+//
+// O(log(n)), considerando multiplicacao
+// e exponenciacao constantes
+
+361 int mul(int a, int b, int m) {
+921 	int ret = a*b - int((long double)1/m*a*b+0.5)*m;
+074 	return ret < 0 ? ret+m : ret;
+887 }
+
+598 int pow(int x, int y, int m) {
+13a 	if (!y) return 1;
+08f 	int ans = pow(mul(x, x, m), y/2, m);
+7fa 	return y%2 ? mul(x, ans, m) : ans;
+8eb }
+
+ff9 bool prime(int n) {
+1aa 	if (n < 2) return 0;
+237 	if (n <= 3) return 1;
+9de 	if (n % 2 == 0) return 0;
+ba7 	int r = __builtin_ctzint(n - 1), d = n >> r;
+    
+     	// com esses primos, o teste funciona garantido para n <= 2^64
+    	// funciona para n <= 3*10^24 com os primos ate 41
+dd1 	for (int a : {2, 325, 9375, 28178, 450775, 9780504, 1795265022}) {
+dea 		int x = pow(a, d, n);
+709 		if (x == 1 or x == n - 1 or a % n == 0) continue;
+    		
+4a2 		for (int j = 0; j < r - 1; j++) {
+10f 			x = mul(x, x, n);
+df0 			if (x == n - 1) break;
+1ff 		}
+e1b 		if (x != n - 1) return 0;
+e83 	}
+6a5 	return 1;
+84b }
+\end{lstlisting}
+
+\subsection{Primos - IsPrime - Tradicional}
+\begin{lstlisting}
+// Verifica se um numero eh primo
+// O(sqrt(n)): 0 <= n <= 10^7 
+
+5f7 bool isPrime(int n) {
+e32     return n > 1 and lowestPrimeFactor(n) == n;
+822 }
 \end{lstlisting}
 
 \subsection{Primos - Lowest Prime Factor}
@@ -2002,13 +2586,26 @@ d9a             return i;
 6c5 }
 \end{lstlisting}
 
-\subsection{Primos - Primo}
+\subsection{Primos - Soma Divisores}
 \begin{lstlisting}
-// Verifica se um numero eh primo
-// O(sqrt(n))
-5f7 bool isPrime(int n) {
-e32     return n > 1 and lowestPrimeFactor(n) == n;
-822 }
+// Soma dos divisores de N
+// O(log(N))
+// sumDiv(60) = 168 : 1+2+3+4+5+6+10+12+15+20+30+60
+
+d3f int sumDiv(int N) {
+87c     int ans = 1;
+07c     for (int i = 0; i < p.size() and p[i]*p[i] <= N; ++i) {
+a44         int multiplier = p[i], total = 1;
+a36         while (N%p[i] == 0) {
+37d             N /= p[i];
+dbc             total += multiplier;
+02f             multiplier *= p[i];
+8c0         }
+2b1         ans *= total;
+27a     }
+7c9     if (N != 1) ans *= (N+1);
+ba7     return ans;
+8c4 }
 \end{lstlisting}
 
 \subsection{Sieve}
