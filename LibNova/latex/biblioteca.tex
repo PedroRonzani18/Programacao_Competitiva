@@ -2148,6 +2148,35 @@ fbc 		adj[a].emplace_back(b,w);
 c49 }
 \end{lstlisting}
 
+\subsection{Topological Sort}
+\begin{lstlisting}
+// Retorna uma ordenacaoo topologica de g
+// Se g nao for DAG retorna um vetor vazio
+//
+// O(n + m)
+
+042 vector<int> g[MAX];
+
+b6a vector<int> topo_sort(int n) {
+46e 	vector<int> ret(n,-1), vis(n,0);
+    	
+f51 	int pos = n-1, dag = 1;
+36d 	function<void(int)> dfs = [&](int v) {
+cca 		vis[v] = 1;
+440 		for (auto u : g[v]) {
+152 			if (vis[u] == 1) dag = 0;
+532 			else if (!vis[u]) dfs(u);
+e37 		}
+d44 		ret[pos--] = v, vis[v] = 2;
+57e 	};
+    
+158 	for (int i = 0; i < n; i++) if (!vis[i]) dfs(i);
+    
+d8f 	if (!dag) ret.clear();	
+edf 	return ret;
+d6b }
+\end{lstlisting}
+
 
 
 %%%%%%%%%%%%%%%%%%%%
